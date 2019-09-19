@@ -1,8 +1,12 @@
 <template>
 	<view class="uni-numbox">
-		<view class="uni-numbox-minus" :class="{'uni-numbox-disabled': disableSubtract}" @click="_calcValue('subtract')">-</view>
+		<view class="uni-numbox-minus flex-box" :class="{'uni-numbox-disabled': disableSubtract}" @click="_calcValue('subtract')">
+			<image class="cart_add" src="/static/img/self/cart-subtract.png"></image>
+		</view>
 		<input class="uni-numbox-value" type="number" :disabled="disabled" v-model="inputValue" @blur="_onBlur">
-		<view class="uni-numbox-plus" :class="{'uni-numbox-disabled': disableAdd}" @click="_calcValue('add')">+</view>
+		<view class="uni-numbox-plus flex-box" :class="{'uni-numbox-disabled': disableAdd}" @click="_calcValue('add')">
+			<image class="cart_add" src="/static/img/self/cart_add.png"></image>
+		</view>
 	</view>
 </template>
 <script>
@@ -103,7 +107,7 @@
 		display: inline-flex;
 		flex-direction: row;
 		justify-content: flex-start;
-		height: 50upx;
+		height: 60upx;
 		position: relative;
 	}
 
@@ -123,37 +127,29 @@
 	.uni-numbox-minus,
 	.uni-numbox-plus {
 		margin: 0;
-		background-color: #f9f9f9;
-		width: 80upx;
+		width: 70upx;
 		height: 100%;
-		line-height: 50upx;
+		line-height: 60upx;
 		text-align: center;
-		color: #555555;
+		color: #333333;
 		position: relative;
-		background: #eeeeee;
-		
+		border:1upx solid #DCDCDC;
 	}
-
-	.uni-numbox-minus {
-		border-right: none;
-		border-top-left-radius: 6upx;
-		border-bottom-left-radius: 6upx;
-	}
-
-	.uni-numbox-plus {
-		border-left: none;
-		border-top-right-radius: 6upx;
-		border-bottom-right-radius: 6upx;
+	
+	.cart_add,.cart-subtract{
+		width: 52upx;
+		height: 52upx;
 	}
 
 	.uni-numbox-value {
 		position: relative;
-		width: 80upx;
+		width: 70upx;
 		height: 100%;
 		text-align: center;
 		padding: 0;
-		margin-left: 2upx;
-		margin-right: 2upx;
+		border:1upx solid #DCDCDC;
+		border-right: none;
+		border-left: none;
 	}
 
 	.uni-numbox-value::after {

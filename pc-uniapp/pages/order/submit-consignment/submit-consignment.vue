@@ -40,8 +40,8 @@
 				</view>
 				<view class="agreement ">
 					<view @tap="agree = !agree">
-						<image v-if="agree" src="/static/img/login/treaty_box_selected@2x.png" mode="widthFix"></image>
-						<image v-else src="/static/img/login/treaty_box_unselected@2x.png" mode="widthFix"></image>
+						<image v-if="agree" src="/static/img/login/icon_otc_skfs_yjh@2x.png" mode="widthFix"></image>
+						<image v-else src="/static/img/login/icon_otc_skfs_unyjh@2x.png" mode="widthFix"></image>
 						<!-- <uni-icon v-if="agree" type="checkbox-filled" color="#388ceb" size="24"></uni-icon> -->
 					</view>
 					<view>

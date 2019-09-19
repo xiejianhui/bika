@@ -8,7 +8,7 @@
 					<image class="phone-logo mgr20" src="/static/img/login/login_iphone@2x.png"></image>
 				</view>
 				<view class="form-input">
-					<input type="number" v-model="mobilePhone" placeholder="请输入手机号码" @focus="changemb" @blur="changeblur"/>
+					<input type="number" v-model="mobilePhone" placeholder="请输入手机号" @focus="changemb" @blur="changeblur"/>
 				</view>
 			</view>
 			<view class="form-item flex-align">
@@ -16,7 +16,7 @@
 					<image class="phone-logo mgr20" src="/static/img/login/login_lock@2x.png"></image>
 				</view>
 				<view class="form-input">
-					<input type="text" :password="!showPassword" v-model="password" placeholder="请输入登录密码" />
+					<input type="text" :password="!showPassword" v-model="password" placeholder="请输入密码" />
 					<view class="appen-solt" @tap="showPassword=!showPassword">
 						<text class="password-mode">{{showPassword? '隐藏':'显示'}}</text>
 					</view>
@@ -28,10 +28,23 @@
 				</view>
 			</view>
 		</view>
-		<view class="submit-btn" @tap="goLogin">登录</view>
-		<view class="fun-btn">
-			<text @tap="go(1)">快速注册</text>
-			<text @tap="go(2)">忘记密码</text>
+		<button :class="mobilePhone && password ? 'submit-btn btnShow': 'submit-btn'" :disabled="mobilePhone == '' || password == ''" @tap="goLogin">登录</button>
+		<view class="fun-btn fs28 fw400 flex-box color3">
+			还没有账号?<text class="primary-color" @tap="go(1)">注册</text>
+			<!-- <text class="" @tap="go(2)">忘记密码</text> -->
+		</view>
+		<!-- 登录选择弹框 -->
+		<view class="uni-modal" v-if="showModal">
+			<view class="uni-mask"></view>
+			<view class="modal-box">
+			<view class="uni-modal__hd">温馨提示</view>
+				<view class="uni-modal__bd">请选择区号</view>
+				<view class="uni-modal__ft">
+					<view class="uni-modal__btn" @tap="modalCancel">+60</view>
+					<view class="uni-modal__btn" @tap="modalConfirm">+65</view>
+				</view>
+				</view>
+			</view>
 		</view>
 	</view>
 </template>
@@ -50,6 +63,7 @@
 				changepsw:1,
 				showAcoumt:false,
 				acoumtArr:[],
+				showModal:false,
 			}
 		},
 		methods: {
@@ -93,7 +107,19 @@
 			// #endif
 		},
 		methods: {
+			// 选择手机区号
+			modalConfirm(){
+				this.showModal = false;
+				this.mobilePhone = 65
+			},
+			modalCancel(){
+				this.showModal = false;
+				this.mobilePhone = 60
+			},
 			changemb(){
+				if(this.mobilePhone == ''){
+					this.showModal = true;
+				}
 				// #ifdef APP-PLUS || H5
 				this.showAcoumt = true;
 				// #endif
@@ -128,7 +154,7 @@
 					uni.showToast({
 						icon: 'none',
 						duration: 2000,
-						title: '请输入手机号码'
+						title: '请输入手机号'
 					})
 					return
 				}
@@ -136,7 +162,7 @@
 					uni.showToast({
 						icon: 'none',
 						duration: 2000,
-						title: '请输入登录密码'
+						title: '请输入密码'
 					})
 					return
 				}
@@ -250,32 +276,19 @@
 	.password-mode {
 		font-size: 26upx;
 		color: #656565;
-		line-height: 60upx;
-	}
-
-	.submit-btn {
-		margin-top: 60upx;
-		margin-bottom: 40upx;
-		height: 90upx;
-		background: #FC4E29;
-		border-radius: 50upx;
-		line-height: 90upx;
-		text-align: center;
-		font-size: 36upx;
-		font-weight: 400;
-		color: #ffffff;
 	}
 
 	.fun-btn {
-		float: right;
-
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		border-top: 1upx solid rgba(0,0,0,0.1);
+		height: 128upx;
+		width:100%;
 		text {
 			display: inline-block;
 			padding: 0 20upx;
 			height: 37upx;
-			font-size: 26upx;
-			font-weight: 300;
-			color: #656565;
 			line-height: 37upx;
 			border-right: 1px solid #E5E5E5;
 
@@ -283,5 +296,8 @@
 				border-right: none;
 			}
 		}
+	}
+	.uni-modal .modal-box .uni-modal__ft .uni-modal__btn{
+		color: #FE6A72;
 	}
 </style>

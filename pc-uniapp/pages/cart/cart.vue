@@ -1,73 +1,92 @@
 <template>
 	<view class="car ">
-		<view class="cart-op  white fs30 pd20 tar" v-if="goodsList.length">
-			<text @tap="editOrder=!editOrder">{{editOrder?'完成':'编辑'}}</text>
-		</view>
 
 		<view class="car-item background-white" v-for="(item,index) in goodsList" :key='index'>
 			<view class="left flex-box">
 				<view class="def-circle flex-box" :class="{active:item.select}" @tap="selectGoods(index)">
-					<template v-if="item.select">
-						<uni-icon type="checkmarkempty" size='22'></uni-icon>
-					</template>
+				<view class="flex-box" v-if="item.select">
+					<image class="button-press" src="/static/img/self/Shopping-button-press.png"></image>
+				</view>
 				</view>
 			</view>
-			<view class="right " :class="{'bdb':index!=goodsList.length-1}">
+			<view class="right">
 				<!-- 商品 -->
-				<view class="goods-list list-inline">
-					<view class="list-item ">
+				<view class="goods-list list-inline relative">
+					<view class="list-item">
+						<view class="del-img">
+							<image src="/static/img/self/icon_delete_pressed@2x.png" mode="widthFix" @tap="delShopping(item.id)"></image>
+						</view>
 						<view class="list-img">
-							<image :src="item.imageUrl" mode="widthFix" class="w100" @tap="goProductDetail(item)"></image>
-							<view class="mask" v-if="!item.enable">
-								<view class="">
-									已失效
-								</view>
-							</view>
+							<image :src="item.imageUrl" mode="widthFix" @tap="goProductDetail(item)"></image>
 						</view>
 						<view class="list-info">
-							<view class="list-name title-black fs28">
+							<view class="list-name title-black fs36 fw500 .uni-ellipsis">
 								{{item.productName}}
 							</view>
-							<view class="gray fs24">
+							<view class="fs28 color9">
+								剩余<text class="primary-color fs32">3</text>人次
+							</view>
+							<!-- <view class="gray fs24">
 								<text v-if="item.modelName&&item.modelName!='无'">规格：{{item.modelName}} </text>
-								<!-- 数量：{{item.amount}} -->
 								<image src="/static/img/pubulic_icon_expand_down@2x.png"
 								 mode="widthFix" @tap="selectProductModel(item,index)" v-if="editOrder&&item.enable&&item.modelName&&item.modelName!='无'" class="edit">
 								 </image>
-							</view>
+							</view> -->
 							<view class="list-price mgt20 ">
-								<text class="fs36 orange">￥{{item.price}} </text>
 								<uni-number-box v-if="item.enable" :min="1" :value='item.amount' @change='changeGoodsAmount($event,index)'></uni-number-box>
+								<view class="fs30 orange">￥<text class="fs42 orange">{{item.price}}</text></view>
+							</view>
+							<!-- <view class="modelName" v-if="item.modelName"> -->
+							<view class="modelName">
+								<view v-for="(item,index) in modelArr" :key="index" 
+								class="modelName-item flex-box fs30 color6" 
+								:class="{ model_check: item.active }"
+								@tap="changeModel(index)">
+								{{item.modelName}}</view>
 							</view>
 						</view>
 					</view>
 				</view>
 			</view>
 		</view>
-		<view class="" style="height: 40px;">
+		<view class="" style="height: 130upx;">
 
 		</view>
-		<view class="car-money car-item background-white pdt20" v-if="goodsList.length">
-			<view class="left flex-box">
-				<view class="def-circle flex-box" :class="{active:selectAll}" @tap="buyAll">
-					<template v-if="selectAll">
-						<uni-icon type="checkmarkempty" size='24'></uni-icon>
-					</template>
+		<view class="car-money background-white" v-if="goodsList.length">
+			<view class="emptyCart betweenBox">
+				<view class="emptyCart-left flex-align">
+					<input class="custom-quantity flex-box primary-color" v-model="customQuantity" />
+					<view>次</view>
+				</view>
+				<view class="emptyCart-right fs32 fw500 primary-color flex-align">
+					<view class="continue-add flex-box">
+						继续添加
+					</view>
+					<view class="del-all flex-box" @tap="delShoppingCar">
+						清空
+					</view>
 				</view>
 			</view>
-			<view class="right betweenBox" >
-				<view class="">
-					<text>全选</text>
+			<view class="flex-align all-chose">
+				<view class="left flex-box">
+					<view class="def-circle flex-box" :class="{active:selectAll}" @tap="buyAll">
+						<view class="flex-box" v-if="selectAll">
+							<image class="button-press" src="/static/img/self/Shopping-button-press.png"></image>
+						</view>
+					</view>
 				</view>
-				<view class="flex-box">
-					<template v-if="!editOrder">
-						<text class="fs26">合计：</text>
-						<text class="orange fs36">￥{{totalMoney}}</text>
-						<text class="paybtn flex-box white mgl20 fs30 mgr20" @tap="check">去结算</text>
-					</template>
-					<template v-else>
-						<text class="paybtn delbtn flex-box  mgl20 fs30 mgr20" @tap="delShoppingCar">删除</text>
-					</template>
+				<view class="right betweenBox" >
+					<view class="">
+						<text>全选</text>
+					</view>
+					<view class="flex-box">
+						<template>
+							<text class="fs30">合计：</text>
+							<text class="orange fs30">￥</text>
+							<text class="orange fs40">{{totalMoney}}</text>
+							<text class="paybtn flex-box white mgl30 fs36" :class="{pay_active:totalMoney}" @tap="check">去结算</text>
+						</template>
+					</view>
 				</view>
 			</view>
 		</view>
@@ -131,14 +150,16 @@
 		data() {
 			return {
 				selectAll: false,
-				editOrder: false,
 				showPop: false,
 				goodsList: [],
 				totalMoney: 0,
 				modelSourceIndex:0,
 				modelSource:null,
 				selectModel:null,
-				editCarBol:true
+				editCarBol:true,
+				modelArr:[{modelName:20,active: false},{modelName:30,active: false},{modelName:50,active: false},{modelName:'梭哈',active: false}],
+				modelName:'',
+				customQuantity:'',
 			};
 		},
 		computed: mapState([
@@ -173,6 +194,15 @@
 		    }, 1000);
 		},
 		methods: {
+			changeModel(index) {
+				let arr = this.modelArr;
+				arr.forEach(item => (item.active = false));
+				arr[index].active = true;
+				this.modelArr = arr;
+				this.modelName = this.modelArr[index].modelName;
+				console.log("this.modelName",this.modelName)
+			},
+			
 			goProductDetail(item){
 				console.log(item);
 				if(item.enable){
@@ -358,6 +388,23 @@
 				this.selectAll =  arr.every(item=>item.select == true);
 				this.initTotalMoney();
 			},
+			//删除单一商品
+			delShopping(id) {
+				this.apiUrl.delShoppingCar({
+					data: {
+						id: id
+					}
+				}).then(res => {
+					if (res.data.status == 1) {
+						uni.showToast({
+							icon: 'success',
+							duration: 2000,
+							title: '删除成功'
+						})
+						this.getList();
+					}
+				})
+			},
 			//删除车
 			delShoppingCar(id) {
 				let arr = this.goodsList;
@@ -425,6 +472,76 @@
 </script>
 
 <style lang="less" scoped>
+	.emptyCart{
+		padding: 0 37upx;
+		height: 130upx;
+		box-sizing:border-box;
+		border-top:1upx solid #E8E8E8;
+		border-bottom:1upx solid #E8E8E8;
+		.custom-quantity{
+			width:137upx;
+			height:60upx;
+			border:2upx solid rgba(244,87,108,1);
+			border-radius:30upx;
+			text-align: center;
+			margin-right: 12upx;
+		}
+		.emptyCart-right{
+			.continue-add,.del-all{
+				width:auto;
+				height:60upx;
+				border:2upx solid rgba(244,87,108,1);
+				border-radius:30upx;
+				padding: 0 36upx;
+			}
+			.continue-add{
+				margin-right: 34upx;
+			}
+		}
+	}
+	
+	.goods-list.list-inline .list-item .list-name{
+		width:350upx;
+		height:36upx;
+		line-height: 36upx;
+		color:rgba(51,51,51,1);
+		display: block;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		padding: 0;
+	}
+	.list-item{
+		.modelName{
+			float: left;
+		}
+		.modelName-item{
+			width:83upx;
+			height:60upx;
+			border:1upx solid rgba(223,223,223,1);
+			border-radius:10upx;
+			margin : 26upx 15upx 0 0;
+			float: left;
+		}
+		.model_check{
+			border:1px solid rgba(254,106,114,1);
+			color:rgba(254,106,114,1);
+		}
+		.modelName-item:last-child{
+			margin-right: 0;
+		}
+		.del-img{
+			position: absolute;
+			width: 28upx;
+			height: 40upx;
+			right: 0upx;
+			top: 0upx;
+			image{
+				width: 28upx;
+				height: 40upx;
+			}
+		}
+	}
 	.emptyCar{
 		position: absolute;
 		left: 50%;
@@ -434,27 +551,19 @@
 			width:300upx;
 		}
 	}
-	.cart-op{
-		>text{
-			color: rgb(1, 122, 231);
-			display: inline-block;
-			border: 1px solid rgb(1, 122, 231);
-			border-radius: 40upx;
-				width: 100upx;
-				text-align: center;
-				height: 40upx;
-				line-height: 40upx;
-		}
-
-	}
 	.edit {
 		width: 25upx;
 		margin-left: 20upx;
 	}
 
 	.def-circle {
-		width: 30upx;
-		height: 30upx;
+		width: 44upx;
+		height: 44upx;
+		box-sizing: border-box;
+	}
+	.button-press{
+		width: 44upx;
+		height: 44upx;
 	}
 
 	.car-money {
@@ -466,22 +575,26 @@
 		left: 0;
 		width: 100%;
 		z-index: 10;
-		background:rgba(255,255,255,1);
-		border-top:1px solid rgba(229,229,229,1);
+		.all-chose{
+			height: 90upx;
+			margin-bottom: 18upx;
+		}
 		.left {
-			width: 70upx;
+			padding: 0 21upx 0 30upx;
+			width: 44upx;
 		}
 
 		.right {
 			flex: 2;
-			padding-bottom: 10upx;
 		}
 
 		.paybtn {
-			width: 200upx;
-			height: 80upx;
-			background:rgba(249,83,26,1);
-			border-radius:40px;
+			width:200upx;
+			height:90upx;
+			background:rgba(180,180,180,1);
+		}
+		.pay_active{
+			background:rgba(254,106,114,1);
 		}
 
 		.delbtn {
@@ -500,52 +613,37 @@
 		padding-bottom: 110upx;
 
 		.car-item {
+			border-bottom: 1upx solid #E8E8E8;
+			padding: 47upx 37upx;
 			display: flex;
-
-			.left {
-				width: 90upx;
-			}
 
 			.right {
 				flex: 1;
 			}
 			.active {
 				border: none;
-				background: #FC4E29;
-				color: white;
+				box-sizing: border-box;
 			}
 		}
 	}
 
 	.goods-list.list-inline {
-		margin-left: 0;
+		margin: 0;
 	}
-
-	.list-img{
+	.goods-list .list-item{
+		margin: 0;
+		padding: 0;
+	}
+	.goods-list.list-inline .list-item .list-img{
 		position: relative;
-		height: auto!important;
+		width:210upx;
+		height:210upx;
+		margin: 0 32upx 0 11upx;
+		background:rgba(250,250,250,1);
 		image{
 			width: 100%;
-			height: auto;
-			border-radius:12upx
-		}
-		.mask{
-			position: absolute;
-			background: rgba(0, 0, 0, 0.5);
-			color: white;
-			width: 100%;
-			height: 100%;
-			left: 0;
-			top:0;
-			>view{
-				position: absolute;
-				background: rgba(0, 0, 0, 0.7);
-				color: white;
-				width: 100%;
-				left: 0;
-				bottom:0;
-				text-align: center;
-			}
+			width:210upx;
+			height:210upx;
 		}
 	}
 </style>

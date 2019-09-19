@@ -22,7 +22,12 @@ export default {
 		formatMonth(shijianchuo) {
 			//shijianchuo是整数，否则要parseInt转换
 			if(this.isInteger(shijianchuo)){
-				var time = new Date(Date.parse(shijianchuo.toString().replace(/-/g,'/')));
+				// 判断是否iosapp
+				if(shijianchuo.toString().indexOf("-") != -1){
+					var time = new Date(Date.parse(shijianchuo.toString().replace(/-/g,'/')));
+				}else{
+					var time = new Date(shijianchuo);
+				}
 			}else{
 				var time = new Date(shijianchuo);
 			}
@@ -31,6 +36,25 @@ export default {
 			var h = time.getHours();
 			var mm = time.getMinutes();
 			return this.add0(m) + '-' + this.add0(d) + ' ' + this.add0(h) + ':' + this.add0(mm);
+		},
+		formatYear(shijianchuo) {
+			//shijianchuo是整数，否则要parseInt转换
+			if(this.isInteger(shijianchuo)){
+				// 判断是否iosapp
+				if(shijianchuo.toString().indexOf("-") != -1){
+					var time = new Date(Date.parse(shijianchuo.toString().replace(/-/g,'/')));
+				}else{
+					var time = new Date(shijianchuo);
+				}
+			}else{
+				var time = new Date(shijianchuo);
+			}
+			var y = time.getFullYear();
+			var m = time.getMonth() + 1;
+			var d = time.getDate();
+			var h = time.getHours();
+			var mm = time.getMinutes();
+			return y + '/' + this.add0(m) + '/' + this.add0(d);
 		},
 		formatMin(shijianchuo) {
 			//shijianchuo是整数，否则要parseInt转换

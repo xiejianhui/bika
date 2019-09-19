@@ -1,17 +1,13 @@
 <template>
 	<view class="bg pageBg">
 		<view class="infolist" v-for="(item,index) in messageList" :key='index' @tap="go(item)">
-			<view class="infotime">{{item.createDate}}</view>
-			<view class="boxContent">
-				<view class="infoBox">
-					<view class="infoheader betweenBox">
-						<view :class="!item.isRead ? 'infotitle isRead' : 'infotitle'"><view class="point" v-if="!item.isRead"></view><text>{{item.title}}</text></view>
-					</view>
-					<view class="infoContent">{{item.content}}</view>
+			<view class="boxContent flex">
+				<view class="infoheader mar20">
+					<view class="infotitle"></view>
 				</view>
-				<view class="infoDetail">
-					<image src="/static/img/pubulic_icon_expand@2x.png" class=""></image>
-					<text>查看详情</text>
+				<view class="infoBox fs28">
+					<view class="infoContent color3 fw400">{{item.content}}</view>
+					<view class="infotime color9">{{item.createDate}}</view>
 				</view>
 			</view>
 		</view>
@@ -80,7 +76,7 @@ export default{
 						this.noMoreData = true;
 					}
 					let arr = res.data.data.pageList;
-					arr.forEach(item=>item.createDate=this.formatMonth(item.createDate))
+					arr.forEach(item=>item.createDate=this.formatYear(item.createDate))
 					this.messageList = this.messageList.concat(arr)
 					this.current++;
 				}
@@ -91,103 +87,45 @@ export default{
 </script>
 <style lang='less' scoped>
 	.bg{
-		margin:0 auto;
+		margin:0 35upx 30upx 35upx;
+		background: #FFFFFF;
+		width:680upx;
 		.infolist{
-			box-sizing: border-box;
 			height: auto;
 			background-color: #ffffff;
-			padding: 0upx 30upx;
 			display: flex;
 			justify-content: space-between;
 			flex-direction: column;
-			margin-bottom: 20upx;
-			margin:0 auto;
-			background:rgba(249,249,249,1);
+			padding: 30upx 0;
+			box-sizing: border-box;
+			border-bottom: 1upx solid rgba(230,230,230,1);
 			.boxContent{
 				width: 100%;
 				height: auto;
-				box-shadow:0upx 6upx 14upx 0upx rgba(224,224,224,0.5);
-				border-radius:10upx;
 				overflow: hidden;
 			}
 			.infotime{
-				margin: 60upx 0 30upx 230upx;
 				width:230upx;
-				height:50upx;
-				line-height: 50upx;
-				text-align: center;
-				background:rgba(219,219,219,1);
-				border-radius:29upx;
-				font-size:26upx;
+				height:26upx;
+				line-height: 26upx;
 				font-family:PingFangSC-Medium;
-				font-weight:500;
-				color:rgba(255,255,255,1);
-			}
-			.infoDetail{
-				height:90upx;
-				line-height: 90upx;
-				font-size:28upx;
-				font-family:PingFangSC-Regular;
-				font-weight:400;
-				color:rgba(51,51,51,1);
-				background:#ffffff;
-				border-top:1upx solid #E5E5E5;
-				image{
-					float: right;
-					color: #ADADAD;
-					line-height: 20upx;
-					width: 20upx;
-					height: 30upx;
-					font-size: 20upx;
-					margin: 35upx 30upx 0 20upx;
-				}
-				text{
-					float: right;
-				}
+				margin-top: 23upx;
 			}
 			.infoBox{
-				width:690upx;
-				height:266upx;
-				padding: 40upx 30upx;
+				width:642upx;
+				height:100%;
 				box-sizing: border-box;
-				background:rgba(255,255,255,1);
-				
-				border-radius:10upx;
 			}
 			.infoheader{
 				display: flex;
-				justify-content: space-between;
 				position: relative;
-				.isRead{
-					padding-left: 20upx;
-				}
+				margin:13upx 18rpx 0 0;
+				display:block;
 				.infotitle{
-					display: flex;
-					flex-direction: row;
-					align-items: center;
-					overflow: hidden;
-					text-overflow: ellipsis;
-					display: -webkit-box;
-					-webkit-line-clamp: 1;
-					/* -webkit-box-orient: vertical; */
-					width:auto;
-					height:45upx;
-					font-size:32upx;
-					font-family:PingFangSC-Medium;
-					font-weight:500;
-					line-height:45upx;
-					margin-bottom:12upx;
-					.point{
-						position: absolute;
-						left:0;
-						top: 50%;
-						transform: translateY(-50%);
-						width: 10upx;
-						height: 10upx;
-						background-color: #FC4E29;
-						border-radius: 50px;
-						
-					}
+					width: 0;
+					height: 0;
+					border: 7upx solid;
+					border-color: white white white #F55C70;
 					text{
 						font-size: 32upx;
 						color:rgba(51,51,51,1);
@@ -195,14 +133,12 @@ export default{
 				}
 			}
 			.infoContent{
-				font-size: 25upx;
-				color: #8d8d8d;
 				overflow: hidden;
-				height: 130upx;
-				line-height: 43upx;
+				height: 68upx;
+				line-height: 34upx;
 				display: -webkit-box;
 				-webkit-box-orient: vertical;
-				-webkit-line-clamp: 3; /*截取第三行*/
+				-webkit-line-clamp: 2; /*截取第三行*/
 			}
 		}
 	}

@@ -15,13 +15,13 @@
 		{
 			"path": "pages/member/infomation/message",
 			"style": {
-				"navigationBarTitleText": "系统通知"
+				"navigationBarTitleText": "公告详情"
 			}
 		},
 		{
 			"path": "pages/member/infomation/info-center",
 			"style": {
-				"navigationBarTitleText": "系统通知"
+				"navigationBarTitleText": "历史公告"
 			}
 		},
 		{
@@ -391,10 +391,10 @@
 		}
     ],
 	"globalStyle": {
-		"navigationBarTextStyle": "black",
+		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "盖世风商城",
-		"navigationBarBackgroundColor": "white",
-		"backgroundColor": "#f5f5f5"
+		"navigationBarBackgroundColor": "#F55C70",
+		"backgroundColor": "#F55C70"
 	},
 	"subPackages": [
 		{
