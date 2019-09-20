@@ -7,12 +7,27 @@ import store from './store'
 // var VConsole = require('./common/vconsole.min.js');
 // var vConsole = new VConsole();
 
+// 多语言
+// import VueI18n from 'vue-i18n'  
+import VueI18n from '@/common/language/vue-i18n.js'
+import messages from '@/common/language/lang.js'
+Vue.use(VueI18n)  
+Vue.config.productionTip = false;
+
+const i18n = new VueI18n({  
+  locale: 'zh-CN',  // 默认选择的语言
+  messages 
+})  
+Vue.prototype._i18n = i18n //防止app微信报错$t函数不存在
+// 多语言结束
+
 Vue.prototype.$store = store
 Vue.config.productionTip = false
 
 App.mpType = 'app'
 Vue.component('uni-icon',uniIcon)
 const app = new Vue({
+	i18n,
 	store,
     ...App
 })

@@ -29,8 +29,8 @@
 					</view>
 					<!-- #endif -->
 				</view>
-				<view class="code">
-					<image src="/static/img/myself_header_icon_share_code@2x.png" mode="widthFix" class="" @tap="goShareCode" v-if="memberInfo.id"></image>
+				<view class="code fw500 fs24 flex-box" @tap="showBox">
+					切换语言
 				</view>
 			</view>
 			<!-- #ifdef APP-PLUS -->
@@ -173,6 +173,19 @@
 		<view class="logout-btn fs30 " @click="logout" v-if="memberInfo.id">退出登录</view>
 		<view class="pdb20"></view>
 		<view class="pdb20"></view>
+		
+		<view v-if='!hideBox' class='box'>
+			<view class='box-bg'></view>
+			<view class='box-main'>
+				<view v-for="(item,index) in languages" 
+					:key="item.id" 
+					class="box-item fs30" 
+					:data-idx="index" 
+					@click="changeLanuage">
+					 {{languages[index]}}
+				</view>
+			</view>
+		</view>
 
 	</view>
 </template>
@@ -183,11 +196,17 @@ import { mapState, mapMutations } from 'vuex';
 export default {
 	data() {
 		return {
+			hideBox:true,
+			languages: ['中文', '英文','马来西亚语'],
 			member: null
 		};
 	},
 	computed: mapState({
-		memberInfo: (state) => state.memberInfo || {}
+		memberInfo: (state) => state.memberInfo || {},
+		// 多语言
+		i18n () {
+			return this.$t('member')  
+		}  
 	}),
 	onPullDownRefresh() {
 		if (this.memberInfo.id) {
@@ -204,11 +223,91 @@ export default {
 		}
 	},
 	methods: {
-		goShareCode(){
-			uni.navigateTo({
-				url:'shareCode/shareCode'
-			})
+		showBox() {
+			this.hideBox = !this.hideBox
 		},
+		// 自定义多语言
+		changeLanuage(e) {
+			this.hideBox = !this.hideBox
+			uni.showToast({
+				title: this.$t('member.loading'),
+				icon: 'loading',
+				duration: 1000
+			})
+			let index = e.target.dataset.idx;
+			if(index == '0') {
+				uni.hideToast()
+				// 切换语言需要定时器
+				setTimeout(() => {  
+					this.$i18n.locale = 'zh-CN'  
+					// tabbar多语言
+					let tabBarLang = [
+					    '首页',
+					    '分类',
+						'购物车',
+					    '我的'
+					];
+					tabBarLang.forEach((element, index) => {
+						uni.setTabBarItem({
+							'index': index,
+							'text': element
+						})
+					})
+					// 导航栏
+					uni.setNavigationBarTitle({
+						title:this.$t('tabs.my')
+					});
+				},100)  
+			}else if(index == '1'){
+				uni.hideToast()
+				setTimeout(() => {
+					this.$i18n.locale = 'en-US'
+					// tabbar多语言
+					let tabBarLang = [
+					    'Home',
+					    'Product',
+						'Cart',
+					    'My'
+					];
+					tabBarLang.forEach((element, index) => {
+						uni.setTabBarItem({
+							'index': index,
+							'text': element
+						})
+					})
+					uni.setNavigationBarTitle({
+						title:this.$t('tabs.my')
+					});
+				},100)
+			}else{
+				uni.hideToast()
+				setTimeout(() => {
+					this.$i18n.locale = 'en-US'
+					// tabbar多语言
+					let tabBarLang = [
+					    'Home',
+					    'Product',
+						'Cart',
+					    'My'
+					];
+					tabBarLang.forEach((element, index) => {
+						uni.setTabBarItem({
+							'index': index,
+							'text': element
+						})
+					})
+					uni.setNavigationBarTitle({
+						title:this.$t('tabs.my')
+					});
+				},100)
+			}
+		},
+		
+		// goShareCode(){
+		// 	uni.navigateTo({
+		// 		url:'shareCode/shareCode'
+		// 	})
+		// },
 		isFromLogin() {
 			uni.getStorage({
 				key: 'pagefrom',
@@ -301,6 +400,73 @@ export default {
 </script>
 
 <style lang="less" scoped>
+	/* 切换语言弹框 */
+	.box{
+	    position: fixed;
+	    top: 0;
+	    left: 0;
+	    width: 100%;
+	    height: 100%;
+	    display: flex;
+	    justify-content: center;
+	    align-items: center;
+		/* #ifdef H5 */
+		bottom: var(--window-bottom);
+		/* #endif */
+	}
+	.box-bg{
+	    position: absolute;
+	    top: 0;
+	    left: 0;
+	    width: 100%;
+	    height: 100%;
+	    background-color: rgba(0, 0, 0, .6);
+	}
+	.box .box-main{
+	    position: absolute;
+	    bottom: 0;
+	    left: 0;
+	    display: block;
+	    width: 100%;
+	    z-index: 9;
+		/* #ifdef H5 */
+		bottom: var(--window-bottom);
+		/* #endif */
+	}
+	.box-main .box-item{
+	    width: 100%;
+	    height: 90rpx;
+	    font-size: 30rpx;
+	    background:rgba(201,57,29,1);
+	    display: flex;
+	    justify-content: center;
+	    align-items: center;
+		color: #FFFFFF;
+	}
+	.box-main .box-item:first-child{
+		background:#f37229;
+	}
+	.box-main .box-item:nth-child(2){
+		background:rgba(201,57,29,1);
+		// opacity: 0.76;
+	}
+	.box-main .box-item:last-child{
+	    background:#fe6a70;
+	}
+	.box-main view button{
+	    width: 100%;
+	    height: 100%;
+	    font-size: 28rpx;
+	    background-color: transparent;
+	    display: flex;
+	    justify-content: center;
+	    align-items: center;
+	}
+	.box-main view button::after{
+	    border: none;
+	}
+	
+	
 	.member-box{
 		width: 100%;
 		height: 100%;
@@ -365,15 +531,14 @@ export default {
 				}
 			}
 			.code{
-				width: 45upx;
 				position: absolute;
-				right: 10upx;
-				top: 50%;
-				transform: translateY(-50%);
-				image{
-					width: 45upx;
-					height: auto;
-				}
+				right: 0upx;
+				top: 0;
+				padding: 0 24upx;
+				height:47upx;
+				border:2upx solid rgba(255,194,193,1);
+				border-radius:24upx;
+				color:rgba(255,255,255,1);
 			}
 		}
 	}
