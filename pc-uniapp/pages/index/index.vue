@@ -332,7 +332,13 @@ export default {
 		recommendTitle,
 		noData
 	},
-	computed: mapState(['systemInfo']),
+	computed: {
+		...mapState(['systemInfo']),
+		// 多语言
+		i18n () {
+			return this.$t('index')  
+		}  
+	},
 	mixins: [myMixin],
 	onPullDownRefresh() {
 		this.getProduct();
@@ -360,6 +366,9 @@ export default {
 		this.getSystemInfo()
 	},
 	onShow() {
+		uni.setNavigationBarTitle({
+			title:this.$t('tabs.home')
+		});
 		this.getProduct();
 		this.checkNewMessage();
 		uni.removeStorageSync('backToHomePage'); //order navigator  

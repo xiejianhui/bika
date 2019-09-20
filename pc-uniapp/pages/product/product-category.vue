@@ -89,6 +89,17 @@ export default {
 			subIndex: 0
 		};
 	},
+	computed: {
+		// 多语言
+		i18n () {
+			return this.$t('index')  
+		}  
+	},
+	onShow() {
+		uni.setNavigationBarTitle({
+			title:this.$t('tabs.product')
+		});
+	},
 	onPullDownRefresh() {
 		this.bigCateArr = [];
 		this.smallCateArr = [];

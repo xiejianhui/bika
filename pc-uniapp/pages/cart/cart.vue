@@ -162,18 +162,27 @@
 				customQuantity:'',
 			};
 		},
-		computed: mapState([
-			'memberInfo'
-		]),
+		computed:{
+			...mapState([
+				'memberInfo'
+			]),
+			// 多语言
+			i18n () {
+				return this.$t('index')  
+			}  
+		},
 		onLoad() {
 			if(this.memberInfo){
 				this.getList()
 			}
 		},
 		onShow() {
-		  if(this.memberInfo){
-			this.getList()
-		  }
+			if(this.memberInfo){
+				this.getList()
+			}
+			uni.setNavigationBarTitle({
+				title:this.$t('tabs.cart')
+			});
 		},
 		mounted(){
 
@@ -522,6 +531,7 @@
 			border-radius:10upx;
 			margin : 26upx 15upx 0 0;
 			float: left;
+			box-sizing: border-box;
 		}
 		.model_check{
 			border:1px solid rgba(254,106,114,1);
@@ -616,6 +626,10 @@
 			border-bottom: 1upx solid #E8E8E8;
 			padding: 47upx 37upx;
 			display: flex;
+			
+			.left{
+				height: 210upx;
+			}
 
 			.right {
 				flex: 1;

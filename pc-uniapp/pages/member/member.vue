@@ -4,7 +4,7 @@
 		<view class="my_top relative">
 		<!-- #endif -->
 		<!-- #ifndef APP-PLUS -->
-		<view class="my_top relative" style="height: 70px;margin-bottom: 20px;">
+		<view class="my_top relative" style="height: 280upx">
 		<!-- #endif -->
 			<view class="info">
 				<view class="" style="position: relative">
@@ -18,16 +18,24 @@
 				</view>
 				<view class="mid">
 					<view class="white" v-if="memberInfo.id">
-						{{ memberInfo.userName||memberInfo.mobilePhone}}
+						<view class="fs34 fw500 flex-align">
+							{{ memberInfo.userName||memberInfo.mobilePhone}}
+						</view>
+						<view class="fs30 flex-align">
+							账号：212
+						</view>
+						<view class="fs30 betweenBox flex-align">
+							<view>
+								福分：900
+							</view>
+							<view>
+								余额：100
+							</view>
+						</view>
 					</view>
 					<navigator url="/pages/login/login" v-else>
 						<view class="white">登录/注册</view>
 					</navigator>
-					<!-- #ifdef APP-PLUS -->
-					<view class="white ">
-						<text class="fs22 tag" v-if="memberInfo.identityStr">{{memberInfo.identityStr}}</text>
-					</view>
-					<!-- #endif -->
 				</view>
 				<view class="code fw500 fs24 flex-box" @tap="showBox">
 					切换语言
@@ -474,10 +482,10 @@ export default {
 	}
 	.my_top{
 		padding: 30upx;
-		height:250upx;
+		height:280upx;
+		box-sizing: border-box;
 		background:linear-gradient(131deg,rgba(250,148,97,1) 0%,rgba(252,78,41,1) 100%);
 		position: relative;
-		margin-bottom: 100upx;
 		.score{
 			position: absolute;
 			bottom: 0;
@@ -512,7 +520,7 @@ export default {
 				height: 140upx;
 				border-radius: 50%;
 				overflow: hidden;
-				margin-right: 20upx;
+				margin-right: 33upx;
 				image{
 					width: 100%;
 					height: 100%!important;
@@ -520,14 +528,14 @@ export default {
 				}
 			}
 			.mid{
-				.tag {
-					padding: 2upx 10upx;
-					border-radius: 16px;
-					color: white;
-					background: black;
+				padding-top: 3upx;
+				.fs34{
+					height: 34upx;
+					margin-bottom: 32upx;
 				}
-				view{
-					font-size: 40upx;
+				.fs30{
+					height: 32upx;
+					margin-bottom: 18upx;
 				}
 			}
 			.code{
