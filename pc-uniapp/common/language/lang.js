@@ -38,5 +38,25 @@ export default {
 			cart:'购物车',
 			my:'我的',
 		}
-	}
+	},
+	'en-ML': {
+		lang: 'en-ML',
+		loading: 'Dimuatkan...',
+		index: {
+			navTitle: 'Face TV',
+			more: 'more'
+		},
+		cart:{
+			
+		},
+		member:{
+			loading: 'Dimuatkan...',
+		},
+		tabs:{
+			home:'Rumah',
+			product:'Pengelasan',
+			cart:'Troli',
+			my:'Mine',
+		}
+	},
 }

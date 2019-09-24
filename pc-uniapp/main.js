@@ -21,6 +21,11 @@ const i18n = new VueI18n({
 Vue.prototype._i18n = i18n //防止app微信报错$t函数不存在
 // 多语言结束
 
+// 复制功能
+import VueClipboard from 'vue-clipboard2'
+Vue.use(VueClipboard);
+// 复制功能end
+
 Vue.prototype.$store = store
 Vue.config.productionTip = false
 

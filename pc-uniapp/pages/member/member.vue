@@ -33,148 +33,108 @@
 							</view>
 						</view>
 					</view>
-					<navigator url="/pages/login/login" v-else>
-						<view class="white">登录/注册</view>
-					</navigator>
+					<view class="login-regit flex-align" v-else>
+						<navigator url="/pages/login/login">
+							<view class="white fs36">登录/注册</view>
+						</navigator>
+					</view>
 				</view>
 				<view class="code fw500 fs24 flex-box" @tap="showBox">
 					切换语言
 				</view>
 			</view>
-			<!-- #ifdef APP-PLUS -->
-			<view class="score flex">
-				<view class="">
-					<view class="">
-						个人业绩
-					</view>
-					<view class="bigTitle">
-						{{ memberInfo.monthlyPerformance || 0 }}
-					</view>
-				</view>
-				<view class="">
-					<view class="">
-						团队业绩
-					</view>
-					<view class="bigTitle">
-						{{ memberInfo.teamPerformance || 0 }}
-					</view>
-				</view>
-			</view>
-			<!-- #endif -->
 
 		</view>
-		<!-- 我的订单 -->
 		<view style="position: relative">
 			<view style="position: absolute;top: 0;left: 0;width: 100%;height: 100%;z-index: 10" v-if="!memberInfo.id" @click="askToLogion"></view>
-			<navigator url="../order/order-list?orderType=0">
-				<view class="my-order background-white mgt20 pd20 ">
-					<view class="bigTitle">我的订单</view>
-					<view class="gray fs24 flex-box">
-						全部订单
-						<uni-icon type="arrowright" size="16"></uni-icon>
-					</view>
+			<view class="recharge-type colorw fs30">
+				<view class="flex-box" @click="toRecharge">
+					充值
 				</view>
-			</navigator>
-		</view>
-		<!-- 订单 -->
-		<view class="order-types background-white" style="position: relative">
-			<view style="position: absolute;top: 0;left: 0;width: 100%;height: 100%;z-index: 10" v-if="!memberInfo.id" @click="askToLogion"></view>
-			<view class="" @tap="navToOrderList(1)">
-				<image src="../../static/img/myself_order_icon_payment@2x.png" mode="widthFix" class="w100"></image>
-				<view class="title-black">待付款</view>
-			</view>
-			<view class="" @tap="navToOrderList(2)">
-				<image src="../../static/img/myself_order_icon_delivery@2x.png" mode="widthFix" class="w100"></image>
-				<view class="title-black">待发货</view>
-			</view>
-			<view class="" @tap="navToOrderList(3)">
-				<image src="../../static/img/myself_order_icon_take_over@2x.png" mode="widthFix" class="w100"></image>
-				<view class="title-black">待收货</view>
-			</view>
-			<view class="" @tap="navToOrderList(4)">
-				<image src="../../static/img/myself_order_icon_refund@2x.png" mode="widthFix" class="w100"></image>
-				<view class="title-black">退换货</view>
-			</view>
-		</view>
-
-		<view class="my-order  pd20 mgt20"><view class=" bigTitle">我的收益</view></view>
-		<view class="mg20 benifit" style="position: relative">
-			<view style="position: absolute;top: 0;left: 0;width: 100%;height: 100%;z-index: 10"  v-if="!memberInfo.id" @click="askToLogion"></view>
-			<view class="up bdb">
-				<view class="gray">我的余额</view>
-				<view class="betweenBox">
-					<text class="bigTitle">{{ memberInfo.userMoney || 0 }}</text>
-					<navigator url="account/balance"><view class="btn flex-box white">去提现</view></navigator>
+				<view class="flex-box" @click="toSign">
+					签到
 				</view>
 			</view>
-			<view class="down">
-				<navigator url="coupons/coupons">
-					<view class="">
-						<view class="gray mgb20">批发券</view>
-						<view class="fs30">{{ memberInfo.frozenMoney || 0 }}</view>
-					</view>
-				</navigator>
-				<view class="">
-					<view class="gray mgb20">积分</view>
-					<view class="fs30">{{ memberInfo.points || 0 }}</view>
-				</view>
-				<navigator url="my-score/my-score">
-					<view class="">
-						<view class="gray mgb20">优惠券</view>
-						<view class="fs30">{{ memberInfo.distributMoney || '0' }}</view>
-					</view>
-				</navigator>
-			</view>
 		</view>
-		<view class="my-order  pd20 "><view class=" bigTitle">更多功能</view></view>
-		<view class="order-types" style="position: relative">
-			<view style="position: absolute;top: 0;left: 0;width: 100%;height: 100%;z-index: 19"  v-if="!memberInfo.id" @click="askToLogion"></view>
-			<view class="" @tap="goConsign(0)">
-				<view class="white "><image src="../../static/img/myself_list_icon_con_goods@2x.png" mode="widthFix" class="fens-icon"></image></view>
-				<view class="fs26 mgt10">寄售商品</view>
+		<view style="position: relative">
+			<view class="copy-save flex-box fs28 color6">
+				官网：<text class="orange" v-model="spread_url">http://oneonhy.com</text> <text class="please-copy">请点击</text>
+				<text v-if="coypyH5 == true"
+					v-clipboard:copy="spread_url"
+					v-clipboard:success="(type) => onCopyResult('success')"
+					v-clipboard:error="(type) => onCopyResult('error')"
+					class="orange copy">
+					复制</text>
+					<text v-else
+						@click="onCopyResult"
+						class="orange copy">
+						复制</text>
+				保存
 			</view>
-			<view class="" @tap="goConsign(1)">
-				<view class="white "><image src="../../static/img/myself_list_icon_pick_up@2x.png" mode="widthFix" class="fens-icon"></image></view>
-				<view class="fs26 mgt10">提货办理</view>
+			<view class="bdb30"></view>
+			<view class="item-box betweenBox">
+				<view class="left flex-box">
+					<image mode="widthFix" src="/static/img/self/my-icon-fenxiang@2x.png" ></image>分享赚钱
+				</view>
+				<view class="right">
+					<uni-icon style="position: relative;top: 0upx;" type="arrowright" size="20"></uni-icon>
+				</view>
 			</view>
-			<view class="">
-				<navigator url="shareCode/shareCode">
-					<view class="white "><image src="../../static/img/myself_list_icon_share_code@2x.png" mode="widthFix" class="fens-icon"></image></view>
-					<view class="fs26 mgt10">我的分享码</view>
-				</navigator>
+			<view class="item-box betweenBox" @click="toCollect">
+				<view class="left flex-box">
+					<image src="/static/img/self/my-icon-shoucang@2x.png"></image>我的收藏
+				</view>
+				<view class="right">
+					<uni-icon style="position: relative;top: 0upx;" type="arrowright" size="20"></uni-icon>
+				</view>
 			</view>
-			<!-- #ifdef APP-PLUS -->
-			<view class="">
-				<navigator url="my-fans/my-fans">
-					<view class="white "><image src="../../static/img/myself_list_icon_fans@2x.png" mode="widthFix" class="fens-icon2"></image></view>
-					<view class="fs26 mgt10">我的粉丝</view>
-				</navigator>
+			<view class="item-box betweenBox">
+				<view class="left flex-box">
+					<image src="/static/img/self/my-icon-huode@2x.png" ></image>获得商品
+				</view>
+				<view class="right">
+					<uni-icon style="position: relative;top: 0upx;" type="arrowright" size="20"></uni-icon>
+				</view>
 			</view>
-			<!-- #endif -->
-
-			<view class="">
-				<navigator url="./psw-setting/psw-setting">
-					<image src="../../static/img/myself_list_icon_password@2x.png" mode="widthFix" class="w100"></image>
-					<view class="mgt10">密码设置</view>
-				</navigator>
+			<view class="item-box betweenBox">
+				<view class="left flex-box">
+					<image src="/static/img/self/my-icon-xianggou@2x.png" ></image>享购记录
+				</view>
+				<view class="right">
+					<uni-icon style="position: relative;top: 0upx;" type="arrowright" size="20"></uni-icon>
+				</view>
 			</view>
-			<view class="">
-				<navigator url="person-info/person-info">
-					<image src="../../static/img/myself_list_icon_info@2x.png" mode="widthFix" class="w100"></image>
-					<view class="mgt10">个人信息</view>
-				</navigator>
+			<view class="item-box betweenBox">
+				<view class="left flex-box">
+					<image src="/static/img/self/my-icon-zhanghu@2x.png" ></image>账户明细
+				</view>
+				<view class="right">
+					<uni-icon style="position: relative;top: 0upx;" type="arrowright" size="20"></uni-icon>
+				</view>
 			</view>
-			<view class="">
-				<navigator url="../addressManage/addressManage">
-					<image src="../../static/img/myself_list_icon_address@2x.png" mode="widthFix" class="w100"></image>
-					<view class="mgt10">地址管理</view>
-				</navigator>
+			<view class="item-box betweenBox">
+				<view class="left flex-box">
+					<image src="/static/img/self/my-icon-kefu@2x.png" ></image>客服咨询
+				</view>
+				<view class="right">
+					<uni-icon style="position: relative;top: 0upx;" type="arrowright" size="20"></uni-icon>
+				</view>
 			</view>
-			<view class="last-bank">
-				<navigator url="bank/bank">
-					<image src="../../static/img/myself_list_icon_account@2x.png" mode="widthFix" class="w100"></image>
-					<view class="mgt10">银行卡管理</view>
-				</navigator>
+			<view class="item-box betweenBox">
+				<view class="left flex-box">
+					<image src="/static/img/self/my-icon-zhanghao@2x.png" ></image>账号设置
+				</view>
+				<view class="right">
+					<uni-icon style="position: relative;top: 0upx;" type="arrowright" size="20"></uni-icon>
+				</view>
+			</view>
+			<view class="item-box betweenBox">
+				<view class="left flex-box">
+					<image src="/static/img/self/my-icon-tuichu@2x.png" ></image>退出登录
+				</view>
+				<view class="right">
+					<uni-icon style="position: relative;top: 0upx;" type="arrowright" size="20"></uni-icon>
+				</view>
 			</view>
 		</view>
 
@@ -183,14 +143,17 @@
 		<view class="pdb20"></view>
 		
 		<view v-if='!hideBox' class='box'>
-			<view class='box-bg'></view>
+			<view class='box-bg' @tap="showBox"></view>
 			<view class='box-main'>
 				<view v-for="(item,index) in languages" 
-					:key="item.id" 
-					class="box-item fs30" 
+					:key="index" 
+					class="box-item fs30" :class="{'active':item.active}"
 					:data-idx="index" 
 					@click="changeLanuage">
-					 {{languages[index]}}
+					<image v-if="index == 0" class="box-item-icon" src="/static/img/self/my-icon-chiness@2x.png"></image>
+					<image v-if="index == 1" class="box-item-icon" src="/static/img/self/my-icon-yingwen@2x.png"></image>
+					<image v-if="index == 2" class="box-item-icon" src="/static/img/self/my-icon-malaiyu@2x.png"></image>
+					 {{languages[index].value}}
 				</view>
 			</view>
 		</view>
@@ -205,8 +168,12 @@ export default {
 	data() {
 		return {
 			hideBox:true,
-			languages: ['中文', '英文','马来西亚语'],
-			member: null
+			// languages: ['中文', '英文','马来西亚语'],
+			languages: [{active:false,value:'中文 (Chiness)'},{active:true,value:'英文 (English)'},{active:false,value:'马来西亚语 (Malay)'}],
+			spread_url:'http://oneonhy.com',
+			coypyH5:false,
+			
+			member: null,
 		};
 	},
 	computed: mapState({
@@ -224,7 +191,11 @@ export default {
 			}, 1000);
 		}
 	},
-	onLoad() {},
+	onLoad() {
+		// #ifdef H5
+		this.coypyH5 = true;
+		// #endif
+	},
 	onShow() {
 		if (this.memberInfo.id) {
 			this.isFromLogin();
@@ -236,13 +207,16 @@ export default {
 		},
 		// 自定义多语言
 		changeLanuage(e) {
-			this.hideBox = !this.hideBox
+			this.hideBox = !this.hideBox;
+			let index = e.target.dataset.idx;
+			let arr = this.languages;
+			arr.forEach(item => (item.active = false));
+			arr[index].active = true;
 			uni.showToast({
 				title: this.$t('member.loading'),
 				icon: 'loading',
 				duration: 1000
 			})
-			let index = e.target.dataset.idx;
 			if(index == '0') {
 				uni.hideToast()
 				// 切换语言需要定时器
@@ -287,6 +261,27 @@ export default {
 						title:this.$t('tabs.my')
 					});
 				},100)
+			}else if(index == '2'){
+				uni.hideToast()
+				setTimeout(() => {
+					this.$i18n.locale = 'en-ML'
+					// tabbar多语言
+					let tabBarLang = [
+					    'Rumah',
+					    'Pengelasan',
+						'Troli',
+					    'Mine'
+					];
+					tabBarLang.forEach((element, index) => {
+						uni.setTabBarItem({
+							'index': index,
+							'text': element
+						})
+					})
+					uni.setNavigationBarTitle({
+						title:this.$t('tabs.my')
+					});
+				},100)
 			}else{
 				uni.hideToast()
 				setTimeout(() => {
@@ -309,6 +304,63 @@ export default {
 					});
 				},100)
 			}
+		},
+		
+		// 复制
+		onCopyResult(type) {
+			// 兼容h5剪切板
+			if(this.coypyH5 == true){
+				if (type==='success') {
+					uni.showToast({
+						title:'复制成功',
+						icon:'none',
+						duration:1500
+					});
+					return;
+				} else {
+					uni.showToast({
+						title:'复制失败',
+						icon:'none',
+						duration:1500
+					});
+					return;
+				}
+			}else{
+				uni.setClipboardData({
+				    data: this.spread_url,
+				    success: function () {
+						uni.showToast({
+							title:'复制成功',
+							icon:'none',
+							duration:1500
+						});
+						return;
+				    },fail() {
+				    	uni.showToast({
+				    		title:'复制失败',
+				    		icon:'none',
+				    		duration:1500
+				    	});
+				    	return;
+				    }
+				});
+			}
+		},
+		
+		toSign(){
+			uni.navigateTo({
+				url:"/pages/member/sign-in/sign-in"
+			})
+		},
+		toRecharge(){
+			uni.navigateTo({
+				url:"/pages/member/sign-in/sign-in"
+			})
+		},
+		toCollect(){
+			uni.navigateTo({
+				url:"/pages/member/collect/collect"
+			})
 		},
 		
 		// goShareCode(){
@@ -347,28 +399,6 @@ export default {
 						url: '/pages/login/login'
 					});
 				}
-			});
-		},
-		goConsign(index) {
-			if (index) {
-				uni.navigateTo({
-					url: '../order/wholesale-list/wholesale-list?notConsignment=0',
-					animationType: 'pop-in',
-					animationDuration: 200
-				});
-			} else {
-				uni.navigateTo({
-					url: '../order/consignment-list/consignment-list?notConsignment=0',
-					animationType: 'pop-in',
-					animationDuration: 200
-				});
-			}
-		},
-		navToOrderList(index) {
-			uni.navigateTo({
-				url: '../order/order-list?orderType=' + index,
-				animationType: 'pop-in',
-				animationDuration: 200
 			});
 		},
 		logout() {
@@ -421,99 +451,74 @@ export default {
 		/* #ifdef H5 */
 		bottom: var(--window-bottom);
 		/* #endif */
+		.box-bg{
+		    position: absolute;
+		    top: 0;
+		    left: 0;
+		    width: 100%;
+		    height: 100%;
+		    background-color: rgba(0, 0, 0, .6);
+		}
+		.box-main{
+		    position: absolute;
+		    bottom: 0;
+		    left: 0;
+		    display: block;
+		    width: 100%;
+		    z-index: 9;
+			background:rgba(255,255,255,1);
+			/* #ifdef H5 */
+			bottom: var(--window-bottom);
+			/* #endif */
+		}
+		.box-main .box-item{
+		    width: 100%;
+		    height: 90rpx;
+		    font-size: 30rpx;
+		    background:#FFFFFF;
+		    display: flex;
+			align-items: center;
+			padding-left: 231upx;
+			color: #333333;
+			.box-item-icon{
+				width: 47upx;
+				height: 32upx;
+				margin-right: 21upx;
+			}
+		}
+		.box-main .active{
+			background:rgba(248,204,207,0.24);
+		}
+		.box-main view button{
+		    width: 100%;
+		    height: 100%;
+		    font-size: 28rpx;
+		    background-color: transparent;
+		    display: flex;
+		    justify-content: center;
+		    align-items: center;
+		}
+		.box-main view button::after{
+		    border: none;
+		}
 	}
-	.box-bg{
-	    position: absolute;
-	    top: 0;
-	    left: 0;
-	    width: 100%;
-	    height: 100%;
-	    background-color: rgba(0, 0, 0, .6);
-	}
-	.box .box-main{
-	    position: absolute;
-	    bottom: 0;
-	    left: 0;
-	    display: block;
-	    width: 100%;
-	    z-index: 9;
-		/* #ifdef H5 */
-		bottom: var(--window-bottom);
-		/* #endif */
-	}
-	.box-main .box-item{
-	    width: 100%;
-	    height: 90rpx;
-	    font-size: 30rpx;
-	    background:rgba(201,57,29,1);
-	    display: flex;
-	    justify-content: center;
-	    align-items: center;
-		color: #FFFFFF;
-	}
-	.box-main .box-item:first-child{
-		background:#f37229;
-	}
-	.box-main .box-item:nth-child(2){
-		background:rgba(201,57,29,1);
-		// opacity: 0.76;
-	}
-	.box-main .box-item:last-child{
-	    background:#fe6a70;
-	}
-	.box-main view button{
-	    width: 100%;
-	    height: 100%;
-	    font-size: 28rpx;
-	    background-color: transparent;
-	    display: flex;
-	    justify-content: center;
-	    align-items: center;
-	}
-	.box-main view button::after{
-	    border: none;
-	}
-	
 	
 	.member-box{
 		width: 100%;
 		height: 100%;
 		overflow: hidden;
+		background:rgba(255,255,255,1);
 	}
 	.my_top{
 		padding: 30upx;
 		height:280upx;
+		background:linear-gradient(131deg,#f55c70 0%,#f87a4f 100%);
 		box-sizing: border-box;
-		background:linear-gradient(131deg,rgba(250,148,97,1) 0%,rgba(252,78,41,1) 100%);
 		position: relative;
-		.score{
-			position: absolute;
-			bottom: 0;
-			left: 30upx;
-			width:690upx;
-			transform: translateY(50%);
-			background: white;
-			box-shadow:0px 21px 19px 0px rgba(234,234,234,0.5);
-			border-radius:10upx;
-			>view{
-				flex: 1;
-				text-align: center;
-				font-size:42upx;
-				color:rgba(51,51,51,1);
-				line-height:28upx;
-				>view{
-					padding: 20upx 0;
-				}
-				:first-child{
-					color: #656565;
-					font-size: 24upx
-
-				}
-			}
-		}
+		
 		.info{
 			display: flex;
-			align-items: center;
+			// align-items: center;
 			position: relative;
 			.head{
 				width: 140upx;
@@ -528,6 +533,7 @@ export default {
 				}
 			}
 			.mid{
+				width: 394upx;
 				padding-top: 3upx;
 				.fs34{
 					height: 34upx;
@@ -536,6 +542,13 @@ export default {
 				.fs30{
 					height: 32upx;
 					margin-bottom: 18upx;
+				}
+				.white{
+					color: #FFDEDE;
+				}
+				.login-regit{
+					width: 100%;
+					height: 100%;
 				}
 			}
 			.code{
@@ -550,42 +563,63 @@ export default {
 			}
 		}
 	}
-.benifit {
-	background: rgba(244, 244, 244, 1);
-	border-radius: 10upx;
-	.up {
-		padding: 30upx 40upx;
-		.btn {
-			width: 160upx;
-			height: 60upx;
-			background: rgba(252, 78, 41, 1);
-			border-radius: 40px;
+	.recharge-type{
+		height: 68upx;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-wrap: wrap;
+		background:rgba(255,232,226,1);
+		> view {
+			width: 375upx;
+			height: 100%;
+			text-align: center;
+			background:rgba(255,232,226,1);
+		}
+		view:first-child{
+			border-right: 1upx solid rgba(255,255,255,0.65);
 		}
 	}
-	.down {
-		display: flex;
-		justify-content: space-around;
-		padding: 30upx 40upx;
+
+	.copy-save{
+		height: 90upx;
+		background: #FFFFFF;
+		.please-copy{
+			margin-left: 22upx;
+		}
+		.copy{
+			padding: 9upx 21upx;
+			border:1upx solid rgba(254,106,114,1);
+			border-radius:10upx;
+			margin: 0 9upx;
+		}
 	}
-}
-.bigTitle {
-	color: rgba(51, 51, 51, 1);
-	font-size: 40upx;
-	font-weight: 600;
-}
-.redPoint {
-	position: absolute;
-	left: 720upx;
-	top: 14upx;
-	width: 12upx;
-	height: 12upx;
-	background: #f62626;
-	border-radius: 50%;
-}
+	.item-box{
+		height: 90upx;
+		padding: 0 36upx;
+		background: #FFFFFF;
+		border-bottom: 1upx solid #F2F2F2;
+		.left{
+			image{
+				width: 32upx;
+				height: 32upx;
+				margin-right: 25upx;
+			}
+		}
+		.right{
+			color: #B6B6B6;
+			image{
+				width: 15upx;
+				height: 29upx;
+				color: #B6B6B6;
+			}
+		}
+	}
+	
 .logout-btn {
 	width: 600upx;
 	height: 80upx;
-	margin: 60upx auto;
+	margin: 30upx auto;
 	background: #FC4E29;
 	border-radius: 10upx;
 	text-align: center;
@@ -651,11 +685,6 @@ export default {
 	}
 }
 
-.my-order {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-}
 
 .order-types {
 	display: flex;
@@ -717,26 +746,6 @@ export default {
 			}
 		}
 
-		.score {
-			display: flex;
-
-			> view {
-				flex: 1;
-				text-align: center;
-				height: 30upx;
-				margin-top: 20upx;
-				padding: 0 10upx;
-				&:nth-child(1) {
-					border-right: 1upx solid #53b1fa;
-				}
-
-				text {
-					&:nth-child(2) {
-						// margin-left: 60upx;
-					}
-				}
-			}
-		}
 	}
 }
 </style>

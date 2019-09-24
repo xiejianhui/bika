@@ -13,6 +13,84 @@
 			}
 		},
 		{
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarBackgroundColor": "#fff",
+				"navigationBarTitleText": "登陆",
+				"navigationBarTextStyle": "black",
+				"backgroundColor": "#f4f4f4"
+			}
+		},
+		{
+			"path": "pages/login/register",
+			"style": {
+				"navigationBarBackgroundColor": "#fff",
+				"navigationBarTitleText": "注册",
+				"navigationBarTextStyle": "black",
+				"backgroundColor": "#f4f4f4"
+			}
+		},
+		{
+			"path": "pages/cart/cart",
+			"style": {
+				"navigationBarTitleText": "购物车",
+				"navigationBarBackgroundColor": "#FC4E29",
+				"navigationBarTextStyle": "white",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/member/member",
+			"style": {
+				"navigationBarTitleText": "个人",
+				"navigationBarBackgroundColor": "#FC4E29",
+				"navigationBarTextStyle": "white",
+				"backgroundColor": "##F5F5F5",
+				"enablePullDownRefresh": true
+		
+			}
+		},
+		{
+			"path": "pages/member/person-info/person-info",
+			"style": {
+				"navigationBarTitleText": "账号设置"
+			}
+		},
+		{
+			"path": "pages/member/psw-setting/psw-setting",
+			"style": {
+				"navigationBarTitleText": "密码设置"
+			}
+		},
+		{
+			"path": "pages/member/change-psw/change-psw",
+			"style": {
+				"navigationBarTitleText": "修改登录密码"
+			}
+		},
+		{
+			"path": "pages/member/change-safepsw/change-safepsw",
+			"style": {
+				"navigationBarTitleText": "修改支付密码"
+			}
+		},
+		{
+		    "path" : "pages/member/sign-in/sign-in",
+		    "style" : {
+				"navigationBarTitleText": "签到领福利"
+			}
+		},
+		{
+		    "path" : "pages/member/recharge/recharge",
+		    "navigationBarTitleText": "充值"
+		},
+		{
+		    "path" : "pages/member/collect/collect",
+		    "navigationBarTitleText": "我的收藏"
+		},
+		
+		
+		{
 			"path": "pages/member/infomation/message",
 			"style": {
 				"navigationBarTitleText": "公告详情"
@@ -87,32 +165,6 @@
 			}
 		},
 		{
-			"path": "pages/member/member",
-			"style": {
-				"navigationBarTitleText": "个人",
-				"navigationBarBackgroundColor": "#FC4E29",
-				"navigationBarTextStyle": "white",
-				"backgroundColor": "##F5F5F5",
-				"enablePullDownRefresh": true
-
-			}
-		},
-		{
-			"path": "pages/login/login",
-			"style": {
-				"navigationBarBackgroundColor": "#fff",
-				"navigationBarTitleText": "登陆",
-				"navigationBarTextStyle": "black",
-				"backgroundColor": "#f4f4f4"
-			}
-		},
-		{
-			"path": "pages/member/change-psw/change-psw",
-			"style": {
-				"navigationBarTitleText": "修改登录密码"
-			}
-		},
-		{
 			"path": "pages/product/product-detail",
 			"style": {
 				"navigationBarTitleText": "商品详情",
@@ -136,15 +188,6 @@
 			}
 		},
 		{
-			"path": "pages/login/register",
-			"style": {
-				"navigationBarBackgroundColor": "#fff",
-				"navigationBarTitleText": "注册",
-				"navigationBarTextStyle": "black",
-				"backgroundColor": "#f4f4f4"
-			}
-		},
-		{
 			"path": "pages/order/unconsignment/unconsignment",
 			"style": {
 				"navigationBarTitleText": "寄售商品",
@@ -159,31 +202,10 @@
 			}
 		},
 		{
-			"path": "pages/cart/cart",
-			"style": {
-				"navigationBarTitleText": "购物车",
-				"navigationBarBackgroundColor": "#FC4E29",
-				"navigationBarTextStyle": "white",
-				"enablePullDownRefresh": true
-			}
-		},
-		{
 			"path": "pages/member/my-score/my-score",
 			"style": {
 				"navigationBarTitleText": "我的优惠券",
 				"enablePullDownRefresh": true
-			}
-		},
-		{
-			"path": "pages/member/person-info/person-info",
-			"style": {
-				"navigationBarTitleText": "个人信息管理"
-			}
-		},
-		{
-			"path": "pages/member/change-safepsw/change-safepsw",
-			"style": {
-				"navigationBarTitleText": "修改支付密码"
 			}
 		},
 		{
@@ -301,12 +323,7 @@
 				"enablePullDownRefresh": true
 			}
 		},
-		{
-			"path": "pages/member/psw-setting/psw-setting",
-			"style": {
-				"navigationBarTitleText": "密码设置"
-			}
-		},
+		
 		{
 			"path": "pages/order/wholesale-list/wholesale-list",
 			"style": {
