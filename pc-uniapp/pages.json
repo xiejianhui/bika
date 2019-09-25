@@ -75,19 +75,27 @@
 			}
 		},
 		{
-		    "path" : "pages/member/sign-in/sign-in",
+		    "path": "pages/member/sign-in/sign-in",
 		    "style" : {
 				"navigationBarTitleText": "签到领福利"
 			}
 		},
 		{
-		    "path" : "pages/member/recharge/recharge",
+		    "path": "pages/member/recharge/recharge",
 		    "navigationBarTitleText": "充值"
 		},
 		{
-		    "path" : "pages/member/collect/collect",
+		    "path": "pages/member/collect/collect",
 		    "navigationBarTitleText": "我的收藏"
+			
 		},
+		{
+		    "path" : "pages/member/account-details/account-details",
+		    "style" : {
+				"navigationBarTitleText" : "账户明细"
+			}
+		},
+		
 		
 		
 		{

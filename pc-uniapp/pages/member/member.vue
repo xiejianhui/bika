@@ -104,7 +104,7 @@
 					<uni-icon style="position: relative;top: 0upx;" type="arrowright" size="20"></uni-icon>
 				</view>
 			</view>
-			<view class="item-box betweenBox">
+			<view class="item-box betweenBox" @click="toAccountDetails">
 				<view class="left flex-box">
 					<image src="/static/img/self/my-icon-zhanghu@2x.png" ></image>账户明细
 				</view>
@@ -128,7 +128,7 @@
 					<uni-icon style="position: relative;top: 0upx;" type="arrowright" size="20"></uni-icon>
 				</view>
 			</view>
-			<view class="item-box betweenBox">
+			<view class="item-box betweenBox logout-btn" @click="logout" v-if="memberInfo.id">
 				<view class="left flex-box">
 					<image src="/static/img/self/my-icon-tuichu@2x.png" ></image>退出登录
 				</view>
@@ -137,10 +137,6 @@
 				</view>
 			</view>
 		</view>
-
-		<view class="logout-btn fs30 " @click="logout" v-if="memberInfo.id">退出登录</view>
-		<view class="pdb20"></view>
-		<view class="pdb20"></view>
 		
 		<view v-if='!hideBox' class='box'>
 			<view class='box-bg' @tap="showBox"></view>
@@ -360,6 +356,11 @@ export default {
 		toCollect(){
 			uni.navigateTo({
 				url:"/pages/member/collect/collect"
+			})
+		},
+		toAccountDetails(){
+			uni.navigateTo({
+				url:"/pages/member/account-details/account-details"
 			})
 		},
 		
@@ -617,14 +618,7 @@ export default {
 	}
 	
 .logout-btn {
-	width: 600upx;
-	height: 80upx;
-	margin: 30upx auto;
-	background: #FC4E29;
-	border-radius: 10upx;
-	text-align: center;
-	line-height: 80upx;
-	color: white;
+	margin-bottom: 75upx;
 }
 
 .mg-part {

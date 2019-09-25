@@ -1,11 +1,11 @@
 <template>
-	<view class="pageBg">
+	<view class="pageBgW">
 		<no-data v-if="!productList.length"></no-data>	
 		<view class="mgt20">
 			<no-data v-if="productList && !productList.length"></no-data>
 			<view class="recomemnt-item sort-type" v-for="(item, index) in productList" :key="index" @tap="goProduct(item)">
 				<view class="item-img">
-					<image lazy-load :src="item.appProductOrderList[0].imageUrl" mode="widthFix"></image>
+					<image class="item-imageUrl" lazy-load :src="item.appProductOrderList[0].imageUrl" mode="widthFix"></image>
 					<view class="sold-out" v-if="!item.stock">
 						<image lazy-load src="/static/img/self/collection-yishoucang@2x.png"></image>
 					</view>
@@ -14,14 +14,24 @@
 					</view>
 				</view>
 				<view class="item-info info-coupon">
-					<view class="title-black scroll-title ">{{ item.appProductOrderList[0].productName }}</view>
-					<view class="orange">
-						<text class="fs22">￥</text>
+					<view class="title-black uni-ellipsis2 fw300">{{ item.appProductOrderList[0].productName }}</view>
+					<view class="orange fs25">
+						<text class="">￥</text>
 						<text class="priceStyle">{{ item.appProductOrderList[0].price }}</text>
-						<text class="fs20 flex-box price-coupon" v-if="productList[index].coupon">优</text>
 					</view>
 					<view class="">
 						<text class="gray originPrice" v-if="item.appProductOrderList[0].initialPrice">￥{{ item.appProductOrderList[0].initialPrice }}</text>
+					</view>
+					<view class="flex-equal color6 fs24">
+						<view class="fs20">
+							<view class="fs24">27527</view><view class="fs20">总需</view>
+						</view>
+						<view class="fs20">
+							<view class="fs24">41242</view><view class="fs20">已参与</view>
+						</view>
+						<view class="fs20">
+							<view class="fs24">1452</view><view class="fs20">剩余</view>
+						</view>
 					</view>
 				</view>
 			</view>
@@ -122,6 +132,7 @@
 			width: 100upx;
 			top: -8upx;
 			left: -8upx;
+			background: no-repeat;
 		}
 	}
 	
@@ -132,25 +143,25 @@
 		}
 	}
 	.recomemnt-item {
-		margin: 20upx;
 		display: inline-block;
 		width: 314upx;
-		height: 562upx;
+		height: 566upx;
 		position: relative;
-		box-shadow: 0px 8upx 24upx 0px rgba(210, 210, 210, 0.5);
-		border-radius: 10upx;
+		box-sizing: border-box;
+		margin-bottom: 30upx;
 		&.sort-type {
 			width: 314upx;
 			overflow: hidden;
-			margin: 0upx 0 10upx 0;
-			&:nth-child(2n) {
-				margin-left: 10upx;
-			}
 			.item-img {
 				width: 314upx;
+				height: 322upx;
 				image {
 					width: 100%;
-					// height: 322upx !important;
+					border-radius: 0;
+				}
+				.item-imageUrl{
+					width: 100%;
+					height: 322upx !important;
 					border-radius: 0;
 				}
 			}
@@ -163,8 +174,31 @@
 			}
 		}
 		.item-info {
-			padding: 30upx 20upx 12upx 20upx;
+			width: 100%;
+			// height: 237upx;
+			position: absolute;
+			top: 322upx;
+			.title-black{
+				height: 60upx;
+				font-size: 23upx;
+				margin: 28upx 0 17upx 0;
+			}
 		}
+		.flex-equal{
+			margin: 17upx 0 0upx 0;
+			padding-top: 24upx;
+			border-top: 1upx solid #EBEBEB;
+			.fs20{
+				text-align: center;
+				font-size: 20upx;
+			}
+			.fs24{
+				font-size: 23upx;
+			}
+		}
+	}
+	.recomemnt-item:nth-child(2n+1){
+		margin-right: 34upx;
 	}
 	
 	.uc-btn{
