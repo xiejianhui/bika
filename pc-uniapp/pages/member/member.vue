@@ -22,25 +22,25 @@
 							{{ memberInfo.userName||memberInfo.mobilePhone}}
 						</view>
 						<view class="fs30 flex-align">
-							账号：212
+							{{i18n.username}}：212
 						</view>
-						<view class="fs30 betweenBox flex-align">
+						<view class="fs30 betweenBox flex-align" :class="{'english':i18n.lang == 'en'}">
 							<view>
-								福分：900
+								{{i18n.bonus_point}}：900
 							</view>
 							<view>
-								余额：100
+								{{i18n.balance}}：100
 							</view>
 						</view>
 					</view>
 					<view class="login-regit flex-align" v-else>
 						<navigator url="/pages/login/login">
-							<view class="white fs36">登录/注册</view>
+							<view class="white fs36">{{i18n.login_register}}</view>
 						</navigator>
 					</view>
 				</view>
 				<view class="code fw500 fs24 flex-box" @tap="showBox">
-					切换语言
+					{{i18n.switch_language}}
 				</view>
 			</view>
 
@@ -49,32 +49,32 @@
 			<view style="position: absolute;top: 0;left: 0;width: 100%;height: 100%;z-index: 10" v-if="!memberInfo.id" @click="askToLogion"></view>
 			<view class="recharge-type colorw fs30">
 				<view class="flex-box" @click="toRecharge">
-					充值
+					{{i18n.recharge}}
 				</view>
 				<view class="flex-box" @click="toSign">
-					签到
+					{{i18n.check_in}}
 				</view>
 			</view>
 		</view>
 		<view style="position: relative">
 			<view class="copy-save flex-box fs28 color6">
-				官网：<text class="orange" v-model="spread_url">http://oneonhy.com</text> <text class="please-copy">请点击</text>
+				{{i18n.main_webpage}}：<text class="orange" v-model="spread_url">http://oneonhy.com</text> <text class="please-copy">{{i18n.please_tap}}</text>
 				<text v-if="coypyH5 == true"
 					v-clipboard:copy="spread_url"
 					v-clipboard:success="(type) => onCopyResult('success')"
 					v-clipboard:error="(type) => onCopyResult('error')"
 					class="orange copy">
-					复制</text>
+					{{i18n.copy}}</text>
 					<text v-else
 						@click="onCopyResult"
 						class="orange copy">
-						复制</text>
-				保存
+						{{i18n.copy}}</text>
+					{{i18n.save}}
 			</view>
 			<view class="bdb30"></view>
 			<view class="item-box betweenBox">
 				<view class="left flex-box">
-					<image mode="widthFix" src="/static/img/self/my-icon-fenxiang@2x.png" ></image>分享赚钱
+					<image mode="widthFix" src="/static/img/self/my-icon-fenxiang@2x.png" ></image>{{i18n.share_earn}}
 				</view>
 				<view class="right">
 					<uni-icon style="position: relative;top: 0upx;" type="arrowright" size="20"></uni-icon>
@@ -82,7 +82,7 @@
 			</view>
 			<view class="item-box betweenBox" @click="toCollect">
 				<view class="left flex-box">
-					<image src="/static/img/self/my-icon-shoucang@2x.png"></image>我的收藏
+					<image src="/static/img/self/my-icon-shoucang@2x.png"></image>{{i18n.my_favorite}}
 				</view>
 				<view class="right">
 					<uni-icon style="position: relative;top: 0upx;" type="arrowright" size="20"></uni-icon>
@@ -90,7 +90,7 @@
 			</view>
 			<view class="item-box betweenBox">
 				<view class="left flex-box">
-					<image src="/static/img/self/my-icon-huode@2x.png" ></image>获得商品
+					<image src="/static/img/self/my-icon-huode@2x.png" ></image>{{i18n.winning_record}}
 				</view>
 				<view class="right">
 					<uni-icon style="position: relative;top: 0upx;" type="arrowright" size="20"></uni-icon>
@@ -98,7 +98,7 @@
 			</view>
 			<view class="item-box betweenBox">
 				<view class="left flex-box">
-					<image src="/static/img/self/my-icon-xianggou@2x.png" ></image>享购记录
+					<image src="/static/img/self/my-icon-xianggou@2x.png" ></image>{{i18n.purshase_record}}
 				</view>
 				<view class="right">
 					<uni-icon style="position: relative;top: 0upx;" type="arrowright" size="20"></uni-icon>
@@ -106,7 +106,15 @@
 			</view>
 			<view class="item-box betweenBox" @click="toAccountDetails">
 				<view class="left flex-box">
-					<image src="/static/img/self/my-icon-zhanghu@2x.png" ></image>账户明细
+					<image src="/static/img/self/my-icon-zhanghu@2x.png" ></image>{{i18n.transaction}}
+				</view>
+				<view class="right">
+					<uni-icon style="position: relative;top: 0upx;" type="arrowright" size="20"></uni-icon>
+				</view>
+			</view>
+			<view class="item-box betweenBox" @click="customerService">
+				<view class="left flex-box">
+					<image src="/static/img/self/my-icon-kefu@2x.png" ></image>{{i18n.customer_service}}
 				</view>
 				<view class="right">
 					<uni-icon style="position: relative;top: 0upx;" type="arrowright" size="20"></uni-icon>
@@ -114,15 +122,7 @@
 			</view>
 			<view class="item-box betweenBox">
 				<view class="left flex-box">
-					<image src="/static/img/self/my-icon-kefu@2x.png" ></image>客服咨询
-				</view>
-				<view class="right">
-					<uni-icon style="position: relative;top: 0upx;" type="arrowright" size="20"></uni-icon>
-				</view>
-			</view>
-			<view class="item-box betweenBox">
-				<view class="left flex-box">
-					<image src="/static/img/self/my-icon-zhanghao@2x.png" ></image>账号设置
+					<image src="/static/img/self/my-icon-zhanghao@2x.png" ></image>{{i18n.account_settings}}
 				</view>
 				<view class="right">
 					<uni-icon style="position: relative;top: 0upx;" type="arrowright" size="20"></uni-icon>
@@ -130,7 +130,7 @@
 			</view>
 			<view class="item-box betweenBox logout-btn" @click="logout" v-if="memberInfo.id">
 				<view class="left flex-box">
-					<image src="/static/img/self/my-icon-tuichu@2x.png" ></image>退出登录
+					<image src="/static/img/self/my-icon-tuichu@2x.png" ></image>{{i18n.log_out}}
 				</view>
 				<view class="right">
 					<uni-icon style="position: relative;top: 0upx;" type="arrowright" size="20"></uni-icon>
@@ -153,6 +153,22 @@
 				</view>
 			</view>
 		</view>
+		
+		<view class="uni-modal" v-if="showModal" @touchmove.stop.prevent="doNothing">
+			<view class="uni-mask" @click="customerService"></view>
+			<view class="modal-box flex-box">
+				<view class="modal-shadow">
+					<view class="uni-modal-wechart">
+						<image :src="preImage" mode=""></image>
+						<!-- <image src="/static/img/self/Shopping-button-press.png" mode=""></image> -->
+					</view>
+					<view class="uni-modal-ar fs28 fw500 mgt20">
+						<view class="">{{i18n.longCode}}</view>
+						<view class="">{{i18n.tambahWeChat}}</view>
+					</view>
+				</view>
+			</view>
+		</view>
 
 	</view>
 </template>
@@ -168,6 +184,8 @@ export default {
 			languages: [{active:false,value:'中文 (Chiness)'},{active:true,value:'英文 (English)'},{active:false,value:'马来西亚语 (Malay)'}],
 			spread_url:'http://oneonhy.com',
 			coypyH5:false,
+			showModal:false,
+			preImage:'',
 			
 			member: null,
 		};
@@ -180,6 +198,8 @@ export default {
 		}  
 	}),
 	onPullDownRefresh() {
+		this.getCode();
+		
 		if (this.memberInfo.id) {
 			this.$store.dispatch('getMemberInfo')
 			setTimeout( ()=>{
@@ -191,6 +211,8 @@ export default {
 		// #ifdef H5
 		this.coypyH5 = true;
 		// #endif
+		// 获取客服二维码
+		this.getCode();
 	},
 	onShow() {
 		if (this.memberInfo.id) {
@@ -219,12 +241,7 @@ export default {
 				setTimeout(() => {  
 					this.$i18n.locale = 'zh-CN'  
 					// tabbar多语言
-					let tabBarLang = [
-					    '首页',
-					    '分类',
-						'购物车',
-					    '我的'
-					];
+					let tabBarLang = this.i18n.tabBarLang;
 					tabBarLang.forEach((element, index) => {
 						uni.setTabBarItem({
 							'index': index,
@@ -241,12 +258,7 @@ export default {
 				setTimeout(() => {
 					this.$i18n.locale = 'en-US'
 					// tabbar多语言
-					let tabBarLang = [
-					    'Home',
-					    'Product',
-						'Cart',
-					    'My'
-					];
+					let tabBarLang = this.i18n.tabBarLang;
 					tabBarLang.forEach((element, index) => {
 						uni.setTabBarItem({
 							'index': index,
@@ -262,12 +274,7 @@ export default {
 				setTimeout(() => {
 					this.$i18n.locale = 'en-ML'
 					// tabbar多语言
-					let tabBarLang = [
-					    'Rumah',
-					    'Pengelasan',
-						'Troli',
-					    'Mine'
-					];
+					let tabBarLang = this.i18n.tabBarLang;
 					tabBarLang.forEach((element, index) => {
 						uni.setTabBarItem({
 							'index': index,
@@ -283,12 +290,7 @@ export default {
 				setTimeout(() => {
 					this.$i18n.locale = 'en-US'
 					// tabbar多语言
-					let tabBarLang = [
-					    'Home',
-					    'Product',
-						'Cart',
-					    'My'
-					];
+					let tabBarLang = this.i18n.tabBarLang;
 					tabBarLang.forEach((element, index) => {
 						uni.setTabBarItem({
 							'index': index,
@@ -363,12 +365,31 @@ export default {
 				url:"/pages/member/account-details/account-details"
 			})
 		},
+		doNothing(){
+			return;
+		},
+		customerService(){
+			this.showModal = !this.showModal
+		},
+		getCode() {
+			let data = {
+				memberId:this.memberInfo.id,
+			};
+			this.apiUrl
+				.getShareGraph({
+					data
+				})
+				.then(res => {
+					uni.hideLoading();
+					if (res.data.status == 1) {
+						this.preImage = res.data.data.sharePic;
+					}
+				});
+		},
 		
-		// goShareCode(){
-		// 	uni.navigateTo({
-		// 		url:'shareCode/shareCode'
-		// 	})
-		// },
+		
+		
+
 		isFromLogin() {
 			uni.getStorage({
 				key: 'pagefrom',
@@ -544,6 +565,9 @@ export default {
 					height: 32upx;
 					margin-bottom: 18upx;
 				}
+				.english{
+					width: 460upx;
+				}
 				.white{
 					color: #FFDEDE;
 				}
@@ -617,129 +641,38 @@ export default {
 		}
 	}
 	
-.logout-btn {
-	margin-bottom: 75upx;
-}
-
-.mg-part {
-	display: flex;
-	justify-content: space-around;
-	padding: 30upx 0;
-
-	> view {
-		width: 140upx;
-		text-align: center;
-
-		.mg-circle {
-			width: 100upx;
-			height: 100upx;
-			display: inline-block;
-			background-image: linear-gradient(180deg, #53b1fa 0%, #388ceb 100%);
-			font-size: 50upx;
-			text-align: center;
-			line-height: 100upx;
-			border-radius: 50%;
-			margin-bottom: 20upx;
-		}
-
-		.mg-circle-car {
-			background-image: linear-gradient(180deg, #ffb75a 0%, #e78e00 100%);
-			display: flex;
-
-			image {
-				width: 60upx;
+	.logout-btn {
+		margin-bottom: 75upx;
+	}
+	
+	// 客服咨询
+	.modal-box{
+		width:311upx;
+		height:398upx;
+		background:rgba(232,111,118,0.3);
+		border-radius:30upx;
+		.modal-shadow{
+			width:251upx;
+			height:346upx;
+			box-sizing: border-box;
+			background:rgba(255,255,255,1);
+			box-shadow:0upx 0upx 27upx 0upx rgba(252,106,114,0.7);
+			border-radius:30upx;
+			.uni-modal-wechart{
+				width:184upx;
+				height:184upx;
+				padding: 36upx 34upx 0 36upx;
+				image{
+					width:184upx;
+					height:184upx;
+				}
+			}
+			.uni-modal-ar{
+				height:69upx;
+				color:rgba(86,25,29,1);
+				line-height:43upx;
 			}
 		}
-
-		.fens-icon {
-			width: 70upx;
-		}
-
-		.fens-icon2 {
-			width: 90upx;
-			height: auto;
-		}
+		
 	}
-}
-
-.bl-juan {
-	display: flex;
-	padding: 20upx;
-
-	> view {
-		width: 330upx;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-
-		image {
-			width: 40upx;
-			margin-right: 10upx;
-		}
-	}
-}
-
-
-.order-types {
-	display: flex;
-	justify-content: flex-start;
-
-	flex-wrap: wrap;
-	> view {
-		width: 170upx;
-		text-align: center;
-		margin-left: 12upx;
-		margin-block-start: 20upx;
-		image {
-			width: 90upx;
-		}
-	}
-}
-
-.top {
-	background-image: url('~@/static/img/my-bg.png');
-	background-size: 100% auto;
-	background-repeat: no-repeat;
-
-	.messageIcon {
-		width: 40upx;
-		margin: 20upx;
-	}
-
-	.content {
-		width: 650upx;
-		background-color: #ffffff;
-		border-radius: 15px;
-		margin: 60upx auto 20upx auto;
-		position: relative;
-		padding-bottom: 30upx;
-
-		.head {
-			position: absolute;
-			left: 50%;
-			top: 0;
-			transform: translate(-50%, -50%);
-			width: 150upx;
-			height: 150upx;
-			border-radius: 50%;
-			overflow: hidden;
-		}
-
-		.mb-name {
-			padding-top: 90upx;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-
-			.tag {
-				padding: 2upx 10upx;
-				background-image: linear-gradient(90deg, #53b1fa 0%, #388ceb 100%);
-				border-radius: 16px;
-				color: white;
-				margin-left: 10upx;
-			}
-		}
-
-	}
-}
 </style>
