@@ -17,7 +17,7 @@
 		</view>
 		<no-data v-if="showOrder"></no-data>
 		<view class="od-list mgt20 background-white">
-			<view class="title flex-equal fs28 fw500">
+			<view class="title flex-equal fs28 fw500" v-if="!showOrder">
 				<view class="title-item" v-for="(item, index) in titleList" :key="index">
 					<view  class="title-item" >{{item.title}}</view>
 				</view>

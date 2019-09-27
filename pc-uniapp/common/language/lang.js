@@ -32,8 +32,11 @@ export default {
 			account_settings:'Account Settings',
 			log_out:'Log Out',
 			tabBarLang:['Home','Product','Cart','My'],
-			longCode:'Long Bi-Dimensional Code',
-			tambahWeChat:'Adding Customer Service Wechat'
+			// longCode:'Long Bi-Dimensional Code',
+			// tambahWeChat:'Adding Customer Service Wechat',
+			longCode:'Long press',
+			tambahWeChat:'Add WeChat',
+			
 		},
 		tabs:{
 			home:'Home',
@@ -118,8 +121,10 @@ export default {
 			account_settings:'Tetapan Akaun',
 			log_out:'Log Out',
 			tabBarLang:['Rumah','Pengelasan','Troli','Mine'],
-			longCode:'Tekan lama kod QR',
-			tambahWeChat:'Tambah WeChat perkhidmatan pelanggan'
+			// longCode:'Tekan lama kod QR',
+			// tambahWeChat:'Tambah WeChat perkhidmatan pelanggan',
+			longCode:'Tekan lama',
+			tambahWeChat:'Tambah WeChat',
 		},
 		tabs:{
 			home:'Rumah',

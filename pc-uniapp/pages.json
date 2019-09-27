@@ -95,6 +95,24 @@
 				"navigationBarTitleText" : "账户明细"
 			}
 		},
+		{
+		    "path" : "pages/member/share-earn/share-earn",
+		    "style" : {
+				"navigationBarTitleText" : "分享赚钱"
+			}
+		},
+		{
+		    "path" : "pages/member/recharge-detail/recharge-detail",
+		    "style" : {
+				"navigationBarTitleText" : "充值"
+			}
+		},
+		{
+		    "path" : "pages/member/historic-account/historic-account",
+		    "style" : {
+				"navigationBarTitleText" : "历史开户人"
+			}
+		},
 		
 		
 		
@@ -413,7 +431,7 @@
 				"navigationBarTitleText" : "注册成功"
 		
 			}
-		}
+		} 
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",

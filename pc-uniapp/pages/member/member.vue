@@ -72,7 +72,7 @@
 					{{i18n.save}}
 			</view>
 			<view class="bdb30"></view>
-			<view class="item-box betweenBox">
+			<view class="item-box betweenBox" @click="toshareEarn">
 				<view class="left flex-box">
 					<image mode="widthFix" src="/static/img/self/my-icon-fenxiang@2x.png" ></image>{{i18n.share_earn}}
 				</view>
@@ -160,7 +160,7 @@
 				<view class="modal-shadow">
 					<view class="uni-modal-wechart">
 						<image :src="preImage" mode=""></image>
-						<!-- <image src="/static/img/self/Shopping-button-press.png" mode=""></image> -->
+						<!-- <image src="/static/img/self/shopping-button-press.png" mode=""></image> -->
 					</view>
 					<view class="uni-modal-ar fs28 fw500 mgt20">
 						<view class="">{{i18n.longCode}}</view>
@@ -385,6 +385,11 @@ export default {
 						this.preImage = res.data.data.sharePic;
 					}
 				});
+		},
+		toshareEarn(){
+			uni.navigateTo({
+				url:"/pages/member/share-earn/share-earn"
+			})
 		},
 		
 		

@@ -5,7 +5,7 @@
 			<view class="left flex-box">
 				<view class="def-circle flex-box" :class="{active:item.select}" @tap="selectGoods(index)">
 				<view class="flex-box" v-if="item.select">
-					<image class="button-press" src="/static/img/self/Shopping-button-press.png"></image>
+					<image class="button-press" src="/static/img/self/shopping-button-press.png"></image>
 				</view>
 				</view>
 			</view>
@@ -71,7 +71,7 @@
 				<view class="left flex-box">
 					<view class="def-circle flex-box" :class="{active:selectAll}" @tap="buyAll">
 						<view class="flex-box" v-if="selectAll">
-							<image class="button-press" src="/static/img/self/Shopping-button-press.png"></image>
+							<image class="button-press" src="/static/img/self/shopping-button-press.png"></image>
 						</view>
 					</view>
 				</view>
