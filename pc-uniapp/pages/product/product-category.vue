@@ -1,13 +1,5 @@
 <template>
 	<view class="pc-wrap">
-		<view class="">
-			<view class="top flex-box" @click="toSearch" id="top">
-				<view class="search-frame ">
-					<image src="/static/img/public_icon_search@2x.png" mode="widthFix"></image>
-					<text class="gray">搜索喜欢的商品</text>
-				</view>
-			</view>
-		</view>
 		<view class="pro-type relative">
 			<!-- 大类 -->
 			<scroll-view id="haha" class="pro-big-type" :style="{ height: windowHeight + 'px' }" scroll-with-animation="true" scroll-y="true" :scroll-into-view="bigCateId">
@@ -21,7 +13,7 @@
 					:data-bigcode="item.code"
 					@click="bigCateTap"
 				>
-					<view class="flex-box ">
+					<view class="flex-box" :class="showItem == index ? 'orange' : ''">
 					{{ item.itemName }}
 					<view class="line">
 						
@@ -32,12 +24,12 @@
 
 			<!-- 大类下的小类 -->
 			<scroll-view
-				class="smallCate-frame mgt20"
-				:style="{ height: windowHeight - searchFrameHeight + 'px' }"
+				class="smallCate-frame"
+				:style="{ height: windowHeight + 'px' }"
 				scroll-with-animation="true"
 				scroll-y="true"
 				:scroll-into-view="bigCateId"
-			>
+			>	
 				<view v-for="(item, index) in bigCateArr" :key="item.id" v-if="false">
 					<view class="bigCate-name" :id="'bigcate' + index">
 						<image lazy-load :src="item.image"></image>
@@ -47,8 +39,7 @@
 						<block v-for="(cateItem, cateIndex) in item.children" :key="cateItem.id">
 							<view class="pst-item">
 								<image lazy-load v-if="cateItem.image != ''" :src="cateItem.image" />
-								<image lazy-load v-else src="../../img/img-default.png" />
-
+								<image lazy-load v-else src="/static/logo.png" />
 								<view class="title">{{ cateItem.itemName }}</view>
 							</view>
 						</block>
@@ -59,7 +50,7 @@
 						<navigator :url="'product-list?type=2&smallCategory=' + cateItem.code">
 							<view class="pst-item">
 								<image lazy-load v-if="cateItem.image != ''" :src="cateItem.image" />
-								<image lazy-load v-else src="../../img/img-default.png" />
+								<image lazy-load v-else src="/static/img/logo.png" />
 								<view class="title">{{ cateItem.itemName }}</view>
 							</view>
 						</navigator>
@@ -85,7 +76,6 @@ export default {
 			code: '',
 			bigCateId: '',
 			windowHeight: '',
-			searchFrameHeight: '',
 			subIndex: 0
 		};
 	},
@@ -114,7 +104,6 @@ export default {
 			},
 		})
 		that.getBigCateGory();
-		that.getSearchFrameHeight();
 		setTimeout( ()=>{
 			 uni.stopPullDownRefresh();
 		}, 1000);
@@ -128,31 +117,8 @@ export default {
 			}
 		});
 		that.getBigCateGory();
-		that.getSearchFrameHeight();
 	},
 	methods: {
-		//去搜索
-		toSearch(e) {
-			// uni.navigateTo({
-			// 	url: 'product-list?type=2&bigCategory=' + this.bigCateArr[this.showItem].code
-			// });
-			uni.navigateTo({
-				url:'../search/search'
-			})
-		},
-		//   获取搜索框高度
-		getSearchFrameHeight() {
-			//创建节点选择器
-			let that = this;
-			var query = uni.createSelectorQuery();
-			//选择id
-			query.select('#top').boundingClientRect();
-			query.exec(function(res) {
-				if (res && res[0]) {
-					that.searchFrameHeight = res[0].height;
-				}
-			});
-		},
 		// 获取产品大分类
 		getBigCateGory() {
 			let that = this;
@@ -196,10 +162,9 @@ export default {
 	position: absolute;
 	left: 0;
 	top: 50%;
-	width:14upx;
-	height:60upx;
-	background:rgba(252,78,41,1);
-	border-radius:6upx;
+	width:6upx;
+	height:47upx;
+	background:#FE6A72;
 	transform: translateY(-50%);
 	display: none;
 }

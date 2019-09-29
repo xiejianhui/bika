@@ -113,6 +113,12 @@
 				"navigationBarTitleText" : "历史开户人"
 			}
 		},
+		{
+			"path": "pages/search/search",
+			"style": {
+				"navigationBarTitleText": "搜索"
+			}
+		},
 		
 		
 		
@@ -307,13 +313,7 @@
 				"navigationBarTitleText": "商品列表",
 				"enablePullDownRefresh": true
 			}
-		},
-		{
-			"path": "pages/search/search",
-			"style": {
-				"navigationBarTitleText": "搜索"
-			}
-		},
+		},	
 		{
 			"path": "pages/product/product-category",
 			"style": {

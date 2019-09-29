@@ -82,7 +82,7 @@
 						<view class="recharge-num betweenBox">
 							<view class="flex-box">
 								<view class="fs30 color3">充值金额</view>
-								<input type="number" v-model="recharge_amount" placeholder="请输入充值金额"/>
+								<input type="number" v-model="recharge_amount" placeholder="请输入充值金额" placeholder-style='color:#DADADA' />
 							</view>
 							<view class="orange">以整数位单位</view>
 						</view>
@@ -246,6 +246,12 @@ export default {
 		this.getList();
 		this.getFriendsList();
 		this.getWithdrawalsList();
+	},
+	// 分享赚钱
+	onShareAppMessage(res) {
+		return {
+			title: '邀请好友赚钱'
+		};
 	},
 	methods: {
 		getFriendsList() {
@@ -668,9 +674,6 @@ export default {
 		margin-top: 55upx;
 		.color3{
 			margin-right: 28upx;
-		}
-		input{
-			color: #DADADA;
 		}
 	}
 	.fs34{

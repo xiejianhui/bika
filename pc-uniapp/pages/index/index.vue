@@ -1,277 +1,132 @@
 <template>
 	<view class="content ">
-		<view class="background-white betweenBox index_top pd20">
-			<view class="flex-box"><image src="/static/img/WechatIMG103.png" v-if="!hideLogo" class="logo mgr20" mode="widthFix"></image></view>
-			<view class="flex-box relative">
-				<image src="/static/img/public_icon_search@2x.png" class=" mgr20" mode="widthFix" @tap="goSearch"></image>
-				<image src="/static/img/public_icon_message@2x.png" class="" mode="widthFix" @tap="goMessage"></image>
-				<view class="redPoint" v-if="hasUnReadMessage"></view>
+		<view class="relative">
+			<view class="w100">
+				<image src="/static/img/index/img_home_bg@2x.png"  mode="widthFix" class="w100"></image>
+			</view>
+			<view class="search-box absolute flex">
+				<view class="search" @tap="goSearch">
+					<view class="search-icon absolute">
+						<image src="/static/img/index/icon_home_search@2x.png"  mode="widthFix" class="w100"></image>
+					</view>
+					<input type="text" confirm-type="search" placeholder="请输入搜索关键字" placeholder-style="color: #C8C8C8;"/>
+				</view>
+				<view class="share-icon" @tap="goShare">
+					<image src="/static/img/index/ic_hangqing_fenxiang@2x.png"  mode="widthFix" class="w100"></image>
+				</view>
+			</view>
+			<view class="swiper-box absolute">
+				<view class="swiper mg30">
+					<swiper :indicator-dots="true" indicator-color="#fcab98" indicator-active-color="white" :autoplay="true" :interval="3000" :duration="1000">
+						<swiper-item v-for="(item, index) in swiperList" :key="index">
+							<view class="swiper-item"><image :src="item.images" lazy-load="true" mode="widthFix" @tap="goSwiperProduct(item)"></image></view>
+						</swiper-item>
+					</swiper>
+				</view>
 			</view>
 		</view>
-		<view class="swiper mg20">
-			<swiper :indicator-dots="true" indicator-color="#fcab98" indicator-active-color="white" :autoplay="true" :interval="3000" :duration="1000">
-				<swiper-item v-for="(item, index) in swiperList" :key="index">
-					<view class="swiper-item"><image :src="item.images" lazy-load="true" mode="widthFix" @tap="goSwiperProduct(item)"></image></view>
-				</swiper-item>
-			</swiper>
-		</view>
+		
+		<!-- 功能 -->
 		<view class="main ">
-			<view class="short-word background-white">
-				<view class="item flex-box">
-					<image src="/static/img/index_item_tick@2x.png" mode="widthFix"></image>
-					品类齐全
-				</view>
-				<view class="item flex-box">
-					<image src="/static/img/index_item_tick@2x.png" mode="widthFix"></image>
-					急速配送
-				</view>
-				<view class="item flex-box">
-					<image src="/static/img/index_item_tick@2x.png" mode="widthFix"></image>
-					天天低价
-				</view>
-				<view class="item flex-box">
-					<image src="/static/img/index_item_tick@2x.png" mode="widthFix"></image>
-					精致服务
+			<!-- 公告 -->
+			<view class="background-white notice-box" v-if="noteList.length">
+				<view class="w100" @tap="goMessage">
+					<Notice :noteList="noteList"></Notice>
 				</view>
 			</view>
-			<!-- 公告 -->
-			<view class="background-white  mg20 " v-if="noteList.length"><Notice :noteList="noteList"></Notice></view>
 			<view class="zone background-white">
 				<view class="item" @tap="goProductList(0)">
-					<view class="pic"><image src="/static/img/function_icon_retail@2x.png" mode="widthFix"></image></view>
-					<view class="name">零售专区</view>
+					<view class="pic"><image src="/static/img/index/icon_home_czye@2x.png" mode="widthFix"></image></view>
+					<view class="name fs24 color3 flex-box">余额充值</view>
 				</view>
 				<view class="item" @tap="goProductList(1)">
-					<view class="pic"><image src="/static/img/function_icon_wholesale@2x.png" mode="widthFix"></image></view>
-					<view class="name">批发专区</view>
+					<view class="pic"><image src="/static/img/index/icon_home_sd@2x.png" mode="widthFix"></image></view>
+					<view class="name fs24 color3 flex-box">晒单</view>
 				</view>
 				<view class="item" @tap="goProductList(2)">
-					<view class="pic"><image src="/static/img/function_icon_goods@2x.png" mode="widthFix"></image></view>
-					<view class="name">精品专区</view>
+					<view class="pic"><image src="/static/img/index/icon_home_fxzq@2x.png" mode="widthFix"></image></view>
+					<view class="name fs24 color3 flex-box">分享赚钱</view>
 				</view>
-				<view class="item" @tap="goProductList(3)" v-if="newcomerShow == 'false'">
-					<view class="pic"><image src="/static/img/function_icon_member@2x.png" mode="widthFix"></image></view>
-					<view class="name">会员中心</view>
+				<view class="item" @tap="goProductList(3)">
+					<view class="pic"><image src="/static/img/index/icon_home_qd@2x.png" mode="widthFix"></image></view>
+					<view class="name fs24 color3 flex-box">签到</view>
 				</view>
-				<view class="item" @tap="goProductList(3)" v-if="newcomerShow == 'true'">
-					<view class="pic"><image src="/static/img/function_icon_member@2x.png" mode="widthFix"></image></view>
-					<view class="name">新人专区</view>
+				<view class="item" @tap="goProductList(3)">
+					<view class="pic"><image src="/static/img/index/icon_home_xszy@2x.png" mode="widthFix"></image></view>
+					<view class="name fs24 color3 flex-box">新手指引</view>
 				</view>
 			</view>
 
-			<navigator url="../product/product-zone/product-zone?type=0">
-				<view class="cdWrap betweenBox background-white pd20 gapBorder pdt70" v-if="retail && retail.productList && retail.productList.length">
+			<!-- 最新揭晓 -->
+			<navigator url="../product/product-zone/product-zone?type=1">
+				<view class="cdWrap betweenBox background-white bdb" v-if="hotProductList && hotProductList.length">
 					<view class="flex">
-						<view class="cd-left mgr20">零售区</view>
-						<view class="">
-							<view class="cd-middle ">
-								<view class="time">
-									<uni-countdown
-										class="time"
-										font-color="#FFFFFF"
-										border-color="white"
-										bgr-color="rgba(65,65,65,1)"
-										@activeOver="retailOver"
-										:startTime="retail.proxyStartTime"
-										:endTime="retail.saleEndTime"
-										:now="currentTime"
-									></uni-countdown>
-								</view>
-							</view>
+						<view class="cd-left color3 fs30 flex-align">
+							<view class="line"></view>最新揭晓
 						</view>
 					</view>
 					<view class="cd-right">
-						更多
-						<image src="/static/img/pubulic_icon_expand@2x.png" mode="widthFix" class="id-ri"></image>
+						<image lazy-load src="/static/img/index/icon_news_more@2x.png" mode="widthFix" class="id-ri"></image>
 					</view>
 				</view>
 			</navigator>
-			<view class="background-white pdl20 pdr20 pdt20 " v-if="retail">
-				<view class="spc_item" v-for="(item, index) in retail.productList" :key="index" @tap="goProduct(item)">
-					<view class="left relative">
+			<scroll-view scroll-x class="scroll-wrap " v-if="hotProductList">
+				<view class="recomemnt-item recomentHight " v-for="(item, index) in hotProductList" :key="index" @tap="goProduct(item)">
+					<view class="item-img">
 						<image lazy-load :src="item.image" mode="widthFix"></image>
 						<view class="sold-out" v-if="!item.stock"><view class="out-logo">售罄</view></view>
 					</view>
-					<view class="right colTopBottom">
-						<view class="name">{{ item.productname }}</view>
+					<view class="item-info info-coupon">
+						<view class="title-black scroll-title">{{ item.productname }}</view>
+						<view class="orange">
+							<text class="fs22">￥</text>
+							<text class="priceStyle">{{ item.price }}</text>
+						</view>
 						<view class="">
-							<view class="orange" v-if="item.giveFrozenMoney">
-								赠送{{item.giveFrozenMoney}}批发券
-							</view>
-							<view class=" orange mgb20">
-								<text>¥</text>
-								<text class="price">{{ item.price }}</text>
-							</view>
-							
-							<view class="stock" v-if="item.type != 0">库存{{ item.stock }}件</view>
-							<view class="stock" v-else-if="systemInfo.retailInventoryHidden == 'false'">库存{{ item.stock }}件</view>
+							<text class="gray originPrice" v-if="item.initialPrice">￥{{ item.initialPrice }}</text>
+							<text style="opacity: 0;">0</text>
 						</view>
 					</view>
-					<view class="btn white flex-box">去抢购</view>
 				</view>
-			</view>
-			<!-- 批发区 -->
+			</scroll-view>
+			
 			<navigator url="../product/product-zone/product-zone?type=1">
-				<view class="cdWrap betweenBox background-white mgt20 pd20 gapBorder pdt70" v-if="wholesale && wholesale.productList && wholesale.productList.length">
+				<view class="cdWrap betweenBox background-white bdb" v-if="sortProductList && sortProductList.length">
 					<view class="flex">
-						<view class="cd-left  ">批发区</view>
-						<view class="flex">
-							<view class="cd-middle mgr20">
-								<view class="time ">
-									<uni-countdown
-										class="time"
-										font-color="#FFFFFF"
-										border-color="white"
-										bgr-color="rgba(65,65,65,1)"
-										@activeStart="gettingStart"
-										@activeOver="wholesaleOver"
-										:startTime="wholesale.proxyStartTime"
-										:endTime="wholesale.proxyEndTime"
-										:now="currentTime"
-									></uni-countdown>
-								</view>
-							</view>
+						<view class="cd-left color3 fs30 flex-align">
+							<view class="line"></view>精选好货
 						</view>
 					</view>
 					<view class="cd-right">
-						更多
-						<image lazy-load src="/static/img/pubulic_icon_expand@2x.png" mode="widthFix" class="id-ri"></image>
+						<image lazy-load src="/static/img/index/icon_news_more@2x.png" mode="widthFix" class="id-ri"></image>
 					</view>
 				</view>
 			</navigator>
-			<view class="background-white pdl20 pdr20 pdt20" v-if="wholesale">
-				<view class="spc_item" v-for="(item, index) in wholesale.productList" :key="index" @tap="goProduct(item)">
-					<view class="left relative">
+			<view class="pd30 mgt20">
+				<no-data v-if="sortProductList && !sortProductList.length"></no-data>
+				<view class="recomemnt-item sort-type" v-for="(item, index) in sortProductList" :key="index" @tap="goProduct(item)">
+					<view class="item-img">
 						<image lazy-load :src="item.image" mode="widthFix"></image>
-						<view class="sold-out" v-if="(!wholesale && !item.stock) || (wholesale && wholesale.now > wholesale.proxyStartTime && !item.stock)">
-							<view class="out-logo">售罄</view>
-						</view>
-						<view class="sold-out" v-if="wholesale && wholesale.now < wholesale.proxyStartTime">
-							<view class="out-logo unstart white flex-box">
-								<view class="fs26">
-									下期
-									<view class="fs26">爆品</view>
-								</view>
-							</view>
-						</view>
+						<view class="sold-out" v-if="!item.stock"><view class="out-logo">售罄</view></view>
 					</view>
-					<view class="right colTopBottom">
-						<view class="name">{{ item.productname }}</view>
+					<view class="item-info info-coupon">
+						<view class="title-black scroll-title ">{{ item.productname }}</view>
+						<view class="orange">
+							<text class="fs22">￥</text>
+							<text class="priceStyle">{{ item.price }}</text>
+							<text class="fs20 flex-box price-coupon" v-if="sortProductList[index].coupon">优</text>
+						</view>
 						<view class="">
-							<view class=" orange mgb20" v-if="item.productProxyPackageList.length > 1">
-								<text>¥</text>
-								<text class="price">{{ item.productProxyPackageList[0].wholesalePrice }}</text>
-								<view class="inline">
-									<text>~</text>
-									<text class="price">{{ item.productProxyPackageList[item.productProxyPackageList.length - 1].wholesalePrice }}</text>
-								</view>
-							</view>
-							<view class="orange mgb20" v-else>
-								<text>¥</text>
-								<text class="price">{{ item.price }}</text>
-							</view>
-							<view class="stock">库存{{ item.stock }}件</view>
+							<text class="gray originPrice" v-if="item.initialPrice">￥{{ item.initialPrice }}</text>
 						</view>
 					</view>
-					<view class="btn white flex-box">去抢购</view>
 				</view>
 			</view>
-		</view>
-		<!-- 新品上线 -->
-		<view class="background-white  mgt20 gapBorder" v-if="newProductList && newProductList.length">
-			<recommend-title title="新品上线" bgc="#e78e00" path="new"></recommend-title>
-			<swiper class="swiper2" :indicator-dots="true" indicator-color="#fcab98" indicator-active-color="white" :autoplay="true" :interval="3000" :duration="1000">
-				<swiper-item v-for="(item, index) in newProductList" :key="index" v-if="index%3==0">
-					<view class="swiper-item">
-						<view class="new_online">
-							<view class="left" @tap="goProduct(newProductList[index])">
-								<image lazy-load :src="newProductList[index].image" mode="widthFix"></image>
-								<view class="name">
-									<view class="white mgr20">
-										<text class="fs22 mgl20">￥</text>
-										<text class="fs36">{{ newProductList[index].price }}</text>
-									</view>
-									<view class="">
-										<text class="white mgl20 originPrice" v-if="item.initialPrice">￥{{ item.initialPrice }}</text>
-									</view>
-									<view class="white fs22 mgl20 mgb20 mgr20">{{ newProductList[index].productname }}</view>
-								</view>
-							</view>
-							<view class="right colTopBottom">
-								<view class="" @tap="goProduct(newProductList[index + 1])" v-if="newProductList[index + 1]">
-									<image lazy-load :src="newProductList[index + 1].image" mode="widthFix" class="w100"></image>
-								</view>
-								<view class="" @tap="goProduct(newProductList[index + 2])" v-if="newProductList[index + 2]">
-									<image lazy-load :src="newProductList[index + 2].image" mode="widthFix" class="w100"></image>
-								</view>
-							</view>
-						</view>
-					</view>
-				</swiper-item>
-			</swiper>
-		</view>
-		<!-- ad -->
-		<view class="mgl20 mgr20 mgt70 gapBorder" v-if="bottomAdList&&bottomAdList.length">
-			<image lazy-load @tap="goSwiperProduct(bottomAdList[0])"  :src="bottomAdList[0].images" mode="widthFix" class="w100 radius5"></image>
-		</view>
-		<!-- 热门推荐 -->
-		<view class=" background-white  gapBorder" v-if="hotProductList"><recommend-title title="热卖商品" path="isHot"></recommend-title></view>
-		<scroll-view scroll-x class="scroll-wrap " v-if="hotProductList">
-			<view class="recomemnt-item recomentHight " v-for="(item, index) in hotProductList" :key="index" @tap="goProduct(item)">
-				<view class="item-img">
-					<image lazy-load :src="item.image" mode="widthFix"></image>
-					<view class="sold-out" v-if="!item.stock"><view class="out-logo">售罄</view></view>
-				</view>
-				<view class="item-info info-coupon">
-					<view class="title-black scroll-title">{{ item.productname }}</view>
-					<view class="orange">
-						<text class="fs22">￥</text>
-						<text class="priceStyle">{{ item.price }}</text>
-						<text class="fs20 flex-box price-coupon" v-if="newProductList[index].coupon">优</text>
-					</view>
-					<view class="">
-						<text class="gray originPrice" v-if="item.initialPrice">￥{{ item.initialPrice }}</text>
-						<text style="opacity: 0;">0</text>
-					</view>
-				</view>
-			</view>
-		</scroll-view>
-		<scroll-view scroll-x class="scroll-wrap flex mgt70 gapBorder pdt70">
-			<view class="scroll-select " :class="{ active: currentIndex == index }" v-for="(item, index) in bigCateArr" :key="item.createDate" @tap="changeSort(index)">
-				{{ item.itemName }}
-				<view class="line"></view>
-			</view>
-		</scroll-view>
-		<view class="pd30 mgt20">
-			<no-data v-if="sortProductList && !sortProductList.length"></no-data>
-			<view class="recomemnt-item sort-type" v-for="(item, index) in sortProductList" :key="index" @tap="goProduct(item)">
-				<view class="item-img">
-					<image lazy-load :src="item.image" mode="widthFix"></image>
-					<view class="sold-out" v-if="!item.stock"><view class="out-logo">售罄</view></view>
-				</view>
-				<view class="item-info info-coupon">
-					<view class="title-black scroll-title ">{{ item.productname }}</view>
-					<view class="orange">
-						<text class="fs22">￥</text>
-						<text class="priceStyle">{{ item.price }}</text>
-						<text class="fs20 flex-box price-coupon" v-if="sortProductList[index].coupon">优</text>
-					</view>
-					<view class="">
-						<text class="gray originPrice" v-if="item.initialPrice">￥{{ item.initialPrice }}</text>
-					</view>
-				</view>
-			</view>
-		</view>
-		<!-- #ifdef H5 -->
-		<a href="http://www.beian.miit.gov.cn" style="text-decoration: none;" v-if="false">
-			<view class="fs20 tac background-white pd20 mgt20 title-black">Copyright©版权所有 ICP证：粤ICP备18116847号-2</view>
-		</a>
-		<!-- #endif -->
-		<view v-if="newcomerShow == 'true'" class="flex-box newcomerShow fs26"  @tap="goProductList(3)">
-			<view class="fs26">
-				新人
-				<view class="fs26">专区</view>
-			</view>
+			<!-- #ifdef H5 -->
+			<a href="http://www.beian.miit.gov.cn" style="text-decoration: none;" v-if="false">
+				<view class="fs20 tac background-white pd20 mgt20 title-black">Copyright©版权所有 ICP证：粤ICP备18116847号-2</view>
+			</a>
+			<!-- #endif -->
 		</view>
 	</view>
 </template>
@@ -306,12 +161,8 @@ export default {
 			title: 'Hello',
 			recommendProduct: null,
 			hotProductList: null,
-			newProductList: null,
 			swiperList: null,
 			noteList: [],
-			retail: null,
-			wholesale: null,
-			bottomAdList: null,
 			middelAdList: null,
 			webUrl: '',
 			showWebView: false,
@@ -323,7 +174,6 @@ export default {
 			now:'',
 			noMoreData:false,
 			current:1,
-			newcomerShow: false,
 		};
 	},
 	components: {
@@ -346,8 +196,6 @@ export default {
 		setTimeout(() => {
 			uni.stopPullDownRefresh();
 		}, 1000);
-		// 新人专区
-		this.getSystemInfo()
 	},
 	onLoad() {
 		this.forwardMiniProgram();
@@ -361,9 +209,7 @@ export default {
 			// TODO
 			this.hideLogo = false;
 		}	
-		
-		// 新人专区
-		this.getSystemInfo()
+		this.getSortList();
 	},
 	onShow() {
 		uni.setNavigationBarTitle({
@@ -398,15 +244,6 @@ export default {
 			this.noMoreData = false;
 			this.getSortList();
 		},
-		getSystemInfo() {
-			this.apiUrl.getsystemInfo().then(res => {
-				if (res.data.status == 1) {
-					if(this.systemInfo.newcomerShow != undefined && this.systemInfo.newcomerShow != null && this.systemInfo.newcomerShow != ''){
-						this.newcomerShow = res.data.data.newcomerShow;
-					}
-				}
-			})
-		},
 		changeSort(index) {
 			this.currentIndex = index;
 			this.sortProductList = [];
@@ -439,19 +276,6 @@ export default {
 					}
 				});
 		},
-		retailOver() {
-			// setTimeout(() => {
-			// 	this.getProduct();
-			// }, 1000);
-			this.getProduct();
-		},
-		wholesaleOver() {
-			console.log('over');
-			// setTimeout(() => {
-			// 	this.getProduct();
-			// }, 1500);
-			this.getProduct();
-		},
 		gettingStart() {
 			// setTimeout(() => {
 			// 	this.getProduct();
@@ -476,34 +300,51 @@ export default {
 				});
 			}
 		},
+		goShare(options){
+			const vm = this
+			// const goodsImage = options.target.dataset.image;
+			// const shareId = options.target.dataset.id;
+			// vm.apiUrl.orderShare({data: {goodsConsignmentId: shareId}})
+			
+			return {
+				title: '分享',
+				// imageUrl: goodsImage,
+				path: '/pages/index/index',
+				// success() {
+				// 	vm.apiUrl.orderShare({goodsConsignmentId: shareId})
+				// }
+			};
+		},
 		goSearch() {
 			uni.navigateTo({
 				url: '../search/search'
 			});
 		},
 		goProductList(type) {
-			if (type == 3) {
-				if(this.newcomerShow == 'true'){
-					uni.navigateTo({
-						url: '/pages/packages/newborn-zone/newborn-zone'
-					});
-				}else{
-					uni.switchTab({
-						url: '../member/member'
-					});
-				}
-				
-				return;
-			}
-			if (type != 2) {
+			if(type == 0){
 				uni.navigateTo({
-					url: '../product/product-zone/product-zone?type=' + type
+					url: '/pages/member/recharge-detail/recharge-detail?type=' + type
 				});
-				return;
+			}else if(type == 1){
+				uni.navigateTo({
+					url: '/pages/member/sign-in/sign-in?type=' + type
+				});
+			}else if(type == 2){
+				uni.navigateTo({
+					url: '/pages/member/share-earn/share-earn?type=' + type
+				});
+				
+			}else if(type == 3){
+				uni.navigateTo({
+					url: '/pages/member/sign-in/sign-in?type=' + type
+				});
+				
+			}else if(type == 4){
+				uni.navigateTo({
+					url: '/pages/member/sign-in/sign-in?type=' + type
+				});
+				
 			}
-			uni.navigateTo({
-				url: '../product/product-list?type=' + type
-			});
 		},
 		goProduct(item) {
 			if(item.type == 1){
@@ -549,40 +390,12 @@ export default {
 					
 					this.currentTime = res.data.now;
 					this.recommendProduct = this.setImgSize(res.data.data.recommendProduct, '300x240','remomondImageUrl');
-					let newProductListArr = res.data.data.newProductList;
-					newProductListArr.forEach(item => {
-						item.remomondImageUrl ? delete item.remomondImageUrl : '';
-					});
+					res.data.data.adList?this.swiperList = res.data.data.adList:'';
 					this.newProductList = this.setImgSize(newProductListArr, '550x400');
 					res.data.data.hotProductList&&res.data.data.hotProductList.length?this.hotProductList = this.setImgSize(res.data.data.hotProductList, '500x500','image'):'';
-					res.data.data.adList?this.swiperList = res.data.data.adList:'';
 					res.data.data.noticeList?this.noteList = res.data.data.noticeList:'';
-					if(res.data.data.retail){
-						this.retail = res.data.data.retail;
-						this.retail ? (this.retail.productList = this.setImgSize(this.retail.productList, '170x170','image')) : '';
-					}else{
-						this.retail = null;
-					}
-					if (res.data.data.wholesale) {
-						this.wholesale = null;
-						if(res.data.now == undefined){
-							var nowTime = new Date().getTime();//开始时间
-							var diffTime = parseInt(nowTime/1000,10);//得到两个时间差的秒数
-							res.data.data.wholesale.now = diffTime;
-						}else{
-							res.data.data.wholesale.now = res.data.now;
-						}
-						// res.data.data.wholesale.now = res.data.now;
-						//批发是否开始
-						this.wholesale = res.data.data.wholesale;
-						this.wholesale.productList = this.setImgSize(this.wholesale.productList, '170x170','image');
-					}else{
-						this.wholesale = null;
-					}
 					this.middelAdList = res.data.data.middelAdList;
 					this.middelAdList = this.setImgSize(this.middelAdList, '750x200','images');
-					this.bottomAdList = res.data.data.bottomAdList;
-					this.bottomAdList = this.setImgSize(res.data.data.bottomAdList, '750x200','images');
 				});
 		},
 		getSort() {
@@ -625,22 +438,109 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.newcomerShow{
-	position: fixed;
-	bottom: 30upx;
-	/* #ifdef H5 */
-	bottom: var(--window-bottom);
-	margin-bottom: 30upx;
-	/* #endif */
-	right: 30upx;
-	width: 120upx;
-	height: 120upx;
-	background: rgba(0,0,0,0.5);
-	border-radius: 60upx;
-	letter-spacing: 5upx;
-	overflow: hidden;
-	color: #FFFFFF;
+.search-box {
+	top: 0;
+	left: 0;
+	height: 64upx;
+	margin: 28upx 0 31upx 0;
+	padding: 0 30upx;
+	.search {
+		display: inline-block;
+		width: 620upx;
+		height: 64upx;
+		border-radius: 32upx;
+		overflow: hidden;
+		background: #FFFFFF;
+		.search-icon{
+			top: 10upx;
+			left: 49upx;
+			height: 44upx;
+			width: 44upx;
+			image{
+				height: 44upx;
+				width: 44upx;
+			}
+		}
+		input {
+			margin-left: 63upx;
+			padding-left: 15upx;
+			background: #FFFFFF;
+			height: 64upx;
+			line-height: 64upx;
+			border-radius: 32upx;
+			font-size: 28upx;
+		}
+	}
+	.share-icon{
+		width: 48upx;
+		height: 48upx;
+		margin : 6upx 0 0 22upx;
+		image{
+			width: 48upx;
+			height: 48upx;
+		}
+	}
+	
 }
+.swiper-box{
+	top: 93upx;
+	left: 0;
+	width: 100%;
+	height: auto;
+	border-radius: 20upx;
+	overflow: hidden;
+	.swiper-item{
+		border-radius: 20upx;
+		overflow: hidden;
+	}
+	swiper-item{
+		border-radius: 20upx;
+		overflow: hidden;
+	}
+	image {
+		width: 100%;
+		height: auto;
+	}
+}
+
+.main{
+	margin-top: 61upx;
+}
+.notice-box{
+	margin: 0upx 30upx 31upx 30upx;
+}
+
+.zone {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 20upx auto 0 auto;
+	border-bottom: 10upx solid #F6F6F6;
+	padding-bottom: 50upx;
+	.item {
+		flex: 1;
+		justify-content: center;
+		align-items: center;
+		text-align: center;
+		.name {
+			height: 33upx;
+			margin-top: 20upx;
+		}
+		image {
+			width: 96upx;
+			height: 96upx !important;
+			height: auto;
+		}
+	}
+}
+
+.box-contant{
+	width: 100%;
+	height: auto;
+	padding: 0 30upx 0 30upx;
+	box-sizing: border-box;
+}
+
 .info-coupon{
 	.orange{
 		display:flex;
@@ -848,13 +748,18 @@ uni-image {
 }
 .cdWrap {
 	display: flex;
-	margin-top: 50upx;
+	height: 44upx;
+	padding: 30upx 30upx 23upx 30upx;
 	.cd-left {
-		font-size: 40upx;
-		width: 140upx;
-		font-size: 42upx;
+		height: 42upx;
 		font-weight: bold;
-		color: rgba(51, 51, 51, 1);
+		font-family:PingFangSC;
+		.line{
+			box-sizing: border-box;
+			height: 29upx;
+			border-left: 4upx solid #FE6A72;
+			padding-right: 20upx;
+		}
 	}
 	.cd-middle {
 		flex: 2;
@@ -868,69 +773,32 @@ uni-image {
 	.cd-right {
 		display: flex;
 		align-items: center;
-		color: rgba(153, 153, 153, 1);
-		font-size: 26upx;
-
+		width: 44upx;
+		height: 44upx;
 		image {
-			width: 12upx;
-			margin-left: 10upx;
+			width: 44upx;
+			height: 44upx;
 		}
 	}
 }
 
-.zone {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	margin: 60upx auto 60upx auto;
-	.item {
-		flex: 1;
-		justify-content: center;
-		align-items: center;
-		text-align: center;
-		.name {
-			color: rgba(51, 51, 51, 1);
-			font-size: 28upx;
-			font-weight: bold;
-		}
-		image {
-			width: 126upx;
-			height: auto;
-		}
-	}
-}
+// .swiper {
+// 	border-radius: 20upx;
+// 	overflow: hidden;
+// 	.swiper-item{
+// 		border-radius: 20upx;
+// 		overflow: hidden;
+// 	}
+// 	swiper-item{
+// 		border-radius: 20upx;
+// 		overflow: hidden;
+// 	}
+// 	image {
+// 		width: 100%;
+// 		height: auto;
+// 	}
+// }
 
-.swiper {
-	border-radius: 20upx;
-	overflow: hidden;
-	.swiper-item{
-		border-radius: 20upx;
-		overflow: hidden;
-	}
-	swiper-item{
-		border-radius: 20upx;
-		overflow: hidden;
-	}
-	image {
-		width: 100%;
-		height: auto;
-	}
-}
-
-.short-word {
-	display: flex;
-	justify-content: space-around;
-	margin: 35upx auto;
-	.item {
-		font-size: 24upx;
-		color: rgba(101, 101, 101, 1);
-		image {
-			width: 30upx;
-			height: auto;
-			margin-right: 10upx;
-		}
-	}
-}
 .redPoint {
 	position: absolute;
 	left: 145upx;
@@ -940,19 +808,6 @@ uni-image {
 	background: #f62626;
 	border-radius: 50%;
 	z-index: 10;
-}
-
-.index_top {
-	margin-bottom: 30upx;
-	image {
-		width: 60upx;
-	}
-	.logo {
-		width: 276upx;
-	}
-	.wd_border {
-		border: 2upx dashed rgba(51, 51, 51, 1);
-	}
 }
 
 .new_online {

@@ -324,6 +324,7 @@ export default {
 					return;
 				}
 			}else{
+				console.log(111)
 				uni.setClipboardData({
 				    data: this.spread_url,
 				    success: function () {
@@ -352,7 +353,7 @@ export default {
 		},
 		toRecharge(){
 			uni.navigateTo({
-				url:"/pages/member/sign-in/sign-in"
+				url:"/pages/member/recharge-detail/recharge-detail"
 			})
 		},
 		toCollect(){

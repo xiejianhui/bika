@@ -5,6 +5,20 @@ export default {
 		}
 	},
 	methods: {
+		// 获取某个元素第一次出现在数组（json数组）的索引
+		firstIndex(arr, text) {
+		  // 若元素不存在在数组中返回-1
+		  let firstVal = -1;
+		  for (let i = 0; i < arr.length; i++) {
+			// json (arr[i].id == text)
+			if (arr[i] === text) {
+			  firstVal = i;
+			  return firstVal;
+			  break;
+			}
+		  }
+		  return firstVal;
+		},
 		add0(m) {
 			return m < 10 ? '0' + m : m
 		},

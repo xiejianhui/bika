@@ -1,51 +1,51 @@
 <template>
-	<view class="pageBg receipt">
+	<view class="pageBgW receipt">
+		<view>
+			<image src="/static/img/self/recharge-banner-bg@2x.png"  mode="widthFix" class="w100"></image>
+		</view>
 		<form @submit="submitReceipt">
-			<view class="receipt-box">
-				<view class="background-white title-black">选择发票类型</view>
+			<view class="title-black fw500 fs26 absolute">{{i18n.refillBalance + ':'}}<text class="account">600</text><text class="fs40">{{i18n.rMB}}</text></view>
+			<view class="receipt-box absolute">
 				<view class="background-white">
-					<view class="rp-btn gray" :class="{ active: item.active }" v-for="(item, index) in typeList" :key="index" @tap="changeType(index)">{{ item.name }}</view>
-				</view>
-				<!-- 发票 -->
-				<view class="" v-if="types == 1">
-					<view class="background-white title-black title-blacks">发票抬头</view>
-					<view class="background-white">
-						<view class="background-white">
-							<view class="rp-btn-fp gray" :class="{ active: item.active }" v-for="(item, index) in items" :key="index" @tap="changeSubject(index)">{{ item.name }}</view>
-						</view>
-						
-						<!-- <radio-group @change="radioChange" class="radio-group">
-							<label class="flex-box mgl20" v-for="(item, index) in items" :key="item.value" >
-								<view><radio color="#FC4E29" :value="item.value" :checked="index === current" /></view>
-								<view class="mgl20 fs30">{{ item.name }}</view>
-							</label>
-						</radio-group> -->
-					</view>
-					<view class="" v-if="current==1">
-						<view class="background-white fpd rp-list mgt20">
-							<view class="left fs30">发票抬头</view>
-							<input type="text" class="fs30" placeholder="请输入发票抬头" v-model="invoiceTitle" />
-						</view>
-						<view class="background-white fpd rp-list">
-							<view class="left fs30">统一社会信用编码</view>
-							<input type="text" class="fs30" placeholder="请输入统一社会信用编码" v-model="taxpayerCode" />
+					<view :class="item.active == true ? 'rp-btn-fp flex-box active box-b' : 'rp-btn-fp flex-box box-b'" 
+						v-for="(item, index) in rechargeList"
+						:data-index="index" 
+						:data-money="item.costMoney" 
+						:key="index" 
+						@tap="change">
+						<view class="fs36 fw500">
+							<text class="fs40">{{ item.costMoney}}</text>
+							{{i18n.rMB}}
 						</view>
 					</view>
-					
-				</view>
-				<!-- 增值税 -->
-				<view class="mgt20" v-if="types == 2">
-					<view class="background-white title-black title-blacks">发票抬头</view>
-					<view class="background-white fpd rp-list " v-for="(item, index) in zzsList" :key="index">
-						<view class="left fs30 nameFa">{{ item.name }}</view>
-						<input type="text" class="fs30" v-model="item.value" :placeholder="item.placeholder" value="" />
+					<view class="rp-btn-fp flex-box box-b fs30">
+						<view class="fs36 fw500 orange flex-box box-b">
+							<input type="text" class="orange" placeholder-style='color:#FE6A72;font-size:30upx'
+							:placeholder="i18n.customAmount" 
+							v-model="customAmount"/>
+						</view>
 					</view>
 				</view>
 			</view>
-			
-			<button formType="submit" v-if="types == 2" :class="btnShow ? 'rp-confirm flex-box white fs30 active': 'rp-confirm flex-box white fs30 btnShow'" :disabled="disabled">确定</button>
-			<button formType="submit" v-else-if="types == 1 && current==1" :class="invoiceTitle && taxpayerCode ? 'rp-confirm flex-box white fs30 active': 'rp-confirm flex-box white fs30 btnShow'" :disabled="invoiceTitle == '' && taxpayerCode == ''">确定</button>
-			<button formType="submit" v-else class="rp-confirm flex-box white fs30 active">确定</button>
+			<view class="receipt-platform fs34 color6">
+				<view class="chose-platform fs40 fw600 color3 flex-align">
+					{{i18n.selectionPlatform}}
+				</view>
+				<radio-group>
+					<label class="flex-align radio-group" v-for="(item, index) in platformList" :key="index" @tap="selectGoods(index)">
+						<view>
+							<view class="def-circle flex-box" :class="{active:item.active}">
+								<view class="flex-box" v-if="item.active">
+									<image class="button-press" src="/static/img/self/shopping-button-press.png"></image>
+								</view>
+							</view>
+						</view>
+						
+						<view class="mgl20 fs30">{{ item.value }}</view>
+					</label>
+				</radio-group>
+			</view>
+			<button form-type="submit" :class="btnShow ? 'submit-btn btnShow': 'submit-btn'" :disabled="disabled">{{i18n.confirmRecharge}}</button>
 			<!-- button按钮改变隐藏域 -->
 			<view style="display:none" >{{ exitsVal }}</view>
 		</form>
@@ -56,104 +56,61 @@
 export default {
 	data() {
 		return {
-			current: 0,
-			types: 0,
-			invoiceTitle: '',
-			taxpayerCode: '',
-			zzsList: [
-				{
-					name: '单位名称',
-					placeholder: '请输入单位名称',
-					value: ''
-				},
-				{
-					name: '纳税人识别号',
-					placeholder: '请输入纳税人识别号',
-					value: ''
-				},
-				{
-					name: '单位地址',
-					placeholder: '请输入单位地址',
-					value: ''
-				},
-				{
-					name: '单位电话',
-					placeholder: '请输入单位电话',
-					value: ''
-				},
-				{
-					name: '开户银行',
-					placeholder: '请输入开户银行',
-					value: ''
-				},
-				{
-					name: '银行账户',
-					placeholder: '请输入银行账户',
-					value: ''
-				}
+			customAmount:'',
+			addflag:false,
+			rechargeMoney:'',
+			chose:false,
+			platform:'',
+			rechargeList: [
+				{'costMoney':'30',"active":false},{'costMoney':'50',"active":false},{'costMoney':'100',"active":false},{'costMoney':'150',"active":false},
+				{'costMoney':'200',"active":false},{'costMoney':'250',"active":false},{'costMoney':'300',"active":false},{'costMoney':'500',"active":false},
 			],
-			items: [
+			platformList: [
 				{
-					value: 'USA',
-					name: '个人',
-					active: 'true'
+					value: 'Public bank',
+					active: true
 				},
 				{
-					value: 'CHN',
-					name: '公司',
-				}
-			],
-			typeList: [
+					value: ' CIMB bank',
+					active: false
+				},
 				{
-					active: true,
-					name: '不开发票'
+					value: ' HLB bank',
+					active: false
+				},
+				{
+					value: 'MBB bank',
+					active: false
 				}
 			],
 			disabled:true,
 			btnShow:false,
-			ifExist:0
+			ifExist:0,
 		};
 	},
 	onShow() {
-		this.typeList = [
-			{
-				active: true,
-				name: '不开发票'
-			}
-		];
-		uni.getStorage({
-			key: 'recieptType',
-			success: res => {
-				res.data.forEach(item => {
-					item == 2
-						? this.typeList.push({
-								active: false,
-								name: '纸质发票'
-						  })
-						: '';
-					item == 3
-						? this.typeList.push({
-								active: false,
-								name: '增值税发票'
-						  })
-						: '';
-				});
-			}
+		uni.setNavigationBarTitle({
+			title:this.$t('recharge_detail.recharge')
 		});
-
 	},
 	onLoad() {
-		this.initValue();
+		// this.preExisting();
 	},
 	computed:{
 		exitsVal:function(){
-			this.ifExist=Number(Boolean(this.zzsList[0].value))+Number(Boolean(this.zzsList[1].value))+Number(Boolean(this.zzsList[2].value))+Number(Boolean(this.zzsList[3].value))+Number(Boolean(this.zzsList[4].value))+Number(Boolean(this.zzsList[5].value))
-		}	
+			// this.ifExist=Number(Boolean(this.rechargeMoney))+Number(Boolean(this.platform))
+			this.ifExist=Number(Boolean(this.rechargeMoney))
+		},
+		// 多语言
+		i18n () {
+			return this.$t('recharge_detail')  
+		}  
 	},
 	watch:{
 		// 监听data中 ifExist的值
 		ifExist(newVal,oldVal){
-			if(Number(newVal) === 6){
+			console.log(Number(newVal))
+			if(Number(newVal) === 1){
 				this.disabled = false;
 				this.btnShow = true;
 			 // 四个input框内都有值时需要做的操作
@@ -162,205 +119,205 @@ export default {
 				this.btnShow = false;
 			 // 至少一个没有值
 			}
+		},
+		customAmount:function(newV,oldV){
+			// console.log(newV,oldV);
+			if(newV != undefined){
+				let that = this;
+				let arr = this.rechargeList;
+				if(this.chose == true){
+					this.chose = false;
+					return;
+				}
+				arr.forEach(item => (item.active = false));
+				// 判断自定义还是选择支付
+				this.rechargeMoney=newV;
+			}
 		}
 	},
 	methods: {
-		initValue(){
-			let receiptObj = uni.getStorageSync('receiptInfo')
-			receiptObj.invoiceTitle?this.invoiceTitle = receiptObj.invoiceTitle:'';
-			receiptObj.uniformSocialCreditCode?this.taxpayerCode = receiptObj.uniformSocialCreditCode:'';
-			receiptObj.unitName?this.zzsList[0].value = receiptObj.unitName:'';
-			receiptObj.taxpayerCode?this.zzsList[1].value = receiptObj.taxpayerCode:'';
-			receiptObj.unitAddress?this.zzsList[2].value = receiptObj.unitAddress:'';
-			receiptObj.unitPhone?this.zzsList[3].value = receiptObj.unitPhone:'';
-			receiptObj.bankName?this.zzsList[4].value = receiptObj.bankName:'';
-			receiptObj.bankAccount?this.zzsList[5].value = receiptObj.bankAccount:'';
-			console.log(receiptObj);
+		//选择商品
+		selectGoods(index) {
+			let arr = this.platformList;
+			arr.forEach(item => (item.active = false))
+			arr[index].active = !arr[index].active;
+			this.platformList = arr;
+			this.platform = arr[index].value;
 		},
-		// radioChange: function(evt) {
-		// 	for (let i = 0; i < this.items.length; i++) {
-		// 		if (this.items[i].value === evt.target.value) {
-		// 			this.current = i;
-		// 			console.log(this.current);
-		// 			break;
-		// 		}
-		// 	}
-		// },
-		changeSubject(index) {
-			let arr = this.items;
-			arr.forEach(item => (item.active = false));
-			arr[index].active = true;
-			this.items = arr;
-			this.current = index;
+		
+		change(e) {
+			let arr = this.rechargeList;
+			this.customAmount = '';
+			this.chose = true;
+			arr.forEach(item => (item.active = false))
+			arr[e.currentTarget.dataset.index].active = true;
+			this.rechargeList = arr;
+			this.rechargeMoney = e.currentTarget.dataset.money;
 		},
-		changeType(index) {
-			let arr = this.typeList;
-			arr.forEach(item => (item.active = false));
-			arr[index].active = true;
-			this.typeList = arr;
-			this.types = index;
+		preExisting(){
+			this.apiUrl
+				.submitRegister({
+					data: this.memberInfo.id
+				})
+				.then(
+					res => {
+						if (res.data.status == 1) {
+							this.rechargeList = res.data.data.rechargeList;
+							this.platformList = res.data.data.platformList;
+							return
+						} else {
+							uni.showToast({
+								duration: 1500,
+								icon: 'none',
+								title: res.data.message
+							});
+						}
+					},
+					err => {}
+				);
 		},
 		submitReceipt() {
-			let data = null;
-			if (this.types === 0) {
-				//不开发票
-				uni.navigateBack();
-				return;
-			} else if (this.types === 1) {
-				// 个人发票
-				if(this.current == 0){
-					//不开发票
-					uni.navigateBack();
-					return;
-				}
-				//page 发票
-				data = {
-					invoiceStatus: 1,
-					invoiceType: this.current==1?2:1,
-					invoiceTitle: this.invoiceTitle,
-					uniformSocialCreditCode: this.taxpayerCode
-				};
-				if(!this.invoiceTitle){
-					uni.showToast({
-						title:'请输入发票抬头',
-						icon:'none',
-						duration:1500
-					})
-					return
-				}
-				if(!this.taxpayerCode){
-					uni.showToast({
-						title:'请输入信用编码',
-						icon:'none',
-						duration:1500
-					})
-					return
-				}
-			} else {
-				data = {
-					invoiceStatus: 2,
-					unitName: this.zzsList[0].value,
-					taxpayerCode: this.zzsList[1].value,
-					unitAddress: this.zzsList[2].value,
-					unitPhone: this.zzsList[3].value,
-					bankName: this.zzsList[4].value,
-					bankAccount: this.zzsList[5].value
-				};
-			}
-			// save receipt infomation in storage
-			uni.setStorage({
-				key: 'receiptInfo',
-				data,
-				success: res => {
-					uni.navigateBack();
-				}
-			});
-		}
+			if (this.addflag) return;
+			this.addflag = true;
+			let parm = {
+				rechargeMoney:this.rechargeMoney,
+				platform:this.platform,
+			};
+			uni.showLoading({
+				title:'请稍候',
+				mask:true
+			})
+			this.apiUrl
+				.submitRegister({
+					data: parm
+				})
+				.then(
+					res => {
+						uni.hideLoading();
+						this.addflag = false;
+						if (res.data.status == 1) {
+							uni.showToast({
+								duration: 1500,
+								icon: 'none',
+								title: '调起支付成功'
+							});
+							return
+						} else {
+							uni.showToast({
+								duration: 1500,
+								icon: 'none',
+								title: res.data.message
+							});
+						}
+					},
+					err => {}
+				);
+		}	
 	}
 };
 </script>
 
 <style lang="less">
-.pageBg{
-	background: #FFFFFF;
-	.btnShow{
-		background: #E5E5E5;
-		color: #FFFFFF;
-	}
-	.btnShow:after{
-		border: none;
-	}
-}
-.receipt-box{
-	padding: 50upx 40upx;
+.receipt{
 	.title-black{
-		font-size:36upx;
-		font-family:PingFangSC-Medium;
-		font-weight:500;
-		color:rgba(51,51,51,1);
-		padding: 0upx 0upx 30upx 0upx;
+		top: 67upx;
+		left: 0;
+		height:50upx;
+		color:rgba(255,197,205,1);
+		line-height:50upx;
+		margin: 0upx 0 0upx 35upx;
+		.account{
+			font-size: 60upx;
+			font-weight: 400;
+			font-family: PingFangSC-Medium;
+			color: #FFFEFE;
+		}
 	}
-	.title-blacks{
-		padding: 60upx 0upx 30upx 0upx;
+	.receipt-box{
+		top: 140upx;
+		left: 0;
+		margin: 0 38upx 0 34upx;
+		padding: 37upx 48upx 20upx 48upx;
+		background:rgba(255,255,255,1);
+		box-shadow:0upx 9upx 21upx 0upx rgba(211,211,211,0.3);
+		border-radius:10upx;
 	}
-}
-.rp-list {
-	display: flex;
-
-	.left {
-		width: 300upx;
-	}
-}
-
-.radio-group {
-	display: flex;
-}
-
-.rp-confirm {
-	width:670upx;
-	height:90upx;
-	background:rgba(229,229,229,1);
-	border-radius:50upx;
-	margin: 40upx auto;
-
-	&.active {
-		background: #FC4E29;
-		color: white;
-	}
+	
 }
 
-.rp-btn {
-	width:203upx;
-	height:100upx;
-	line-height: 100upx;
-	text-align: center;
-	margin-right: 32upx;
-	background:rgba(245,245,245,1);
-	border-radius:4px;
-	display: inline-block;
-	&.active {
-		color: #FC4E29;
-		background:rgba(252,78,41,0.08);
-		border-radius:4px;
-		border:1upx solid rgba(252,78,41,1);
+.receipt-platform{
+	margin-top: 220upx;
+	padding: 0 39upx 0 32upx;
+	.chose-platform{
+		height:80upx;
+		padding-left: 4upx;
+	}
+	.radio-group {
+		height: 44upx;
+		padding: 32upx 0 23upx 0;
+		border-bottom: 1upx solid #E8E8E8;
+		.mgl20{
+			margin-left: 28upx;
+		}
+	}
+	.def-circle {
+		width: 44upx;
+		height: 44upx;
+		box-sizing: border-box;
+	}
+	.button-press{
+		width: 44upx;
+		height: 44upx;
+	}
+	.active {
+		border: none;
 		box-sizing: border-box;
 	}
 }
-.rp-btn:nth-child(n+3){
-	margin: 0;
+
+
+.pageBgW{
+	background: #FFFFFF;
+	.submit-btn {
+		width:670upx;
+		height:90upx;
+		border-radius:50upx;
+		margin: 40upx auto;
+	}
 }
+
 .rp-btn-fp{
-	width:320upx;
-	height:100upx;
-	line-height: 100upx;
+	width:167upx;
+	height:66upx;
+	line-height: 66upx;
 	text-align: center;
-	margin-right: 30upx;
-	background:rgba(245,245,245,1);
-	border-radius:4px;
+	margin: 0 40upx 28upx 0;
+	border:2upx solid rgba(254,106,114,1);
+	border-radius:10upx;
 	display: inline-block;
+	color: #FE6A72;
+	box-sizing: border-box;
 	&.active {
-		color: #FC4E29;
-		background:rgba(252,78,41,0.08);
-		border-radius:4px;
-		border:1upx solid rgba(252,78,41,1);
+		color: #FFFFFF;
+		background:rgba(254,106,114,1);
+		border-radius:10upx;
+		border:1upx solid rgba(254,106,114,1);
 		box-sizing: border-box;
 	}
-}
-.rp-btn-fp:nth-child(2n){
-	margin: 0;
-}
-.fpd:first-child{
-	margin-top: 30upx;
-}
-.fpd{
-	padding: 37upx 0;
-	border-bottom: 1upx solid #E5E5E5;
-	.nameFa{
-		font-size:32upx;
-		font-family:PingFangSC-Regular;
-		font-weight:400;
-		color:rgba(51,51,51,1);
+	.orange{
+		height: 66upx;
+		line-height: 66upx;
+		uni-input-placeholder{
+			color: #FE6A72;
+		}
 	}
+	input{
+		height: 100%;
+		top: 42%;
+	}
+}
+.rp-btn-fp:nth-child(3n){
+	margin: 0 0 28upx 0;
 }
 
 </style>

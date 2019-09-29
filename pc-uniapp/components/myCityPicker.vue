@@ -1,7 +1,7 @@
 <template>
 	<view class="mpvue-picker">
-		<view :class="{'pickerMask':showPicker}" @click="maskClick" catchtouchmove="true"></view>
-		<view class="mpvue-picker-content " :class="{'mpvue-picker-view-show':showPicker}">
+		<view :class="{'pickerMask':newShowPicker}" @click="maskClick" catchtouchmove="true"></view>
+		<view class="mpvue-picker-content " :class="{'mpvue-picker-view-show':newShowPicker}">
 			<view class="mpvue-picker__hd">
 				<view class="mpvue-picker__action" @click="pickerCancel">取消</view>
 				<view class="mpvue-picker__action" @click="pickerConfirm">确定</view>
@@ -33,7 +33,8 @@
 				provinceDataList: [],
 				cityDataList: [],
 				areaDataList: [],
-				area:null
+				area:null,
+				newShowPicker:this.showPicker,
 			};
 		},
 		computed: mapState(['wholeCity']),
@@ -76,22 +77,22 @@
 		methods: {
 			show() {
 				setTimeout(() => {
-					this.showPicker = true;
+					this.newShowPicker = true;
 				}, 0);
 			},
 			maskClick() {
 				this.pickerCancel();
 			},
 			pickerCancel() {
-				this.showPicker = false;
+				this.newShowPicker = false;
 				this._$emit('onCancel');
 			},
 			pickerConfirm(e) {
-				this.showPicker = false;
+				this.newShowPicker = false;
 				this._$emit('onConfirm');
 			},
 			showPickerView() {
-				this.showPicker = true;
+				this.newShowPicker = true;
 			},
 			handPickValueDefault() {
 				if (this.pickerValueDefault !== [0, 0, 0]) {

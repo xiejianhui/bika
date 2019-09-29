@@ -1,13 +1,16 @@
 <template>
-	<view class="noticeWrap pd20" >
-		<view class="img ">
-			<image src="/static/img/notice.png" mode="widthFix" class="w100"></image>
+	<view class="noticeWrap flex-align" >
+		<view class="img">
+			<image src="/static/img/index/icon_home_notice@2x.png" mode="widthFix" class="w100"></image>
 		</view>
-		<view class="word gray" >
+		<view class="word color3 fs28" >
 			<view class="content" >
 				<text class="every" decode="true" :style="{left:'-'+announNum+'px'}">{{noteList[0].content}}</text>
 				<!-- <text class="every" decode="true" :style="{left:'-'+announNum+'px'}">{{announ}}</text> -->
 			</view>
+		</view>
+		<view class="more mgl20">
+			<image src="/static/img/index/icon_news_more@2x.png" mode="widthFix" class="w100"></image>
 		</view>
 	</view>
 </template>
@@ -83,16 +86,19 @@
 		}
 	}
 	.noticeWrap {
-		display: flex;
-		background:rgba(242,242,242,1);
 		border-radius:10upx;
 		.img {
-			width: 80upx;
-			margin-right: 20upx;
+			width: 48upx;
+			height: 48upx;
+			margin-right: 8upx;
 
 			image {
 				float: left;
 			}
+		}
+		.more{
+			width: 44upx;
+			height: 44upx;
 		}
 
 		.word {

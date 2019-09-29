@@ -43,6 +43,15 @@ export default {
 			product:'Product',
 			cart:'Cart',
 			my:'My',
+		},
+		recharge_detail:{
+			rMB:'rMB',
+			// customAmount:'Input amount',
+			customAmount:'Custom',
+			recharge:'Recharge',
+			refillBalance:'Refill your current balance',
+			selectionPlatform:'Selection of recharge platform',
+			confirmRecharge:'Confirm recharge',
 		}
 	},
 	'zh-CN': {
@@ -86,6 +95,17 @@ export default {
 			product:'分类',
 			cart:'购物车',
 			my:'我的',
+		},
+		share_earn:{
+			
+		},
+		recharge_detail:{
+			rMB:'元',
+			customAmount:'输入金额',
+			recharge:'充值',
+			refillBalance:'您当前的余额',
+			selectionPlatform:'请选择充值平台',
+			confirmRecharge:'确认充值',
 		}
 	},
 	'en-ML': {
@@ -131,6 +151,15 @@ export default {
 			product:'Pengelasan',
 			cart:'Troli',
 			my:'Mine',
+		},
+		recharge_detail:{
+			rMB:'rMB',
+			// customAmount:'Masukkan jumlah',
+			customAmount:'Custom',
+			recharge:'Recharge',
+			refillBalance:'Baki semasa anda',
+			selectionPlatform:'Pilih platform cas semula',
+			confirmRecharge:'Sahkan pengisian semula',
 		}
 	},
 }
