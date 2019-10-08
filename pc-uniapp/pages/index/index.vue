@@ -71,21 +71,35 @@
 				</view>
 			</navigator>
 			<scroll-view scroll-x class="scroll-wrap " v-if="hotProductList">
-				<view class="recomemnt-item recomentHight " v-for="(item, index) in hotProductList" :key="index" @tap="goProduct(item)">
+				<view class="recomemnt-item recomentHight" v-for="(item, index) in hotProductList" :key="index" @tap="goProduct(item)">
+					<view class="item-info" v-if="false">
+						<view class="scroll-title fs26 color3 flex-box">{{ item.productname }}</view>
+						<view class="fs28 fw500 flex-box mgt10 mgb20">
+							<view class="flex-box orange">
+								张靓颖
+							</view>
+						</view>
+					</view>
+					<view class="item-info" v-else>
+						<view class="scroll-title fs26 color3 flex-box">倒计时</view>
+						<view class="fs28 fw500 flex-box mgt10 mgb20 primary-color">
+							<view class="flex-box">
+								<uni-countdown
+									class="time"
+									font-color="#FFFFFF"
+									border-color="#FE6A72"
+									bgr-color="#FE6A72"
+									@activeOver="retailOver"
+									:startTime="retail.proxyStartTime"
+									:endTime="retail.saleEndTime"
+									:now="currentTime"
+								></uni-countdown>
+							</view>
+						</view>
+					</view>
 					<view class="item-img">
 						<image lazy-load :src="item.image" mode="widthFix"></image>
 						<view class="sold-out" v-if="!item.stock"><view class="out-logo">售罄</view></view>
-					</view>
-					<view class="item-info info-coupon">
-						<view class="title-black scroll-title">{{ item.productname }}</view>
-						<view class="orange">
-							<text class="fs22">￥</text>
-							<text class="priceStyle">{{ item.price }}</text>
-						</view>
-						<view class="">
-							<text class="gray originPrice" v-if="item.initialPrice">￥{{ item.initialPrice }}</text>
-							<text style="opacity: 0;">0</text>
-						</view>
 					</view>
 				</view>
 			</scroll-view>
@@ -102,22 +116,30 @@
 					</view>
 				</view>
 			</navigator>
-			<view class="pd30 mgt20">
+			<view class="pdl30 mgt30">
 				<no-data v-if="sortProductList && !sortProductList.length"></no-data>
-				<view class="recomemnt-item sort-type" v-for="(item, index) in sortProductList" :key="index" @tap="goProduct(item)">
+				<view class="recomemnt-item sort-type" v-for="(item, index) in sortProductList" :key="index">
 					<view class="item-img">
 						<image lazy-load :src="item.image" mode="widthFix"></image>
-						<view class="sold-out" v-if="!item.stock"><view class="out-logo">售罄</view></view>
 					</view>
 					<view class="item-info info-coupon">
-						<view class="title-black scroll-title ">{{ item.productname }}</view>
-						<view class="orange">
-							<text class="fs22">￥</text>
-							<text class="priceStyle">{{ item.price }}</text>
-							<text class="fs20 flex-box price-coupon" v-if="sortProductList[index].coupon">优</text>
+						<view class="scroll-title fw500 fs30 color3 mgb10">{{ item.productname }}</view>
+						<view class="orange fs30 fw400 mgb20">
+							<text class="color9 mgr20">价值</text>
+							<text class="">￥{{ item.price }}</text>
 						</view>
-						<view class="">
-							<text class="gray originPrice" v-if="item.initialPrice">￥{{ item.initialPrice }}</text>
+						<!-- <progress backgroundColor="#D8D8D8" activeColor="##FE6A72" :percent="item.percent" active style='border-radius: 10upx;overflow: hidden;' /> -->
+						<progress backgroundColor="#D8D8D8" activeColor="#FE6A72" percent="60" active style='border-radius: 10upx;overflow: hidden;' />
+						<view class="betweenBox mgt30">
+							<view class="flex-box orange" @tap="goProduct(item)">
+								立即参与
+							</view>
+							<view class="shopping_normal" v-if="true">
+								<image lazy-load src="/static/img/index/shopping_normal@2x.png" mode="widthFix"></image>
+							</view>
+							<view class="shopping_normal" v-else>
+								<image lazy-load src="/static/img/index/shopping_press@2x.png" mode="widthFix"></image>
+							</view>
 						</view>
 					</view>
 				</view>
@@ -159,6 +181,7 @@ export default {
 	data() {
 		return {
 			title: 'Hello',
+			newProductList: null,
 			recommendProduct: null,
 			hotProductList: null,
 			swiperList: null,
@@ -174,6 +197,8 @@ export default {
 			now:'',
 			noMoreData:false,
 			current:1,
+			
+			retail: null,
 		};
 	},
 	components: {
@@ -209,7 +234,6 @@ export default {
 			// TODO
 			this.hideLogo = false;
 		}	
-		this.getSortList();
 	},
 	onShow() {
 		uni.setNavigationBarTitle({
@@ -391,9 +415,22 @@ export default {
 					this.currentTime = res.data.now;
 					this.recommendProduct = this.setImgSize(res.data.data.recommendProduct, '300x240','remomondImageUrl');
 					res.data.data.adList?this.swiperList = res.data.data.adList:'';
+					let newProductListArr = res.data.data.newProductList;
+					newProductListArr.forEach(item => {
+						item.remomondImageUrl ? delete item.remomondImageUrl : '';
+					});
 					this.newProductList = this.setImgSize(newProductListArr, '550x400');
 					res.data.data.hotProductList&&res.data.data.hotProductList.length?this.hotProductList = this.setImgSize(res.data.data.hotProductList, '500x500','image'):'';
 					res.data.data.noticeList?this.noteList = res.data.data.noticeList:'';
+					
+					//寄售
+					if(res.data.data.retail){
+						this.retail = res.data.data.retail;
+						this.retail ? (this.retail.productList = this.setImgSize(this.retail.productList, '170x170','image')) : '';
+					}else{
+						this.retail = null;
+					}
+					
 					this.middelAdList = res.data.data.middelAdList;
 					this.middelAdList = this.setImgSize(this.middelAdList, '750x200','images');
 				});
@@ -544,19 +581,8 @@ export default {
 .info-coupon{
 	.orange{
 		display:flex;
-		align-items: flex-end;
-	}
-	.price-coupon{
-		display: inline-block;
-		height: 30upx;
-		width: 30upx;
-		line-height: 30upx;
-		border: 1upx solid #FC4E29;
-		font-weight: 600;
-		text-align: center;
-		border-radius: 4upx;
-		padding: 1upx;
-		margin: 0 0 4upx 20upx;
+		// align-items: flex-end;
+		height: 45upx;
 	}
 }
 
@@ -579,7 +605,33 @@ swiper {
 }
 
 .recomemnt-item.recomentHight {
+	width: 260upx;
 	height:auto;
+	margin: 0 20upx 0 0;
+	.item-info{
+		margin: 0;
+		padding: 0;
+		.scroll-title{
+			height: 36upx;
+		}
+		.orange{
+			width:150upx;
+			height:56upx;
+			border-radius:28upx;
+			border:1upx solid rgba(254,106,114,1);
+		}
+	}
+	.item-img {
+		width: 260upx;
+		height: auto;
+		border:1upx solid rgba(235,235,235,1);
+		box-sizing: border-box;
+		image {
+			width: 256upx;
+			height: 260upx !important;
+			border-radius: 0;
+		}
+	}
 	.orange{
 		height: 48upx;
 	}
@@ -639,11 +691,6 @@ uni-image {
 .mgt70 {
 	margin-top: 70upx;
 }
-.priceStyle {
-	font-size: 34upx;
-	font-weight: bold;
-	color: #fc4e29;
-}
 .scroll-select {
 	font-size: 32upx;
 	font-weight: 400;
@@ -678,39 +725,40 @@ uni-image {
 }
 .scroll-wrap {
 	white-space: nowrap;
+	margin: 20upx 0upx 30upx 30upx;
 }
 .scroll-title {
 	width: 100%;
 	white-space: normal;
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
-	-webkit-line-clamp: 2;
+	-webkit-line-clamp: 1;
 	overflow: hidden;
-	height: 74upx;
-	line-height: 37upx;
-	margin-bottom: 12upx;
+	height: 42upx;
+	line-height: 42upx;
+	margin-bottom: 8upx;
 }
 .recomemnt-item {
 	margin: 20upx;
 	display: inline-block;
-	width: 300upx;
-	height: 560upx;
+	width: 335upx;
+	height: 584upx;
 	position: relative;
-	box-shadow: 0px 8upx 24upx 0px rgba(210, 210, 210, 0.5);
-	border-radius: 10upx;
 	&.sort-type {
-		width: 340upx;
-		border-radius: 10upx;
-		overflow: hidden;
-		margin: 0upx 0 10upx 0;
+		width: 335upx;
+		// overflow: hidden;
+		margin: 0upx 0 40upx 0;
 		&:nth-child(2n) {
-			margin-left: 10upx;
+			margin-left: 15upx;
 		}
 		.item-img {
-			width: 340upx;
+			width: 335upx;
+			height: auto;
+			border:1upx solid rgba(235,235,235,1);
+			box-sizing: border-box;
 			image {
-				width: 100%;
-				height: 340upx !important;
+				width: 330upx;
+				height: 335upx !important;
 				border-radius: 0;
 			}
 		}
@@ -724,7 +772,33 @@ uni-image {
 		}
 	}
 	.item-info {
-		padding: 30upx 20upx 12upx 20upx;
+		padding: 35upx 00upx 0upx 0upx;
+		progress{
+			height: 10upx;
+			progress-inner-bar{
+				border-top-right-radius: 5upx !important;
+				border-bottom-right-radius: 5upx !important;
+				overflow: hidden !important;
+			}
+		}
+		.betweenBox{
+			align-items: center;
+			height: 60upx;
+			.flex-box{
+				width:177upx;
+				height:60upx;
+				border-radius:30upx;
+				border:2upx solid rgba(254,106,114,1);
+			}
+			.shopping_normal{
+				height: 48upx;
+				width: 54upx;
+				image{
+					height: 48upx !important;
+					width: 54upx;
+				}
+			}
+		}
 	}
 }
 .scroll-item {

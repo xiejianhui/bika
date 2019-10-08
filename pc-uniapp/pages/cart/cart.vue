@@ -1,4 +1,4 @@
-<template>
+<template slot-scope="">
 	<view class="car ">
 
 		<view class="car-item background-white" v-for="(item,index) in goodsList" :key='index'>

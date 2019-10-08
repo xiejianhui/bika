@@ -1,255 +1,295 @@
 <template>
-	<view class="pd-detail " v-if="goodsDetail">
-		<view class="swiper">
-			<swiper class="detail_swiper" :indicator-dots="true" indicator-color="#ad7e6c" indicator-active-color="white" :autoplay="true" :interval="3000" :duration="1000">
-				<swiper-item v-for="(item, index) in goodsDetail.productImageList" :key="index">
-					<view class="swiper-item"><image :src="item.imageUrl" mode="widthFix" class="w100"></image></view>
-				</swiper-item>
-			</swiper>
-			<!-- #ifdef APP-PLUS -->
-			<view class="share flex-box"><image src="/static/img/public_icon_share_white@2x.png" mode="widthFix" class="" @tap="sharePage"></image></view>
-			<!-- #endif -->
-		</view>
-		<view class="detail_info">
-			<view class="countdown  background-orange betweenBox" v-if="goodsDetail.type === 0 || goodsDetail.type === 6">
-				<detail-countdown
-					font-color="#000"
-					bgr-color="white"
-					borderColor="white"
-					@activeOver="activeOver"
-					:startTime="goodsDetail.productBatch.proxyEndTime"
-					:endTime="goodsDetail.productBatch.saleEndTime"
-					:now="currentTime"
-					:inProduct="true"
-				></detail-countdown>
+	<view class="pd-detail ">
+		<scroll-view scroll-x class="scroll-wrap flex">
+			<view class="scroll-select fs28 fw500 color6" :class="{ active: currentIndex == index }" v-for="(item, index) in bigCateArr" :key="item.createDate" @tap="changeSort(index)">
+				{{ item.itemName }}
+				<view class="line"></view>
 			</view>
-			<view class="countdown  background-yellow betweenBox" v-if="goodsDetail.type === 1 || goodsDetail.type === 7">
-				<detail-countdown
-					font-color="#fff"
-					bgr-color="black"
-					@activeOver="activeOver"
-					:startTime="goodsDetail.productBatch.proxyStartTime"
-					:endTime="goodsDetail.productBatch.proxyEndTime"
-					:now="currentTime"
-					:inProduct="true"
-				></detail-countdown>
-			</view>
-			<view class="pd40">
-				<view class="betweenBox">
-					<view class="" v-if="(goodsDetail.type!=1 && goodsDetail.type != 7)">
-						<!-- 零售普通价格 -->
-						<text class="fs30 orange">¥</text>
-						<text class="price orange">{{ goodsDetail.price }}</text>
-						<text class="fs22 gray originPrice mgl20" v-if="goodsDetail.initialPrice">¥{{goodsDetail.initialPrice }}</text>
+		</scroll-view>
+		<view v-if="goodsDetail">
+			<view class="flex result color6 fs26">
+				<view class="head-box bdr">
+					<view class="head">
+						<image :src="memberInfo.logo" v-if="memberInfo.logo" mode="widthFix" class="w100"></image>
+						<image src="/static/img/logoGsp.png" v-else mode="widthFix" class="w100"></image>
 					</view>
-					<view v-else>
-						<view class="" v-if="(goodsDetail.type==1 || goodsDetail.type == 7)&&!selectedPifa">
-							<!-- 批发价格 -->
+					<view v-if="memberInfo.id" class="color6 fs30 flex-box">
+						{{ memberInfo.userName||memberInfo.mobilePhone}}
+					</view>
+				</view>
+				<view class="total bdr">
+					<view class="flex-box all-acoumt">总共购买</view>
+					<view class="orange fs40 flex-box">30</view>
+					<view class="flex-box color9 fs24">人次</view>
+				</view>
+				<view class="total bdr">
+					<view class="flex-box all-acoumt">揭晓时间</view>
+					<view class="color3 fw500 fs24 flex-box">2019-09-13 01:23:12</view>
+				</view>
+				<view class="total">
+					<view class="flex-box all-acoumt">购买时间</view>
+					<view class="color3 fw500 fs24 flex-box">2019-09-13 01:23:12</view>
+				</view>
+			</view>
+			<view class="check-result betweenBox fw500">
+				<view class="lucky-number">
+					幸运号码: <text class="orange fs34 mgl10">102522</text>
+				</view>
+				<view class="check-btn flex-box colorw">
+					查看计算结果
+				</view>
+			</view>
+			<view class="swiper">
+				<swiper class="detail_swiper" :indicator-dots="true" indicator-color="#ad7e6c" indicator-active-color="white" :autoplay="true" :interval="3000" :duration="1000">
+					<swiper-item v-for="(item, index) in goodsDetail.productImageList" :key="index">
+						<view class="swiper-item"><image :src="item.imageUrl" mode="widthFix" class="w100"></image></view>
+					</swiper-item>
+				</swiper>
+				<!-- #ifdef APP-PLUS -->
+				<view class="share flex-box"><image src="/static/img/public_icon_share_white@2x.png" mode="widthFix" class="" @tap="sharePage"></image></view>
+				<!-- #endif -->
+			</view>
+			<view class="detail_info">
+				<view class="countdown  background-orange betweenBox" v-if="goodsDetail.type === 0 || goodsDetail.type === 6">
+					<detail-countdown
+						font-color="#000"
+						bgr-color="white"
+						borderColor="white"
+						@activeOver="activeOver"
+						:startTime="goodsDetail.productBatch.proxyEndTime"
+						:endTime="goodsDetail.productBatch.saleEndTime"
+						:now="currentTime"
+						:inProduct="true"
+					></detail-countdown>
+				</view>
+				<view class="countdown  background-yellow betweenBox" v-if="goodsDetail.type === 1 || goodsDetail.type === 7">
+					<detail-countdown
+						font-color="#fff"
+						bgr-color="black"
+						@activeOver="activeOver"
+						:startTime="goodsDetail.productBatch.proxyStartTime"
+						:endTime="goodsDetail.productBatch.proxyEndTime"
+						:now="currentTime"
+						:inProduct="true"
+					></detail-countdown>
+				</view>
+				<view class="pd40">
+					<view class="betweenBox">
+						<view class="" v-if="(goodsDetail.type!=1 && goodsDetail.type != 7)">
+							<!-- 零售普通价格 -->
 							<text class="fs30 orange">¥</text>
-							<text class="price orange">{{goodsDetail.productProxyPackageList.length>1? goodsDetail.productProxyPackageList[0].wholesalePrice:goodsDetail.price }}</text>
-							<view class="inline" v-if="goodsDetail.productProxyPackageList.length>1">
-								<text class="orange">~</text>
-								<text class="price orange">{{ goodsDetail.productProxyPackageList[goodsDetail.productProxyPackageList.length-1].wholesalePrice }}</text>
+							<text class="price orange">{{ goodsDetail.price }}</text>
+							<text class="fs22 gray originPrice mgl20" v-if="goodsDetail.initialPrice">¥{{goodsDetail.initialPrice }}</text>
+						</view>
+						<view v-else>
+							<view class="" v-if="(goodsDetail.type==1 || goodsDetail.type == 7)&&!selectedPifa">
+								<!-- 批发价格 -->
+								<text class="fs30 orange">¥</text>
+								<text class="price orange">{{goodsDetail.productProxyPackageList.length>1? goodsDetail.productProxyPackageList[0].wholesalePrice:goodsDetail.price }}</text>
+								<view class="inline" v-if="goodsDetail.productProxyPackageList.length>1">
+									<text class="orange">~</text>
+									<text class="price orange">{{ goodsDetail.productProxyPackageList[goodsDetail.productProxyPackageList.length-1].wholesalePrice }}</text>
+								</view>
+							</view>
+
+							<view class="" v-if="(goodsDetail.type==1 || goodsDetail.type == 7)&&selectedPifa">
+								<!-- 批发价格 -->
+								<text class="fs30 orange">¥</text>
+								<text class="price orange">{{ selectedPifa.wholesalePrice }}</text>
+							</view>
+							<view class="">
+								零售价：{{goodsDetail.price}}
 							</view>
 						</view>
 
-						<view class="" v-if="(goodsDetail.type==1 || goodsDetail.type == 7)&&selectedPifa">
-							<!-- 批发价格 -->
-							<text class="fs30 orange">¥</text>
-							<text class="price orange">{{ selectedPifa.wholesalePrice }}</text>
+						<view class="gray fs26" v-if="goodsDetail.coupon">可用优惠券 {{ goodsDetail.coupon }}</view>
+					</view>
+					<!-- <view >
+						<text class="gray fs30 originPrice" v-if="goodsDetail.initialPrice">¥{{goodsDetail.initialPrice}}</text>
+					</view> -->
+					<view class="name pd-name mgb20">{{ goodsDetail.productname }}</view>
+					<view class="yellow fs26 point" v-if="goodsDetail.type == 2 && goodsDetail.points">购买商品赠送积分 {{ goodsDetail.points }}</view>
+					<view class="express betweenBox">
+						<view class="gray">
+							运费：
+							<text v-if="activeAddress">￥{{ expressFee || 0 }}元</text>
+							<view style="display: inline-block;" v-else class="blue">
+								<text v-if="!memberInfo">免费</text>
+								<navigator v-else style="display: inline-block;" url="../addressManage/addressManage">点击设置地址</navigator>
+							</view>
 						</view>
-						<view class="">
-							零售价：{{goodsDetail.price}}
+						<view class="gray" v-if="goodsDetail.type != 0 && goodsDetail.type!= 6">库存 {{ goodsDetail.stock }} 件</view>
+						<view class="gray" v-else-if="systemInfo.retailInventoryHidden == 'false'">库存 {{ goodsDetail.stock }} 件</view>
+					</view>
+					<view class="red" v-if="(goodsDetail.type==0 || goodsDetail.type== 6)&&goodsDetail.giveFrozenMoney">
+						赠送 {{goodsDetail.giveFrozenMoney}} 批发券
+					</view>
+					<view class="agreement " v-if="goodsDetail.type==0 || goodsDetail.type== 1 || goodsDetail.type==6 || goodsDetail.type== 7">
+						<view @tap="agree = !agree">
+							<image v-if="agree" src="/static/img/login/icon_otc_skfs_yjh@2x.png" mode="widthFix"></image>
+							<image v-else src="/static/img/login/icon_otc_skfs_unyjh@2x.png" mode="widthFix"></image>
+							<!-- <uni-icon v-if="agree" type="checkbox-filled" color="#388ceb" size="24"></uni-icon> -->
+						</view>
+						<view>
+							<navigator url="/pages/login/agreements/agreements?type=4"><text class="txt">我已阅读并同意《零售协议》</text></navigator>
 						</view>
 					</view>
+				</view>
+			</view>
 
-					<view class="gray fs26" v-if="goodsDetail.coupon">可用优惠券 {{ goodsDetail.coupon }}</view>
-				</view>
-				<!-- <view >
-					<text class="gray fs30 originPrice" v-if="goodsDetail.initialPrice">¥{{goodsDetail.initialPrice}}</text>
-				</view> -->
-				<view class="name pd-name mgb20">{{ goodsDetail.productname }}</view>
-				<view class="yellow fs26 point" v-if="goodsDetail.type == 2 && goodsDetail.points">购买商品赠送积分 {{ goodsDetail.points }}</view>
-				<view class="express betweenBox">
-					<view class="gray">
-						运费：
-						<text v-if="activeAddress">￥{{ expressFee || 0 }}元</text>
-						<view style="display: inline-block;" v-else class="blue">
-							<text v-if="!memberInfo">免费</text>
-							<navigator v-else style="display: inline-block;" url="../addressManage/addressManage">点击设置地址</navigator>
-						</view>
-					</view>
-					<view class="gray" v-if="goodsDetail.type != 0 && goodsDetail.type!= 6">库存 {{ goodsDetail.stock }} 件</view>
-					<view class="gray" v-else-if="systemInfo.retailInventoryHidden == 'false'">库存 {{ goodsDetail.stock }} 件</view>
-				</view>
-				<view class="red" v-if="(goodsDetail.type==0 || goodsDetail.type== 6)&&goodsDetail.giveFrozenMoney">
-					赠送 {{goodsDetail.giveFrozenMoney}} 批发券
-				</view>
-				<view class="agreement " v-if="goodsDetail.type==0 || goodsDetail.type== 1 || goodsDetail.type==6 || goodsDetail.type== 7">
-					<view @tap="agree = !agree">
-						<image v-if="agree" src="/static/img/login/icon_otc_skfs_yjh@2x.png" mode="widthFix"></image>
-						<image v-else src="/static/img/login/icon_otc_skfs_unyjh@2x.png" mode="widthFix"></image>
-						<!-- <uni-icon v-if="agree" type="checkbox-filled" color="#388ceb" size="24"></uni-icon> -->
-					</view>
-					<view>
-						<navigator url="/pages/login/agreements/agreements?type=4"><text class="txt">我已阅读并同意《零售协议》</text></navigator>
-					</view>
-				</view>
+			<image
+				:src="staticImgResource+'common/pic_share_accelerate@2x.png'"
+				v-if="goodsDetail.shareAccelerate.basicSwitch == 1"
+				style="display: block;width: 692upx;height: 71upx;margin: 0 auto;"
+			></image>
+				
+			<view class="detail-wd fs30 title-black background-white">
+				<view class="wd mgt40">商品详情</view>
+				<view class="line"></view>
 			</view>
-		</view>
+			<view class="pd20 background-white pdt20" v-if="goodsDetail.shortDescription">
+				<rich-text class="richText" :nodes="goodsDetail.shortDescription"></rich-text>
+				<!-- <view class="detail-wrap" v-html="goodsDetail.shortDescription"></view> -->
+			</view>
+			<view class="buy tac">
+				<view class="server pdl20 pdr20 " @tap="service">
+					<view class=""><image src="/static/img/public_icon_onchat@2x.png" mode="widthFix" class=""></image></view>
+					<view class="fs22 gray">客服</view>
+				</view>
+				<view class="server pdl20 pdr20 ">
+					<navigator url="../cart/cart" open-type="switchTab">
+						<view class=""><image src="/static/img/public_icon_shop_car@2x.png" mode="widthFix" class=""></image></view>
+						<view class="fs22 gray">购物车</view>
+					</navigator>
+				</view>
+				<view class="" v-if="goodsDetail.type == 2">
+					<view class="addToCar fs30" @tap="takeOrder(0)" v-if="goodsDetail.type === 2">
+						<!-- <image src="/static/img/car2.png" mode="widthFix"></image> -->
+						<view class="flex-box">加入购物车</view>
+					</view>
+					<view class="buynow fs30 white" @tap="takeOrder(1)" :class="{ forbid: !allowBuy }"><view class="flex-box">{{goodsDetail&&goodsDetail.stock?'立即购买':'售罄'}}</view></view>
 
-		<image
-			:src="staticImgResource+'common/pic_share_accelerate@2x.png'"
-			v-if="goodsDetail.shareAccelerate.basicSwitch == 1"
-			style="display: block;width: 692upx;height: 71upx;margin: 0 auto;"
-		></image>
-			
-		<view class="detail-wd fs30 title-black background-white">
-			<view class="wd mgt40">商品详情</view>
-			<view class="line"></view>
-		</view>
-		<view class="pd20 background-white pdt20" v-if="goodsDetail.shortDescription">
-			<rich-text class="richText" :nodes="goodsDetail.shortDescription"></rich-text>
-			<!-- <view class="detail-wrap" v-html="goodsDetail.shortDescription"></view> -->
-		</view>
-		<view class="buy tac">
-			<view class="server pdl20 pdr20 " @tap="service">
-				<view class=""><image src="/static/img/public_icon_onchat@2x.png" mode="widthFix" class=""></image></view>
-				<view class="fs22 gray">客服</view>
-			</view>
-			<view class="server pdl20 pdr20 ">
-				<navigator url="../cart/cart" open-type="switchTab">
-					<view class=""><image src="/static/img/public_icon_shop_car@2x.png" mode="widthFix" class=""></image></view>
-					<view class="fs22 gray">购物车</view>
-				</navigator>
-			</view>
-			<view class="" v-if="goodsDetail.type == 2">
-				<view class="addToCar fs30" @tap="takeOrder(0)" v-if="goodsDetail.type === 2">
-					<!-- <image src="/static/img/car2.png" mode="widthFix"></image> -->
-					<view class="flex-box">加入购物车</view>
 				</view>
-				<view class="buynow fs30 white" @tap="takeOrder(1)" :class="{ forbid: !allowBuy }"><view class="flex-box">{{goodsDetail&&goodsDetail.stock?'立即购买':'售罄'}}</view></view>
-
-			</view>
-			<view class="" v-if="goodsDetail.type != 2" >
-				<view class="flex-box bigBtn background-blue"  @tap="takeOrder(1)" v-if="(goodsDetail.type==1 || goodsDetail.type==7)&&!activeStart">下期爆款</view>
-				<view class="flex-box bigBtn" :class="{ forbid: !allowBuy }" @tap="takeOrder(1)" v-else>立即抢购</view>
-			</view>
-		</view>
-		<!-- 购物车弹窗 -->
-		<view class="car-pop" v-if="showPop">
-			<view class="content">
-				<view class="close-icon"><uni-icon type="closeempty" size="30" @click="showPop = false"></uni-icon></view>
-				<view class="top-img ">
-					<view class="left"><image :src="attibuteImg || goodsDetail.image" mode="widthFix" class="w100"></image></view>
-					<view class="right" v-if="goodsDetail.mulType">
-						<view class="red fs36" v-if="selectModel">￥{{ selectModel.price }} 元</view>
-						<view class="gray fs24 mgt10" v-if="selectModel && (goodsDetail.type != 0 && goodsDetail.type!=6)">库存 {{ selectModel.stock }} 件</view>
-						<view class="gray fs24 mgt10" v-else-if="systemInfo.retailInventoryHidden == 'false'">库存 {{ selectModel.stock }} 件</view>
-						<view class="mgt10">请选择规格数量</view>
-					</view>
-					<view class="right" v-else>
-						<view class="red fs36">￥{{ goodsDetail.price }} 元</view>
-						<view class="gray fs24 mgt10" v-if="goodsDetail.type != 0 && goodsDetail.type!=6">库存 {{ goodsDetail.stock }} 件</view>
-						<view class="gray fs24 mgt10" v-else-if="systemInfo.retailInventoryHidden == 'false'">库存 {{ goodsDetail.stock }} 件</view>
-						<view class="mgt10">请选择购买数量</view>
-					</view>
+				<view class="" v-if="goodsDetail.type != 2" >
+					<view class="flex-box bigBtn background-blue"  @tap="takeOrder(1)" v-if="(goodsDetail.type==1 || goodsDetail.type==7)&&!activeStart">下期爆款</view>
+					<view class="flex-box bigBtn" :class="{ forbid: !allowBuy }" @tap="takeOrder(1)" v-else>立即抢购</view>
 				</view>
-				<!-- 是否多个型号(普通、零售) -->
-				<view class="pdl20 pdr20 ">
-					<view class="" v-if="goodsDetail.mulType" v-for="(item, index) in attributeKeyList" :key="index">
-						<view class="mgb10">选择{{ item.keyName }}</view>
-						<view class="size-choose">
-							<view
-								class="size-btn"
-								v-for="(subitem, subindex) in item.valueList"
-								:key="subindex"
-								:class="{ 'active-btn': subitem.active }"
-								@tap="selectAttr(index, subindex, subitem)"
-							>
-								{{ subitem.valueName }}
-							</view>
+			</view>
+			<!-- 购物车弹窗 -->
+			<view class="car-pop" v-if="showPop">
+				<view class="content">
+					<view class="close-icon"><uni-icon type="closeempty" size="30" @click="showPop = false"></uni-icon></view>
+					<view class="top-img ">
+						<view class="left"><image :src="attibuteImg || goodsDetail.image" mode="widthFix" class="w100"></image></view>
+						<view class="right" v-if="goodsDetail.mulType">
+							<view class="red fs36" v-if="selectModel">￥{{ selectModel.price }} 元</view>
+							<view class="gray fs24 mgt10" v-if="selectModel && (goodsDetail.type != 0 && goodsDetail.type!=6)">库存 {{ selectModel.stock }} 件</view>
+							<view class="gray fs24 mgt10" v-else-if="systemInfo.retailInventoryHidden == 'false'">库存 {{ selectModel.stock }} 件</view>
+							<view class="mgt10">请选择规格数量</view>
+						</view>
+						<view class="right" v-else>
+							<view class="red fs36">￥{{ goodsDetail.price }} 元</view>
+							<view class="gray fs24 mgt10" v-if="goodsDetail.type != 0 && goodsDetail.type!=6">库存 {{ goodsDetail.stock }} 件</view>
+							<view class="gray fs24 mgt10" v-else-if="systemInfo.retailInventoryHidden == 'false'">库存 {{ goodsDetail.stock }} 件</view>
+							<view class="mgt10">请选择购买数量</view>
 						</view>
 					</view>
-					<view class="buy-num mgb20 pdt20" v-if="goodsDetail.type == 0 || goodsDetail.type == 6 || goodsDetail.type == 2">
-						<view class="">
-							<text class="fs30">购买数量</text>
-							<text class="gray fs24" v-if="goodsDetail.buyLimit">(每人限购{{ goodsDetail.buyLimit }}件)</text>
+					<!-- 是否多个型号(普通、零售) -->
+					<view class="pdl20 pdr20 ">
+						<view class="" v-if="goodsDetail.mulType" v-for="(item, index) in attributeKeyList" :key="index">
+							<view class="mgb10">选择{{ item.keyName }}</view>
+							<view class="size-choose">
+								<view
+									class="size-btn"
+									v-for="(subitem, subindex) in item.valueList"
+									:key="subindex"
+									:class="{ 'active-btn': subitem.active }"
+									@tap="selectAttr(index, subindex, subitem)"
+								>
+									{{ subitem.valueName }}
+								</view>
+							</view>
 						</view>
-						<view class="">
-							<uni-number-box
-								:min="1"
-								v-if="goodsDetail.buyLimit"
-								:max="goodsDetail.buyLimit > goodsDetail.stock ? goodsDetail.stock : goodsDetail.buyLimit"
-								:value="chooseNumber"
-								@change="chooseGoodsNumber"
-							></uni-number-box>
-							<uni-number-box
-								:min="1"
-								v-else
-								:max="selectModel ? selectModel.stock : goodsDetail.stock"
-								:value="chooseNumber"
-								@change="chooseGoodsNumber"
-							></uni-number-box>
+						<view class="buy-num mgb20 pdt20" v-if="goodsDetail.type == 0 || goodsDetail.type == 6 || goodsDetail.type == 2">
+							<view class="">
+								<text class="fs30">购买数量</text>
+								<text class="gray fs24" v-if="goodsDetail.buyLimit">(每人限购{{ goodsDetail.buyLimit }}件)</text>
+							</view>
+							<view class="">
+								<uni-number-box
+									:min="1"
+									v-if="goodsDetail.buyLimit"
+									:max="goodsDetail.buyLimit > goodsDetail.stock ? goodsDetail.stock : goodsDetail.buyLimit"
+									:value="chooseNumber"
+									@change="chooseGoodsNumber"
+								></uni-number-box>
+								<uni-number-box
+									:min="1"
+									v-else
+									:max="selectModel ? selectModel.stock : goodsDetail.stock"
+									:value="chooseNumber"
+									@change="chooseGoodsNumber"
+								></uni-number-box>
+							</view>
 						</view>
+						<!-- 批发 -->
+						<view class="wholesaleShop" v-if="goodsDetail.type == 1 || goodsDetail.type == 7">
+							<view class="pd-package fs30 background-white " v-if="productProxyPackageList && productProxyPackageList.length">
+								<view class="bigTitle pd20">选择套餐</view>
+								<view class="mgl20 mgr20">
+									<view class="package-wrap ">
+										<view class="">套餐</view>
+										<view class="tac">所需批发劵</view>
+										<view class="tac">剩余数量</view>
+									</view>
+									<view class="package-wrap gray" v-for="(item, index) in productProxyPackageList" :key="index" :class="{ active: item.active }" @tap="choosePackage(index)">
+										<view class="">{{ item.packageType }}</view>
+										<view class="tac">{{ item.wholesaleCoupon }}张</view>
+										<view class="tac">{{ item.stock }}</view>
+									</view>
+								</view>
+								<view class="buy-num mgt20 pd20">
+									<view class="">
+										<text class="fs30">购买数量</text>
+										<text class="gray fs24 mgl20" v-if="selectedPifa">(每人限购 {{ selectedPifa.buyLimit }}件)</text>
+									</view>
+									<view class="">
+										<uni-number-box :min="1" :max="selectedPifa && selectedPifa.buyLimit ? selectedPifa.buyLimit : 10000" :value="pifaNum" @change="changePifaNum"></uni-number-box>
+									</view>
+								</view>
+								<view class=" betweenBox mgl20 mgr20">
+									<view class="gray">合计所需批发劵</view>
+									<view class="orange fs36 ">{{ totalSelectedPifa }}</view>
+								</view>
+								<view class=" betweenBox mgt10 mgl20 mgr20" v-if="memberInfo">
+									<view class="gray ">剩余批发劵</view>
+									<view class=" fs36 ">{{ memberInfo.frozenMoney || 0 }}</view>
+								</view>
+								<view class=" betweenBox mgt10 mgl20 mgr20" >
+									<view class="gray ">需要支付</view>
+									<view class=" fs36  red">¥ {{ pifaSelectTotalMoney }}</view>
+								</view>
+							</view>
+						</view>	
+						<view class="buy-btn" @tap="buyNow">{{ addToShoppingCar ? '加入购物车' : '立即购买' }}</view>
 					</view>
-					<!-- 批发 -->
-					<view class="wholesaleShop" v-if="goodsDetail.type == 1 || goodsDetail.type == 7">
-						<view class="pd-package fs30 background-white " v-if="productProxyPackageList && productProxyPackageList.length">
-							<view class="bigTitle pd20">选择套餐</view>
-							<view class="mgl20 mgr20">
-								<view class="package-wrap ">
-									<view class="">套餐</view>
-									<view class="tac">所需批发劵</view>
-									<view class="tac">剩余数量</view>
-								</view>
-								<view class="package-wrap gray" v-for="(item, index) in productProxyPackageList" :key="index" :class="{ active: item.active }" @tap="choosePackage(index)">
-									<view class="">{{ item.packageType }}</view>
-									<view class="tac">{{ item.wholesaleCoupon }}张</view>
-									<view class="tac">{{ item.stock }}</view>
-								</view>
-							</view>
-							<view class="buy-num mgt20 pd20">
-								<view class="">
-									<text class="fs30">购买数量</text>
-									<text class="gray fs24 mgl20" v-if="selectedPifa">(每人限购 {{ selectedPifa.buyLimit }}件)</text>
-								</view>
-								<view class="">
-									<uni-number-box :min="1" :max="selectedPifa && selectedPifa.buyLimit ? selectedPifa.buyLimit : 10000" :value="pifaNum" @change="changePifaNum"></uni-number-box>
-								</view>
-							</view>
-							<view class=" betweenBox mgl20 mgr20">
-								<view class="gray">合计所需批发劵</view>
-								<view class="orange fs36 ">{{ totalSelectedPifa }}</view>
-							</view>
-							<view class=" betweenBox mgt10 mgl20 mgr20" v-if="memberInfo">
-								<view class="gray ">剩余批发劵</view>
-								<view class=" fs36 ">{{ memberInfo.frozenMoney || 0 }}</view>
-							</view>
-							<view class=" betweenBox mgt10 mgl20 mgr20" >
-								<view class="gray ">需要支付</view>
-								<view class=" fs36  red">¥ {{ pifaSelectTotalMoney }}</view>
-							</view>
-						</view>
-					</view>	
-					<view class="buy-btn" @tap="buyNow">{{ addToShoppingCar ? '加入购物车' : '立即购买' }}</view>
+				</view>
+			</view>
+			<!-- <agree-pop v-if="agreementType" :type="agreementType"></agree-pop> -->
+			<!-- 登录选择弹框 -->
+			<view class="uni-modal" v-if="showModal">
+				<view class="uni-mask"></view>
+				<view class="modal-box">
+					<view class="uni-modal__bd">亲，需要登录才可以进行商品购买哦~~</view>
+					<view class="uni-modal__ft">
+						<view class="uni-modal__btn uni-modal__btn_default" @tap="modalCancel">先逛逛</view>
+						<view class="uni-modal__btn uni-modal__btn_primary" @tap="modalConfirm">马上登录</view>
+					</view>
+					</view>
 				</view>
 			</view>
 		</view>
-		<!-- <agree-pop v-if="agreementType" :type="agreementType"></agree-pop> -->
-		<!-- 登录选择弹框 -->
-		<view class="uni-modal" v-if="showModal">
-			<view class="uni-mask"></view>
-			<view class="modal-box">
-				<view class="uni-modal__bd">亲，需要登录才可以进行商品购买哦~~</view>
-				<view class="uni-modal__ft">
-					<view class="uni-modal__btn uni-modal__btn_default" @tap="modalCancel">先逛逛</view>
-					<view class="uni-modal__btn uni-modal__btn_primary" @tap="modalConfirm">马上登录</view>
-				</view>
-				</view>
-			</view>
-		</view>
-	</view>
+	</view>	
 </template>
 <script>
 import uniNumberBox from '@/components/uni-number-box.vue';
@@ -264,6 +304,9 @@ import math from '@/common/math.js'
 export default {
 	data() {
 		return {
+			bigCateArr: null,
+			currentIndex: 0,
+			
 			showPop: false,
 			chooseNumber: 1,
 			goodsDetail: null,
@@ -308,14 +351,17 @@ export default {
 		}, 1000);
 	},
 	onLoad(e) {
+		// 获取期数
+		this.getSort();
+		
 		//实时获取批发券
 		if (this.memberInfo) {
 			this.$store.dispatch('getMemberInfo')
 		}
-
 		this.staticImgResource = staticImgResource;
 		e.id?this.productId = e.id:'';
 		this.getGoodsDetai(e.id);
+		
 		this.forwardMiniProgram();
 		//发票
 		uni.removeStorage({
@@ -328,6 +374,28 @@ export default {
 		}
 	},
 	methods: {
+		getSort() {
+			this.apiUrl
+				.getProductTree({
+					data: {
+						type: 2
+					}
+				})
+				.then(res => {
+					if (res.data.status == 1) {
+						let mydata = res.data.data;
+						this.bigCateArr = mydata;
+						this.getGoodsDetai(this.productId);
+					}
+				});
+		},
+		changeSort(index) {
+			this.currentIndex = index;
+			this.getGoodsDetai(this.productId);
+		},
+		
+		
+		
 		sharePage() {
 			console.log('enter');
 			uni.share({
@@ -712,6 +780,90 @@ export default {
 </script>
 
 <style lang="less">
+.scroll-wrap {
+	white-space: nowrap;
+}
+.scroll-select {
+	margin: 0;
+	display: inline-block;
+	height: 70upx;
+	line-height: 70upx;
+	position: relative;
+	background:rgba(255,255,255,1);
+	margin: 0 45upx;
+	&.active {
+		font-size: 30upx;
+		font-weight: bold;
+		color: #FE6A72;
+		.line {
+			display: block;
+		}
+	}
+	.line {
+		display: none;
+		width: 100%;
+		height: 8upx;
+		background: rgba(252, 78, 41, 1);
+		position: absolute;
+		bottom: -4upx;
+		left: 50%;
+		transform: translateX(-50%);
+	}
+}
+
+.result{
+	height: 238upx;
+	.head-box{
+		width: 234upx;
+		.head{
+			width: 127upx;
+			height: 127upx;
+			border-radius: 50%;
+			overflow: hidden;
+			margin: 0 auto;
+			padding: 31upx 0 12upx 0;
+			image{
+				width: 100%;
+				height: 100%!important;
+				border-radius: 50%;
+			}
+		}
+	}
+	.total{
+		width: 174upx;
+		.all-acoumt{
+			margin: 50upx 0 30upx 0;
+			height: 26upx;
+		}
+		.orange{
+			margin-bottom: 30upx;
+			height: 40upx;
+		}
+		.color3{
+			padding-top: 16upx;
+			text-align: center;
+		}
+	}
+	
+}
+
+.check-result{
+	width:750upx;
+	height:101upx;
+	background:rgba(246,246,246,1);
+	font-size: 29upx;
+	padding: 0 38upx;
+	box-sizing: border-box;
+	.check-btn{
+		width:283upx;
+		height:73upx;
+		background:rgba(254,106,114,1);
+		border-radius:37upx;
+	}
+}
+	
+	
+	
 .wholesaleShop{
 	width: 100%;
 	height: auto;

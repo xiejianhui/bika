@@ -1,16 +1,14 @@
 <template name="uni-countdown">
 	<view class="" :class="{ inblock: !inProduct }">
-		<view class="flex-box">距{{ hasStart ? '结束' : '开始' }}{{hourMin ? '' : '还有'}}</view>
 		<!-- <view class="uni-countdown-numbers" :style="{borderColor:borderColor, color:fontColor, background:bgrColor}">{{d}} </view>天 -->
 		<view class="uni-countdown flex-box">
-			<view class="uni-countdown-splitor" :style="{ color: splitorColor }"></view>
-			<view class="uni-countdown-numbers" :style="{ borderColor: borderColor, color: fontColor, background: bgrColor }">{{ h }}</view>
-			{{hourMin ? ':' : '时'}}
-			<view v-if="!hourMin" class="uni-countdown-splitor" :style="{ color: splitorColor }"></view>
+			<!-- <view class="uni-countdown-numbers" :style="{ borderColor: borderColor, color: fontColor, background: bgrColor }">{{ h }}</view>
+			{{':'}} -->
 			<view class="uni-countdown-numbers" :style="{ borderColor: borderColor, color: fontColor, background: bgrColor }">{{ i }}</view>
-			{{hourMin ? ':' : '分'}}
+			{{':'}}
 			<view class="uni-countdown-numbers" :style="{ borderColor: borderColor, color: fontColor, background: bgrColor }">{{ s }}</view>
-			{{hourMin ? '' : '秒'}}
+			{{':'}}
+			<view class="uni-countdown-numbers" :style="{ borderColor: borderColor, color: fontColor, background: bgrColor }">{{ m }}</view>
 		</view>  
 	</view>
 </template>
@@ -21,19 +19,15 @@ export default {
 	props: {
 		bgrColor: {
 			type: String,
-			default: '#FFFFFF'
+			default: '#FE6A72'
 		},
 		borderColor: {
 			type: String,
-			default: '#000000'
+			default: '#FE6A72'
 		},
 		fontColor: {
 			type: String,
-			value: '#000000'
-		},
-		splitorColor: {
-			type: String,
-			default: '#000000'
+			value: '#ffffff'
 		},
 		timer: {
 			type: [String, Number],
@@ -55,10 +49,6 @@ export default {
 			type: [String, Number],
 			default: ''
 		},
-		hourMin: {
-			type: Boolean,
-			default: false
-		}
 	},
 	computed:{
 		...mapState(['systemInfo'])
@@ -71,10 +61,11 @@ export default {
 			h: '00',
 			i: '00',
 			s: '00',
+			m:'00',
 			leftTime: 0,
 			hasStart: false,
 			gameOver: false,
-			currentTime:0
+			currentTime:0,
 		};
 	},
 	watch:{
@@ -96,6 +87,10 @@ export default {
 		clearInterval(this.setTime);
 		// this.countDown(this);
 		this.setInterValFunc(this);
+		// 毫秒倒计时
+		this.$nextTick(() => {
+		   this.timeDt(this)
+		})
 	},
 	onShow() {
 		clearInterval(this.setTime);
@@ -109,6 +104,18 @@ export default {
 		clearInterval(this.setTime);
 	},
 	methods: {
+		timeDt (self) {
+			setTimeout(function () {
+				var haomiao = 99
+				setInterval(function () {
+					haomiao--
+					if (haomiao < 0) {
+					   haomiao = 99
+					}
+					self.m = haomiao;
+				}, 10)
+			}, 1000)
+		},
 		setInterValFunc: function(obj) {
 			this.setTime = setInterval(function() {
 				obj.countDown(obj);
@@ -156,6 +163,7 @@ export default {
 			self.h = hours;
 			self.i = minutes;
 			self.s = seconds;
+			
 		}
 	}
 };
@@ -171,23 +179,15 @@ export default {
 	justify-content: center;
 }
 
-.uni-countdown-splitor {
-	width: auto !important;
-	justify-content: center;
-	line-height: 44upx;
-	padding: 0 5upx;
-}
-
 .uni-countdown-numbers {
-	line-height: 44upx;
+	line-height: 56upx;
 	width: 32upx !important;
-	padding: 0 10upx;
+	padding: 0 12upx;
 	justify-content: center;
-	height: 44upx;
-	border-radius: 8upx;
-	margin: 0 5upx;
-	border: 1px solid #000000;
-	font-size: 26upx;
+	height: 56upx;
+	border-radius: 4upx;
+	margin: 0 8upx;
+	font-size: 30upx;
 	display: flex;
 }
 </style>

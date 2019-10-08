@@ -120,14 +120,16 @@
 					<uni-icon style="position: relative;top: 0upx;" type="arrowright" size="20"></uni-icon>
 				</view>
 			</view>
-			<view class="item-box betweenBox">
-				<view class="left flex-box">
-					<image src="/static/img/self/my-icon-zhanghao@2x.png" ></image>{{i18n.account_settings}}
+			<navigator url="person-info/person-info">
+				<view class="item-box betweenBox">
+					<view class="left flex-box">
+						<image src="/static/img/self/my-icon-zhanghao@2x.png" ></image>{{i18n.account_settings}}
+					</view>
+					<view class="right">
+						<uni-icon style="position: relative;top: 0upx;" type="arrowright" size="20"></uni-icon>
+					</view>
 				</view>
-				<view class="right">
-					<uni-icon style="position: relative;top: 0upx;" type="arrowright" size="20"></uni-icon>
-				</view>
-			</view>
+			</navigator>
 			<view class="item-box betweenBox logout-btn" @click="logout" v-if="memberInfo.id">
 				<view class="left flex-box">
 					<image src="/static/img/self/my-icon-tuichu@2x.png" ></image>{{i18n.log_out}}
