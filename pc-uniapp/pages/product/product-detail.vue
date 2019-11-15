@@ -3,11 +3,11 @@
 		<scroll-view scroll-x class="scroll-wrap flex">
 			<view class="scroll-select fs28 fw500 color6" :class="{ active: currentIndex == index }" v-for="(item, index) in bigCateArr" :key="item.createDate" @tap="changeSort(index)">
 				{{ item.itemName }}
-				<view class="line"></view>
+				<!-- <view class="line"></view> -->
 			</view>
 		</scroll-view>
 		<view v-if="goodsDetail">
-			<view class="flex result color6 fs26">
+			<view class="flex result color6 fs26 background-white">
 				<view class="head-box bdr">
 					<view class="head">
 						<image :src="memberInfo.logo" v-if="memberInfo.logo" mode="widthFix" class="w100"></image>
@@ -39,10 +39,13 @@
 					查看计算结果
 				</view>
 			</view>
-			<view class="swiper">
+			<view class="swiper relative background-white" v-if="goodsDetail.productImageList.length > 0">
 				<swiper class="detail_swiper" :indicator-dots="true" indicator-color="#ad7e6c" indicator-active-color="white" :autoplay="true" :interval="3000" :duration="1000">
 					<swiper-item v-for="(item, index) in goodsDetail.productImageList" :key="index">
 						<view class="swiper-item"><image :src="item.imageUrl" mode="widthFix" class="w100"></image></view>
+						<view class="item-index fs30 absolute flex-box">
+							<view>{{index+1}}</view>/<view>{{goodsDetail.productImageList.length}}</view>
+						</view>
 					</swiper-item>
 				</swiper>
 				<!-- #ifdef APP-PLUS -->
@@ -50,88 +53,31 @@
 				<!-- #endif -->
 			</view>
 			<view class="detail_info">
-				<view class="countdown  background-orange betweenBox" v-if="goodsDetail.type === 0 || goodsDetail.type === 6">
-					<detail-countdown
-						font-color="#000"
-						bgr-color="white"
-						borderColor="white"
-						@activeOver="activeOver"
-						:startTime="goodsDetail.productBatch.proxyEndTime"
-						:endTime="goodsDetail.productBatch.saleEndTime"
-						:now="currentTime"
-						:inProduct="true"
-					></detail-countdown>
-				</view>
-				<view class="countdown  background-yellow betweenBox" v-if="goodsDetail.type === 1 || goodsDetail.type === 7">
-					<detail-countdown
-						font-color="#fff"
-						bgr-color="black"
-						@activeOver="activeOver"
-						:startTime="goodsDetail.productBatch.proxyStartTime"
-						:endTime="goodsDetail.productBatch.proxyEndTime"
-						:now="currentTime"
-						:inProduct="true"
-					></detail-countdown>
-				</view>
-				<view class="pd40">
-					<view class="betweenBox">
-						<view class="" v-if="(goodsDetail.type!=1 && goodsDetail.type != 7)">
-							<!-- 零售普通价格 -->
+				<view class="name">{{ goodsDetail.productname }}</view>
+				<view class="betweenBox">
+					<view class="" v-if="(goodsDetail.type!=1 && goodsDetail.type != 7)">
+						<!-- 零售普通价格 -->
+						<text class="fs30 orange">¥</text>
+						<text class="price orange">{{ goodsDetail.price }}</text>
+					</view>
+					<view v-else>
+						<view class="" v-if="(goodsDetail.type==1 || goodsDetail.type == 7)&&!selectedPifa">
+							<!-- 批发价格 -->
 							<text class="fs30 orange">¥</text>
-							<text class="price orange">{{ goodsDetail.price }}</text>
-							<text class="fs22 gray originPrice mgl20" v-if="goodsDetail.initialPrice">¥{{goodsDetail.initialPrice }}</text>
-						</view>
-						<view v-else>
-							<view class="" v-if="(goodsDetail.type==1 || goodsDetail.type == 7)&&!selectedPifa">
-								<!-- 批发价格 -->
-								<text class="fs30 orange">¥</text>
-								<text class="price orange">{{goodsDetail.productProxyPackageList.length>1? goodsDetail.productProxyPackageList[0].wholesalePrice:goodsDetail.price }}</text>
-								<view class="inline" v-if="goodsDetail.productProxyPackageList.length>1">
-									<text class="orange">~</text>
-									<text class="price orange">{{ goodsDetail.productProxyPackageList[goodsDetail.productProxyPackageList.length-1].wholesalePrice }}</text>
-								</view>
-							</view>
-
-							<view class="" v-if="(goodsDetail.type==1 || goodsDetail.type == 7)&&selectedPifa">
-								<!-- 批发价格 -->
-								<text class="fs30 orange">¥</text>
-								<text class="price orange">{{ selectedPifa.wholesalePrice }}</text>
-							</view>
-							<view class="">
-								零售价：{{goodsDetail.price}}
+							<text class="price orange">{{goodsDetail.productProxyPackageList.length>1? goodsDetail.productProxyPackageList[0].wholesalePrice:goodsDetail.price }}</text>
+							<view class="inline" v-if="goodsDetail.productProxyPackageList.length>1">
+								<text class="orange">~</text>
+								<text class="price orange">{{ goodsDetail.productProxyPackageList[goodsDetail.productProxyPackageList.length-1].wholesalePrice }}</text>
 							</view>
 						</view>
 
-						<view class="gray fs26" v-if="goodsDetail.coupon">可用优惠券 {{ goodsDetail.coupon }}</view>
-					</view>
-					<!-- <view >
-						<text class="gray fs30 originPrice" v-if="goodsDetail.initialPrice">¥{{goodsDetail.initialPrice}}</text>
-					</view> -->
-					<view class="name pd-name mgb20">{{ goodsDetail.productname }}</view>
-					<view class="yellow fs26 point" v-if="goodsDetail.type == 2 && goodsDetail.points">购买商品赠送积分 {{ goodsDetail.points }}</view>
-					<view class="express betweenBox">
-						<view class="gray">
-							运费：
-							<text v-if="activeAddress">￥{{ expressFee || 0 }}元</text>
-							<view style="display: inline-block;" v-else class="blue">
-								<text v-if="!memberInfo">免费</text>
-								<navigator v-else style="display: inline-block;" url="../addressManage/addressManage">点击设置地址</navigator>
-							</view>
+						<view class="" v-if="(goodsDetail.type==1 || goodsDetail.type == 7)&&selectedPifa">
+							<!-- 批发价格 -->
+							<text class="fs30 orange">¥</text>
+							<text class="price orange">{{ selectedPifa.wholesalePrice }}</text>
 						</view>
-						<view class="gray" v-if="goodsDetail.type != 0 && goodsDetail.type!= 6">库存 {{ goodsDetail.stock }} 件</view>
-						<view class="gray" v-else-if="systemInfo.retailInventoryHidden == 'false'">库存 {{ goodsDetail.stock }} 件</view>
-					</view>
-					<view class="red" v-if="(goodsDetail.type==0 || goodsDetail.type== 6)&&goodsDetail.giveFrozenMoney">
-						赠送 {{goodsDetail.giveFrozenMoney}} 批发券
-					</view>
-					<view class="agreement " v-if="goodsDetail.type==0 || goodsDetail.type== 1 || goodsDetail.type==6 || goodsDetail.type== 7">
-						<view @tap="agree = !agree">
-							<image v-if="agree" src="/static/img/login/icon_otc_skfs_yjh@2x.png" mode="widthFix"></image>
-							<image v-else src="/static/img/login/icon_otc_skfs_unyjh@2x.png" mode="widthFix"></image>
-							<!-- <uni-icon v-if="agree" type="checkbox-filled" color="#388ceb" size="24"></uni-icon> -->
-						</view>
-						<view>
-							<navigator url="/pages/login/agreements/agreements?type=4"><text class="txt">我已阅读并同意《零售协议》</text></navigator>
+						<view class="">
+							零售价：{{goodsDetail.price}}
 						</view>
 					</view>
 				</view>
@@ -143,9 +89,23 @@
 				style="display: block;width: 692upx;height: 71upx;margin: 0 auto;"
 			></image>
 				
-			<view class="detail-wd fs30 title-black background-white">
-				<view class="wd mgt40">商品详情</view>
-				<view class="line"></view>
+			<view class="detail-wd fs30 background-white">
+				<view class="betweenBox mgb20 boxs-b">
+					<view class="title-black">
+						走势图
+					</view>
+					<view class="right">
+						<image src="/static/img/moudel/details-icon-qianjin.png" class="right-img" mode="scaleToFill"></image>
+					</view>
+				</view>
+				<view class="betweenBox mgb20 boxs-b" @tap="toRecord">
+					<view class="title-black">
+						所有参与记录
+					</view>
+					<view class="right">
+						<image src="/static/img/moudel/details-icon-qianjin.png" class="right-img" mode="scaleToFill"></image>
+					</view>
+				</view>
 			</view>
 			<view class="pd20 background-white pdt20" v-if="goodsDetail.shortDescription">
 				<rich-text class="richText" :nodes="goodsDetail.shortDescription"></rich-text>
@@ -374,6 +334,11 @@ export default {
 		}
 	},
 	methods: {
+		toRecord(){
+			uni.navigateTo({
+				url:'/pages/product/product-record/product-record'
+			})
+		},
 		getSort() {
 			this.apiUrl
 				.getProductTree({
@@ -413,20 +378,6 @@ export default {
 					console.log('fail:' + JSON.stringify(err));
 				}
 			});
-		},
-		//批发零售活动结束
-		activeOver() {
-			uni.showToast({
-				title: '该活动已经结束，即将退出本次活动，谢谢您的支持',
-				mask: false,
-				icon: 'none',
-				duration: 2000
-			});
-			setTimeout(() => {
-				uni.switchTab({
-					url: '/pages/index/index'
-				});
-			}, 2000);
 		},
 		service() {
 			uni.showModal({
@@ -789,12 +740,12 @@ export default {
 	height: 70upx;
 	line-height: 70upx;
 	position: relative;
-	background:rgba(255,255,255,1);
-	margin: 0 45upx;
+	padding: 0 45upx;
 	&.active {
 		font-size: 30upx;
 		font-weight: bold;
 		color: #FE6A72;
+		background: #FFFFFF;
 		.line {
 			display: block;
 		}
@@ -897,6 +848,17 @@ uni-swiper {
 swiper {
 	height: 750upx;
 }
+.item-index{
+	bottom: 30upx;
+	right: 30upx;
+	width:120upx;
+	height:50upx;
+	line-height: 50upx;
+	background:rgba(0,0,0,1);
+	opacity:0.3;
+	border-radius:25upx;
+	color: #FFFFFF;
+}
 .detail_swiper {
 	height: 750upx;
 }
@@ -970,6 +932,7 @@ swiper {
 .pd-detail {
 	padding-bottom: 100upx;
 	overflow: hidden;
+	background: #F7F7F7;
 }
 .buy {
 	position: fixed;
@@ -1043,20 +1006,26 @@ swiper {
 }
 
 .detail-wd {
+	width: 100%;
 	text-align: center;
-	line-height: 85upx;
 	position: relative;
-
-	.line {
-		position: absolute;
-		display: block;
-		bottom: 0;
-		left: 50%;
-		transform: translateX(-50%);
-		width: 100upx;
-		height: 5upx;
-		background-image: linear-gradient(90deg, #53b1fa 0%, #388ceb 100%);
-		border-radius: 3upx;
+	margin-top: 32upx;
+	padding: 43upx 36upx 39upx 36upx;
+	box-sizing: border-box;
+	.betweenBox{
+		border:1upx solid rgba(220,220,220,1);
+		border-radius:10upx;
+		width:677upx;
+		height:83upx;
+		padding: 0 21upx 0 28upx;
+	}
+	.right{
+		width: 44upx;
+		height: 44upx;
+		.right-img{
+			width: 44upx;
+			height: 44upx;
+		}
 	}
 }
 
@@ -1069,30 +1038,30 @@ swiper {
 
 	.pd-name {
 		line-height: 45upx;
-		letter-spacing: 2upx;
 	}
 }
 .pd40 {
 	padding: 40upx;
 }
 .detail_info {
-	width: 690upx;
+	width: 100%;
 	margin: 0 auto;
 	background: rgba(255, 255, 255, 1);
-	box-shadow: 0upx 4upx 20upx 0upx rgba(210, 210, 210, 0.5);
-	border-radius: 12upx;
 	position: relative;
-	top: -60upx;
 	box-sizing: border-box;
 	overflow: hidden;
+	padding: 20upx 39upx 47upx 39upx;
 	.price {
-		font-size: 50upx;
+		font-size: 54upx;
 	}
 	.name {
-		font-size: 30upx;
-		font-weight: 400;
-		color: rgba(51, 51, 51, 1);
-		margin-top: 20upx;
+		line-height: 45upx;
+		letter-spacing: 2upx;
+		font-size:36upx;
+		font-family:PingFang SC;
+		font-weight:500;
+		color:rgba(51,51,51,1);
+		margin-bottom: 32upx;
 	}
 	.point {
 		margin: 20upx 0;

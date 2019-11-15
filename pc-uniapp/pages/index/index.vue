@@ -351,7 +351,7 @@ export default {
 				});
 			}else if(type == 1){
 				uni.navigateTo({
-					url: '/pages/member/sign-in/sign-in?type=' + type
+					url: '/pages/member/drying-list/drying-list?type=' + type
 				});
 			}else if(type == 2){
 				uni.navigateTo({
