@@ -58,18 +58,16 @@
 			</view>
 
 			<!-- 最新揭晓 -->
-			<navigator url="../product/product-zone/product-zone?type=1">
-				<view class="cdWrap betweenBox background-white bdb" v-if="hotProductList && hotProductList.length">
-					<view class="flex">
-						<view class="cd-left color3 fs30 flex-align">
-							<view class="line"></view>最新揭晓
-						</view>
-					</view>
-					<view class="cd-right">
-						<image lazy-load src="/static/img/index/icon_news_more@2x.png" mode="widthFix" class="id-ri"></image>
+			<view class="cdWrap betweenBox background-white bdb" v-if="hotProductList && hotProductList.length" @tap="toUnveiled">
+				<view class="flex">
+					<view class="cd-left color3 fs30 flex-align">
+						<view class="line"></view>最新揭晓
 					</view>
 				</view>
-			</navigator>
+				<view class="cd-right">
+					<image lazy-load src="/static/img/index/icon_news_more@2x.png" mode="widthFix" class="id-ri"></image>
+				</view>
+			</view>
 			<scroll-view scroll-x class="scroll-wrap " v-if="hotProductList">
 				<view class="recomemnt-item recomentHight" v-for="(item, index) in hotProductList" :key="index" @tap="goProduct(item)">
 					<view class="item-info" v-if="false">
@@ -264,6 +262,11 @@ export default {
 		this.onReachSortList()
 	},
 	methods: {
+		toUnveiled(){
+			uni.switchTab({
+				url:'/pages/packages/unveiled/unveiled?type=1'
+			})
+		},
 		onReachSortList() {
 			this.noMoreData = false;
 			this.getSortList();
@@ -351,7 +354,7 @@ export default {
 				});
 			}else if(type == 1){
 				uni.navigateTo({
-					url: '/pages/member/drying-list/drying-list?type=' + type
+					url: '/pages/packages/drying-list/drying-list?type=' + type
 				});
 			}else if(type == 2){
 				uni.navigateTo({

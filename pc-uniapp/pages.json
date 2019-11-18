@@ -437,12 +437,6 @@
 				"navigationBarTitleText" : "所有参与记录"
 			}
         }
-        ,{
-            "path" : "pages/member/drying-list/drying-list",
-            "style" : {
-				"navigationBarTitleText" : "晒单"
-			}
-        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
@@ -462,6 +456,52 @@
 				}
 			  }
 		  ]
+		},
+		{
+		  "root": "pages/packages/drying-list",
+		  "pages": [
+			  {
+				"path": "drying-list",
+				"style": {
+					"navigationBarTitleText": "晒单"
+				}
+			  },
+			  {
+				"path": "drying-detail/drying-detail",
+				"style": {
+					"navigationBarTitleText": "晒单详情"
+				}
+			  }
+		  ]
+		},{
+		  "root": "pages/packages/unveiled",
+		  "pages": [
+			  {
+				"path": "unveiled",
+				"style": {
+					"navigationBarTitleText": "最新揭晓",
+					"enablePullDownRefresh": true
+				}
+			  }
+		  ]
+		},{
+		  "root": "pages/packages/purshase-record",
+		  "pages": [
+			  {
+				"path": "purshase-record",
+				"style": {
+					"navigationBarTitleText": "享购记录",
+					"enablePullDownRefresh": true
+				}
+			  },
+			  {
+				"path": "purshase-detail/purshase-detail",
+				"style": {
+					"navigationBarTitleText": "享购记录详情",
+					"enablePullDownRefresh": true
+				}
+			  }
+		  ]
 		}
 	],
 	"tabBar": {
@@ -477,6 +517,12 @@
 			{
 				"pagePath": "pages/product/product-category",
 				"text": "分类",
+				"iconPath": "static/img/index_tabbar_icon_class_def@2x.png",
+				"selectedIconPath": "static/img/index_tabbar_icon_class_hov@2x.png"
+			},
+			{
+				"pagePath": "pages/packages/unveiled/unveiled",
+				"text": "最新揭晓",
 				"iconPath": "static/img/index_tabbar_icon_class_def@2x.png",
 				"selectedIconPath": "static/img/index_tabbar_icon_class_hov@2x.png"
 			},

@@ -96,7 +96,7 @@
 					<uni-icon style="position: relative;top: 0upx;" type="arrowright" size="20"></uni-icon>
 				</view>
 			</view>
-			<view class="item-box betweenBox">
+			<view class="item-box betweenBox" @click="topurshase">
 				<view class="left flex-box">
 					<image src="/static/img/self/my-icon-xianggou@2x.png" ></image>{{i18n.purshase_record}}
 				</view>
@@ -366,6 +366,11 @@ export default {
 		toAccountDetails(){
 			uni.navigateTo({
 				url:"/pages/member/account-details/account-details"
+			})
+		},
+		topurshase(){
+			uni.navigateTo({
+				url:"/pages/packages/purshase-record/purshase-record"
 			})
 		},
 		doNothing(){

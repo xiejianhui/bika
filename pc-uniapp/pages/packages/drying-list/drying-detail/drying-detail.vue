@@ -1,15 +1,10 @@
 <template>
 	<view class="pageBgW fw500">
-		<view class="od-nav bdbe background-white">
-			<view class="gray fs28" v-for="(item, index) in navList" :key="index" :class="{ 'primary-color': item.active }" @click="changeList(index)">
-				<view class="fw600">{{ item.name }}</view>
-			</view>
-		</view>
 		<view class="od-list background-white">
-			<view class="item-info" v-if="current_index == 0">
+			<view class="item-info">
 				<view class="member-info relative flex-align fs28 bdbe">
 					<view class="member-img mgr30">
-						<image src="/static/img/29.png" mode=""></image>
+						<image src="/static/img/29.png" mode="widthFix"></image>
 					</view>
 					<view class="right">
 						<view class="name title-black fs30 mgb10">fgsdg sdfgsd</view>
@@ -18,7 +13,7 @@
 						<view class="gray">揭晓时间：<text class="color6">2019-9-9 09:00:00</text></view>
 					</view>
 					<view class="jf flex-box">
-						<image class="right-img" src="/static/img/moudel/jianglifufenx.png" mode=""></image>
+						<image class="right-img" src="/static/img/moudel/jianglifufenx.png" mode="widthFix"></image>
 					</view>
 					<view class="jf flex-box">
 						<view>
@@ -33,23 +28,23 @@
 					<view class="comment-txt fw400">很满意哦，送了好多赠品，不错。不知质量如何，用过之后再来评价</view>
 					<view class="flex">
 						<view class="comment-img">
-							<image src="/static/img/logoGsp.png" mode=""></image>
+							<image src="/static/img/logoGsp.png" mode="widthFix"></image>
 						</view>
 						<view class="comment-img">
-							<image src="/static/img/logoGsp.png" mode=""></image>
+							<image src="/static/img/logoGsp.png" mode="widthFix"></image>
 						</view>
 					</view>
 					<view class="fs26 orange flex">
 						<view class="thumbs-up flex-box">
-							<image src="/static/img/moudel/dianzan-normal.png" mode=""></image>
+							<image src="/static/img/moudel/dianzan-normal.png" mode="widthFix"></image>
 							<view class="">(2人羡慕嫉妒)</view>
 						</view>
 						<view class="thumbs-up flex-box" @tap="showTextarea">
-							<image src="/static/img/moudel/pinglun-normal.png" mode=""></image>
+							<image src="/static/img/moudel/pinglun-normal.png" mode="widthFix"></image>
 							<view class="">我要评论</view>
 						</view>
 						<view class="thumbs-up flex-box">
-							<image src="/static/img/moudel/fenxiagn-normal.png" mode=""></image>
+							<image src="/static/img/moudel/fenxiagn-normal.png" mode="widthFix"></image>
 							<view class="">分享</view>
 						</view>
 					</view>
@@ -67,9 +62,9 @@
 				<view class="comment-total bdbe">
 					共计<text class="orange">2</text>条评论
 				</view>
-				<view class="member-info flex-align fs28" v-for="(item, index) in orderList" :key="index">
+				<view class="member-info flex-align fs28" v-for="(item, index) in orderList" :key="index" @tap="toDryingDetail(item.id)">
 					<view class="member-img mgr30">
-						<image src="/static/img/29.png" mode=""></image>
+						<image src="/static/img/29.png" mode="widthFix"></image>
 					</view>
 					<view class="right title-item">
 						<view class="name title-black fs32 mgb10">{{item.productName}}</view>
@@ -77,41 +72,8 @@
 						<view class="gray"><text class="color6 fs26">{{item.createDate}}</text></view>
 					</view>
 				</view>
+				<view class="orange-btn flex-box" @tap="toParticipate">马上参与</view>
 			</view>
-			<view class="item-info" v-if="current_index == 1">
-				<form @submit="toRecharge" class="recharge-content">
-					<view class="recharge-box bdbe">
-						<view class="fs26">
-							当前可用充值余额<text class="fs34 orange">30</text><text class="orange">元</text>
-						</view>
-						<view class="recharge-num betweenBox">
-							<view class="flex-box">
-								<view class="fs30 color3">充值金额</view>
-								<input type="number" v-model="recharge_amount" placeholder="请输入充值金额" placeholder-style='color:#DADADA' />
-							</view>
-							<view class="orange">以整数位单位</view>
-						</view>
-					</view>
-					<button form-type="submit" :class="btnShow ? 'submit-btn btnShow': 'submit-btn'" :disabled="disabled">确认充值</button>
-				</form>
-			</view>
-			<view class="item-info" v-if="current_index == 2">
-				<no-data v-if="!showWithdrawals"></no-data>
-				<view class="title flex-equal fs28 fw500" v-if="withdrawalsList.length > 0">
-					<view class="title-item" v-for="(item, index) in withdrawalsList" :key="index">
-						<view class="title-item" >{{item.title}}</view>
-					</view>
-				</view>
-				<view class="title-list fs28 fw500" v-for="(item, index) in orderList" :key="index">
-					<view class="title-item flex-equal" v-for="(subitem, subindex) in item.appProductOrderList" :key="subindex">
-						<view class="title-item">{{subitem.amout}}</view>
-						<view class="title-item">{{subitem.amout}}</view>
-						<view class="title-item">{{subitem.amout}}</view>
-						<view class="title-item">{{subitem.amout}}</view>
-					</view>
-				</view>
-			</view>
-			
 		</view>
 	</view>
 </template>
@@ -123,20 +85,6 @@
 export default {
 	data() {
 		return {
-			navList: [
-				{
-					name: '最新晒单',
-					active: true,
-				},
-				{
-					name: '人气晒单',
-					active: false,
-				},
-				{
-					name: '评论最多',
-					active: false,
-				},
-			],
 			orderType: 0,
 			orderList: [],
 			current: 1,
@@ -144,15 +92,8 @@ export default {
 			allowRequest:true,
 			noMoreData:false,
 			showOrder:true,
-			showWithdrawals:true,
 			showFriends:true,
-			withdrawalsList:[{"title":"申请时间"},{"title":"提现方式"},{"title":"申请提现金额"},{"title":"审核状态"}],
 			friendsList:[{"title":"昵称"},{"title":"参与时间"},{"title":"邀请编码"},{"title":"是否购买"}],
-			current_index:0,
-			disabled:true,
-			btnShow:false,
-			ifExist:0,
-			recharge_amount:'',
 			addflag: false,
 			comment_input:'',
 			textarea: false,
@@ -175,11 +116,8 @@ export default {
 	onLoad(e) {
 		if (!this.memberInfo) uni.redirectTo({url: '/pages/login/login'})
 		// e.orderType ? (this.orderType = e.orderType) : '';
-		
-		this.initNav(this.orderType);
 		this.getList();
 		this.getFriendsList();
-		this.getWithdrawalsList();
 	},
 	computed: {
 		...mapState(['memberInfo', 'systemInfo'])
@@ -195,7 +133,6 @@ export default {
 		}
 		this.getList();
 		this.getFriendsList();
-		this.getWithdrawalsList();
 	},
 	// 分享赚钱
 	onShareAppMessage(res) {
@@ -204,6 +141,14 @@ export default {
 		};
 	},
 	methods: {
+		toParticipate(){
+			console.log("toParticipate")
+		},
+		toDryingDetail(e){
+			uni.navigateTo({
+				url: '/pages/packages/drying-list/drying-detail/drying-detail?id=' + e
+			});
+		},
 		showTextarea(){
 			this.textarea = '';
 			this.textarea = !this.textarea;
@@ -258,122 +203,21 @@ export default {
 					}
 				});
 		},
-		getWithdrawalsList() {
-			let mid = this.memberInfo.id;
-			if(!this.allowRequest) return
-			this.allowRequest = false;
-			uni.showLoading({
-				title:'加载中...'
-			})
-			this.apiUrl
-				.getOrderList({
-					data: {
-						status: this.orderType,
-						memberId: mid,
-						pageCount: this.pageCount,
-						current: this.current
-					}
-				})
-				.then(res => {
-					console.log("res",res)
-					this.allowRequest = true;
-					uni.hideLoading();
-					if(this.friendsList.length > 0){
-						this.showWithdrawals = false;
-					}else{
-						this.showWithdrawals = true;
-					}
-					if (res.data.status == 1) {
-						if(res.data.data.pages==this.current){
-							this.noMoreData = true;
-						}
-						if (res.data.data.pageList.length) {
-							let arr = res.data.data.pageList;
-							arr.forEach(item => {
-								item.appProductOrderList = this.setImgSize(item.appProductOrderList, '200x200');
-								item.createDate = this.format(item.createDate);
-							});
-							this.orderList = (this.orderList||[]).concat(arr);
-							if(this.friendsList.length > 0){
-								this.showWithdrawals = false;
-							}
-							this.current += 1;
-						}
-					}
-				});
-		},
 		
-		toRecharge(){
-			if (this.addflag) return;
-			this.addflag = true;
-			let oldRecharge_amount = this.recharge_amount;
-			uni.showLoading({
-				title:'请稍候',
-				mask:true
-			})
-			uni.navigateTo({
-				url:'/pages/member/recharge-detail/recharge-detail'
-			})
-			this.apiUrl
-				.submitRegister({
-					data: this.recharge_amount
-				})
-				.then(
-					res => {
-						uni.hideLoading();
-						this.addflag = false;
-						if (res.data.status == 1) {
-							uni.showToast({
-								duration: 1500,
-								icon: 'none',
-								title: '充值成功'
-							});
-							uni.navigateTo({
-								url:'/pages/member/recharge-detail/recharge-detail'
-							})
-							return
-						} else {
-							this.recharge_amount = oldRecharge_amount;
-							uni.showToast({
-								duration: 1500,
-								icon: 'none',
-								title: res.data.message
-							});
-						}
-					},
-					err => {}
-				);
-		},
 		toName(){
 			uni.navigateTo({
 				url:'/pages/member/historic-account/historic-account'
 			})
-		},
-		
-		initNav(index) {
-			let arr = this.navList;
-			arr.forEach(item => (item.active = false));
-			let n = index;
-			if (n == 4) {
-				arr[n].active = true;
-				n = 5;
-			} else {
-				arr[n].active = true;
-			}
-			this.orderType = n;
-			this.navList = arr;
 		},
 		initListDate() {
 			this.noMoreData = false;
 			this.current = 1;
 			this.orderList = [];
 			this.friendsList = [];
-			this.withdrawalsList = [];
 			this.addflag = false;//切换默认不用防提交
 			// setTimeout(()=>this.getList(),200);
 			this.getList()
 			this.getFriendsList();
-			this.getWithdrawalsList();
 		},
 		getList() {
 			let mid = this.memberInfo.id;
@@ -417,19 +261,6 @@ export default {
 					}
 				});
 		},
-		changeList(index) {
-			this.noMoreData = false;
-			let arr = this.navList;
-			arr.forEach(item => (item.active = false));
-			arr[index].active = true;
-			this.navList = arr;
-			this.current_index = index; 
-
-			//order type
-			let type = index;
-			this.orderType = type;
-			this.initListDate();
-		},
 		getOrderDetail(id){
 			this.apiUrl
 				.getOrderDetail({
@@ -464,6 +295,10 @@ export default {
 </script>
 
 <style lang="less">
+	.orange-btn{
+		width:678upx;
+		margin: 68upx auto 66upx;
+	}
 	.comment-total{
 		padding: 47upx 35upx 35upx 23upx;
 		border-top: 20upx solid #F5F5F5;
@@ -501,7 +336,7 @@ export default {
 			margin:  0 20upx 0 24upx;
 		}
 		.fs26{
-			margin: 44upx 0 40upx;
+			margin: 44upx 0 0upx;
 		}
 		.comment-input{
 			margin-top: 34upx;
@@ -608,33 +443,6 @@ export default {
 	border-radius: 30upx;
 	border: 2upx solid #a9a9a9;
 }
-.od-nav {
-	display: flex;
-	justify-content: space-around;
-	height: 92upx;
-	line-height: 92upx;
-	box-sizing: border-box;
-	align-items: center;
-	> view {
-		height: 100%;
-		&.primary-color {
-			border-bottom: 4upx solid #FC4E29;
-		}
-	}
-}
-.recharge-box{
-	box-sizing: border-box;
-	padding: 72upx 36upx 25upx 40upx;
-	.recharge-num{
-		margin-top: 55upx;
-		.color3{
-			margin-right: 28upx;
-		}
-	}
-	.fs34{
-		margin-left: 11upx;
-	}
-}
 .submit-btn{
 	margin-top: 84upx;
 	width:678upx;
@@ -643,10 +451,5 @@ export default {
 	background:rgba(254,106,114,1);
 	border-radius:40upx;
 	font-size: 32upx;
-}
-.recharge-content{
-	.submit-btn{
-		margin-top: 105upx;
-	}
 }
 </style>

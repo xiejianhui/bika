@@ -39,6 +39,7 @@
 .bdr{border-right: 1px solid #e7e7e7;}
 .bdb{border-bottom: 1px solid #F2F2F2;}
 .bdbe{border-bottom: 1px solid #E6E6E6;}
+.bdbe8{border-bottom: 1px solid #E8E8E8;}
 .bdb20{border-bottom: 20upx solid #F2F2F2;}
 .bdb30{border-bottom: 30upx solid #F2F2F2;}
 .nobd{border: none!important;}
@@ -598,7 +599,13 @@ button[disabled]:not([type]), button[disabled][type=default] {
     opacity: 0.2;
 }
 
-.uni-ellipsis {overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
+.uni-ellipsis {
+	white-space: normal;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 1;
+	overflow: hidden;
+}
 .uni-ellipsis2 {
 	overflow: hidden;
 	text-overflow: ellipsis;
