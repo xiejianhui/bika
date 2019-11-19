@@ -88,7 +88,7 @@
 					<uni-icon style="position: relative;top: 0upx;" type="arrowright" size="20"></uni-icon>
 				</view>
 			</view>
-			<view class="item-box betweenBox">
+			<view class="item-box betweenBox" @click="toWinning">
 				<view class="left flex-box">
 					<image src="/static/img/self/my-icon-huode@2x.png" ></image>{{i18n.winning_record}}
 				</view>
@@ -96,7 +96,7 @@
 					<uni-icon style="position: relative;top: 0upx;" type="arrowright" size="20"></uni-icon>
 				</view>
 			</view>
-			<view class="item-box betweenBox" @click="topurshase">
+			<view class="item-box betweenBox" @click="toPurshase">
 				<view class="left flex-box">
 					<image src="/static/img/self/my-icon-xianggou@2x.png" ></image>{{i18n.purshase_record}}
 				</view>
@@ -368,9 +368,14 @@ export default {
 				url:"/pages/member/account-details/account-details"
 			})
 		},
-		topurshase(){
+		toPurshase(){
 			uni.navigateTo({
 				url:"/pages/packages/purshase-record/purshase-record"
+			})
+		},
+		toWinning(){
+			uni.navigateTo({
+				url:"/pages/packages/winning-record/winning-record"
 			})
 		},
 		doNothing(){

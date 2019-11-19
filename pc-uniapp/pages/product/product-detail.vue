@@ -35,7 +35,7 @@
 				<view class="lucky-number">
 					幸运号码: <text class="orange fs34 mgl10">102522</text>
 				</view>
-				<view class="check-btn flex-box colorw">
+				<view class="check-btn flex-box colorw" @tap="toCalculation">
 					查看计算结果
 				</view>
 			</view>
@@ -90,7 +90,7 @@
 			></image>
 				
 			<view class="detail-wd fs30 background-white">
-				<view class="betweenBox mgb20 boxs-b">
+				<view class="betweenBox mgb20 boxs-b" @tap="toChart">
 					<view class="title-black">
 						走势图
 					</view>
@@ -337,6 +337,16 @@ export default {
 		toRecord(){
 			uni.navigateTo({
 				url:'/pages/product/product-record/product-record'
+			})
+		},
+		toCalculation(){
+			uni.navigateTo({
+				url:'/pages/packages/calculation-details/calculation-details'
+			})
+		},
+		toChart(){
+			uni.navigateTo({
+				url:'/pages/packages/trend-chart/trend-chart'
 			})
 		},
 		getSort() {
@@ -715,6 +725,9 @@ export default {
 							uni.navigateTo({
 								url: '/pages/order/fillOrder/fillOrder?type=' + this.goodsDetail.type
 							});
+							// uni.navigateTo({
+							// 	url: '/pages/order/settlement-payment/settlement-payment?type=' + this.goodsDetail.type
+							// });
 						}
 					});
 				}

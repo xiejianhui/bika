@@ -47,7 +47,7 @@
 		methods:{
 			recharge(){
 				uni.navigateTo({
-					url:"/pages/member/recharge/recharge"
+					url:"/pages/member/recharge-detail/recharge-detail"
 				})
 			}
 		}

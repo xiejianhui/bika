@@ -1,12 +1,17 @@
 <template>
 	<view class="colTopBottom pageBg">
-		<view class="" style="padding-top: 30upx;">
-			<view class="ps-circle flex-box">
+		<view class="" style="padding-top: 138upx;">
+			<view class="ps-circle flex-box" v-if="1==1">
 				<view class="flex-box">
-					<image src="../../../static/img/success-tickets.png" mode="widthFix"></image>
+					<image src="/static/img/moudel/icon-chenggong.png" mode="widthFix"></image>
 				</view>
 			</view>
-			<view class="tac fs30 mgb20 mgt20 title-black">
+			<view class="ps-circle flex-box" v-else>
+				<view class="flex-box">
+					<image src="/static/img/moudel/icon-shibai.png" mode="widthFix"></image>
+				</view>
+			</view>
+			<view class="tac title-black">
 				支付成功
 			</view>
 		</view>
@@ -22,9 +27,12 @@
 					去寄售
 				</view>
 			</view>
-			<navigator url="/pages/index/index" open-type='switchTab' v-if="order.type!=1 && order.type!=7">
+			<view class="white-btn mgt40 primary-border" v-if="1 == 2" @tap="rePayment">
+				重新支付
+			</view>
+			<navigator url="/pages/product/product-category" open-type='switchTab' v-if="order.type!=1 && order.type!=7">
 				<view class="white-btn mgt40 primary-border">
-					返回首页
+					继续购物
 				</view>
 			</navigator>
 			<navigator :url="'/pages/order/order?id='+order.id">
@@ -34,9 +42,6 @@
 			</navigator>		
 		</view>
 		<view class="mgt40 mgtbtn" v-if="systemInfo">
-			<!-- <view class="paybtn white flex-box paybtn1" @tap="toApp">
-				<text class="mgr20 ">返回app</text>
-			</view> -->
 			<button class="paybtn white flex-box paybtn1" open-type="launchApp" app-parameter="wechat" binderror="launchAppError">返回APP</button>
 		</view>
 
@@ -82,6 +87,19 @@
 			// #endif
 		},
 		methods: {
+			rePayment(){
+				uni.setStorage({
+					key: 'payingObj',
+					data: this.order,
+					success: () => {
+						uni.navigateTo({
+							url: '/pages/order/submitOrder/submitOrder',
+							animationType: 'pop-in',
+							animationDuration: 200
+						});
+					}
+				});
+			},
 			getProductType() {
 				this.order = uni.getStorageSync('payingOrder');
 				console.log("this.order",this.order)
@@ -134,30 +152,39 @@
 		height: 100%;
 	}
 	.order-box{
-		margin: 0upx 90upx;
+		margin: 0upx 30upx;
 		box-sizing: border-box;
 		.mgt40{
-			margin-top: 70upx;
+			margin-top: 60upx;
 		}
 		.white-btn{
-			width:260upx;
-			height:80upx;
-			line-height: 80upx;
-			border-radius:40upx;
-			border:1upx solid rgba(203,203,203,1);
+			width:330upx;
+			height:88upx;
+			background:rgba(255,255,255,1);
+			border:1upx solid rgba(254,106,114,1);
+			border-radius:44upx;
 			float: left;
-			margin-right: 40upx;
-			color: #656565;
+			margin-right: 20upx;
+			color: #FE6A72;
 			font-size: 36upx;
 			box-sizing: border-box;
+			display: flex;
+			align-items: center;
+			justify-content: center;
 		}
 		.blue-btn{
-			width:260upx;
-			height:80upx;
-			line-height: 80upx;
-			background:rgba(249,83,26,1);
-			border-radius:40upx;
+			width:340upx;
+			height:88upx;
+			background:rgba(255,255,255,1);
+			border:1upx solid rgba(200,200,200,1);
+			border-radius:44upx;
+			color: #666666;
 			float: left;
+			box-sizing: border-box;
+			font-size: 36upx;
+			display: flex;
+			align-items: center;
+			justify-content: center;
 		}
 	}
 	.pageBg{
@@ -169,19 +196,15 @@
 		>view {
 			width: 140upx;
 			height: 140upx;
-			border-radius: 50%;
-			border: 8upx solid #49D46E;
-			margin-top: 0upx;
-			background:#49D46E;
-
 			image {
-				width: 94upx;
+				width: 140upx;
+				height: 140upx;
 			}
 		}
 	}
 	.tac{
 		margin: 30upx 0upx;
-		font-size:38upx;
+		font-size:48upx;
 		font-family:PingFangSC-Semibold;
 		font-weight:600;
 		color:rgba(51,51,51,1);

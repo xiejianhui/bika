@@ -120,7 +120,7 @@ export default {
 		},
 		go(item) {
 			uni.navigateTo({
-				url: '../product-detail?id=' + item.id,
+				url: '/pages/product/product-detail?id=' + item.id,
 				animationType: 'pop-in',
 				animationDuration: 200
 			});

@@ -5,7 +5,7 @@
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "盖世风商城",
-				"navigationBarBackgroundColor": "#FC4E29",
+				"navigationBarBackgroundColor": "#FE6A72",
 				"navigationBarTextStyle": "white",
 				"backgroundColor": "#F5F5F5",
 				"enablePullDownRefresh": true,
@@ -34,7 +34,7 @@
 			"path": "pages/cart/cart",
 			"style": {
 				"navigationBarTitleText": "购物车",
-				"navigationBarBackgroundColor": "#FC4E29",
+				"navigationBarBackgroundColor": "#FE6A72",
 				"navigationBarTextStyle": "white",
 				"enablePullDownRefresh": true
 			}
@@ -43,7 +43,7 @@
 			"path": "pages/member/member",
 			"style": {
 				"navigationBarTitleText": "个人",
-				"navigationBarBackgroundColor": "#FC4E29",
+				"navigationBarBackgroundColor": "#FE6A72",
 				"navigationBarTextStyle": "white",
 				"backgroundColor": "##F5F5F5",
 				"enablePullDownRefresh": true
@@ -79,10 +79,6 @@
 		    "style" : {
 				"navigationBarTitleText": "签到领福利"
 			}
-		},
-		{
-		    "path": "pages/member/recharge/recharge",
-		    "navigationBarTitleText": "充值"
 		},
 		{
 		    "path": "pages/member/collect/collect",
@@ -318,7 +314,7 @@
 			"path": "pages/product/product-category",
 			"style": {
 				"navigationBarTitleText": "分类",
-				"navigationBarBackgroundColor": "#FC4E29",
+				"navigationBarBackgroundColor": "#FE6A72",
 				"navigationBarTextStyle": "white",
 				"enablePullDownRefresh": true
 			}
@@ -437,12 +433,18 @@
 				"navigationBarTitleText" : "所有参与记录"
 			}
         }
+        ,{
+            "path" : "pages/order/settlement-payment/settlement-payment",
+            "style" : {
+				"navigationBarTitleText" : "结算支付"
+			}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "盖世风商城",
-		"navigationBarBackgroundColor": "#F55C70",
-		"backgroundColor": "#F55C70"
+		"navigationBarBackgroundColor": "#FE6A72",
+		"backgroundColor": "#FE6A72"
 	},
 	"subPackages": [
 		{
@@ -502,11 +504,44 @@
 				}
 			  }
 		  ]
+		},{
+		  "root": "pages/packages/winning-record",
+		  "pages": [
+			  {
+				"path": "winning-record",
+				"style": {
+					"navigationBarTitleText": "中奖纪录",
+					"enablePullDownRefresh": true
+				}
+			  }
+		  ]
+		},{
+		  "root": "pages/packages/calculation-details",
+		  "pages": [
+			  {
+				"path": "calculation-details",
+				"style": {
+					"navigationBarTitleText": "计算详情",
+					"enablePullDownRefresh": true
+				}
+			  }
+		  ]
+		},{
+		  "root": "pages/packages/trend-chart",
+		  "pages": [
+			  {
+				"path": "trend-chart",
+				"style": {
+					"navigationBarTitleText": "走势图",
+					"enablePullDownRefresh": true
+				}
+			  }
+		  ]
 		}
 	],
 	"tabBar": {
-		"color": "#9F9F9F",
-		"selectedColor": "#FC4E29",
+		"color": "#CFABA7",
+		"selectedColor": "#FE6A72",
 		"backgroundColor": "#FFF",
 		"list": [{
 				"pagePath": "pages/index/index",
