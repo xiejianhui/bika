@@ -38,11 +38,11 @@
 							</view>
 							<!-- <view class="modelName" v-if="item.modelName"> -->
 							<view class="modelName">
-								<view v-for="(item,index) in modelArr" :key="index" 
+								<view v-for="(pItem,subIndex) in item.modelArr" :key="subIndex" 
 								class="modelName-item flex-box fs30 color6" 
-								:class="{ model_check: item.active }"
-								@tap="changeModel(index)">
-								{{item.modelName}}</view>
+								:class="{ model_check: (pItem.active && currentIndex == index) }"
+								@tap="changeModel(index,subIndex)">
+								{{pItem.modelName}}</view>
 							</view>
 						</view>
 					</view>
@@ -160,6 +160,7 @@
 				modelArr:[{modelName:20,active: false},{modelName:30,active: false},{modelName:50,active: false},{modelName:'梭哈',active: false}],
 				modelName:'',
 				customQuantity:'',
+				currentIndex:0,
 			};
 		},
 		computed:{
@@ -203,13 +204,19 @@
 		    }, 1000);
 		},
 		methods: {
-			changeModel(index) {
-				let arr = this.modelArr;
-				arr.forEach(item => (item.active = false));
-				arr[index].active = true;
-				this.modelArr = arr;
-				this.modelName = this.modelArr[index].modelName;
-				console.log("this.modelName",this.modelName)
+			changeModel(index,subindex) {
+				console.log("index",index)
+				console.log("subindex",subindex)
+				let arr = this.goodsList;
+				this.currentIndex = index;//选择规格数量
+				arr.forEach(item => {
+					item.modelArr.forEach(pItem => {
+						pItem.active = false;
+					});
+				});
+				arr[index].modelArr[subindex].active = true;
+				this.modelName = arr[index].modelArr[subindex].modelName;
+				this.goodsList = arr;
 			},
 			
 			goProductDetail(item){
@@ -446,7 +453,10 @@
 						console.log(res)
 						if(res.data.data.length){
 							let arr = res.data.data[0].shoppingCartList;
-							arr.forEach(item => item.select = false);
+							arr.forEach(item => {
+								item.select = false;
+								item.modelArr = this.modelArr
+							});
 							arr = this.setImgSize(arr,'200x200','imageUrl');
 							this.goodsList = arr;
 						}else{
