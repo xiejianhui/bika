@@ -9,7 +9,7 @@
 					<view class="search-icon absolute">
 						<image src="/static/img/index/icon_home_search@2x.png"  mode="widthFix" class="w100"></image>
 					</view>
-					<input type="text" confirm-type="search" placeholder="请输入搜索关键字" placeholder-style="color: #C8C8C8;"/>
+					<input type="text" confirm-type="search" :placeholder="i18n.searchEnter" placeholder-style="color: #C8C8C8;"/>
 				</view>
 				<view class="share-icon" @tap="goShare">
 					<image src="/static/img/index/ic_hangqing_fenxiang@2x.png"  mode="widthFix" class="w100"></image>
@@ -37,23 +37,23 @@
 			<view class="zone background-white">
 				<view class="item" @tap="goProductList(0)">
 					<view class="pic"><image src="/static/img/index/icon_home_czye@2x.png" mode="widthFix"></image></view>
-					<view class="name fs24 color3 flex-box">余额充值</view>
+					<view class="name fs24 color3 flex-box">{{i18n.balanceRecharge}}</view>
 				</view>
 				<view class="item" @tap="goProductList(1)">
 					<view class="pic"><image src="/static/img/index/icon_home_sd@2x.png" mode="widthFix"></image></view>
-					<view class="name fs24 color3 flex-box">晒单</view>
+					<view class="name fs24 color3 flex-box">{{i18n.sunOrder}}</view>
 				</view>
 				<view class="item" @tap="goProductList(2)">
 					<view class="pic"><image src="/static/img/index/icon_home_fxzq@2x.png" mode="widthFix"></image></view>
-					<view class="name fs24 color3 flex-box">分享赚钱</view>
+					<view class="name fs24 color3 flex-box">{{i18n.moneyShare}}</view>
 				</view>
 				<view class="item" @tap="goProductList(3)">
 					<view class="pic"><image src="/static/img/index/icon_home_qd@2x.png" mode="widthFix"></image></view>
-					<view class="name fs24 color3 flex-box">签到</view>
+					<view class="name fs24 color3 flex-box">{{i18n.inSign}}</view>
 				</view>
 				<view class="item" @tap="goProductList(3)">
 					<view class="pic"><image src="/static/img/index/icon_home_xszy@2x.png" mode="widthFix"></image></view>
-					<view class="name fs24 color3 flex-box">新手指引</view>
+					<view class="name fs24 color3 flex-box">{{i18n.guide}}</view>
 				</view>
 			</view>
 
@@ -61,7 +61,7 @@
 			<view class="cdWrap betweenBox background-white bdb" v-if="hotProductList && hotProductList.length" @tap="toUnveiled">
 				<view class="flex">
 					<view class="cd-left color3 fs30 flex-align">
-						<view class="line"></view>最新揭晓
+						<view class="line"></view>{{i18n.announcementLatest}}
 					</view>
 				</view>
 				<view class="cd-right">
@@ -79,7 +79,7 @@
 						</view>
 					</view>
 					<view class="item-info" v-else>
-						<view class="scroll-title fs26 color3 flex-box">倒计时</view>
+						<view class="scroll-title fs26 color3 flex-box">{{i18n.countdown}}</view>
 						<view class="fs28 fw500 flex-box mgt10 mgb20 primary-color">
 							<view class="flex-box">
 								<uni-countdown
@@ -97,7 +97,7 @@
 					</view>
 					<view class="item-img">
 						<image lazy-load :src="item.image" mode="widthFix"></image>
-						<view class="sold-out" v-if="!item.stock"><view class="out-logo">售罄</view></view>
+						<view class="sold-out" v-if="!item.stock"><view class="out-logo">{{i18n.sell_out}}</view></view>
 					</view>
 				</view>
 			</scroll-view>
@@ -106,7 +106,7 @@
 				<view class="cdWrap betweenBox background-white bdb" v-if="sortProductList && sortProductList.length">
 					<view class="flex">
 						<view class="cd-left color3 fs30 flex-align">
-							<view class="line"></view>精选好货
+							<view class="line"></view>{{i18n.featuredGoods}}
 						</view>
 					</view>
 					<view class="cd-right">
@@ -118,19 +118,19 @@
 				<no-data v-if="sortProductList && !sortProductList.length"></no-data>
 				<view class="recomemnt-item sort-type" v-for="(item, index) in sortProductList" :key="index">
 					<view class="item-img">
-						<image lazy-load :src="item.image" mode="widthFix"></image>
+						<image lazy-load :src="item.image" mode="widthFix" @tap="goProduct(item)"></image>
 					</view>
 					<view class="item-info info-coupon">
 						<view class="scroll-title fw500 fs30 color3 mgb10">{{ item.productname }}</view>
 						<view class="orange fs30 fw400 mgb20">
-							<text class="color9 mgr20">价值</text>
+							<text class="color9 mgr20">{{i18n.value}}</text>
 							<text class="">￥{{ item.price }}</text>
 						</view>
 						<!-- <progress backgroundColor="#D8D8D8" activeColor="##FE6A72" :percent="item.percent" active style='border-radius: 10upx;overflow: hidden;' /> -->
 						<progress backgroundColor="#D8D8D8" activeColor="#FE6A72" percent="60" active style='border-radius: 10upx;overflow: hidden;' />
 						<view class="betweenBox mgt30">
 							<view class="flex-box orange" @tap="goProduct(item)">
-								立即参与
+								{{i18n.involvedGet}}
 							</view>
 							<view class="shopping_normal" v-if="true">
 								<image lazy-load src="/static/img/index/shopping_normal@2x.png" mode="widthFix"></image>
@@ -144,7 +144,7 @@
 			</view>
 			<!-- #ifdef H5 -->
 			<a href="http://www.beian.miit.gov.cn" style="text-decoration: none;" v-if="false">
-				<view class="fs20 tac background-white pd20 mgt20 title-black">Copyright©版权所有 ICP证：粤ICP备18116847号-2</view>
+				<view class="fs20 tac background-white pd20 mgt20 title-black">{{i18n.Copyright}}</view>
 			</a>
 			<!-- #endif -->
 		</view>
@@ -162,10 +162,11 @@ import {baseUrl} from '@/common/req.js'
 // #ifdef H5
 const wx = require('weixin-js-sdk');
 console.log(wx);
+let that = this;
 wx.ready(function() {
 	wx.updateAppMessageShareData({
-		title: '盖世风商城', // 分享标题
-		desc: '盖世风商城', // 分享描述
+		title: that.i18n.geshifeng_mall, // 分享标题
+		desc: that.i18n.geshifeng_mall, // 分享描述
 		link: location.origin, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
 		imgUrl: '/static/img/logo.png', // 分享图标
 		success: function() {
@@ -246,14 +247,14 @@ export default {
 	},
 	onShareAppMessage(res) {
 		return {
-			title: '库存清货首选平台，购物享折扣、寄售获分润、推广赚佣金'
+			title: this.i18n.shopping_discount,
 		};
 	},
 	onReachBottom() {
 		if(this.sortProductList.length == 0) return;
 		if(this.noMoreData){
 			uni.showToast({
-				title:'已是最后一页',
+				title:this.$t('tips').tips,
 				icon:'none',
 				duration:1500
 			});
@@ -334,7 +335,7 @@ export default {
 			// vm.apiUrl.orderShare({data: {goodsConsignmentId: shareId}})
 			
 			return {
-				title: '分享',
+				title: this.i18n.shareIt,
 				// imageUrl: goodsImage,
 				path: '/pages/index/index',
 				// success() {

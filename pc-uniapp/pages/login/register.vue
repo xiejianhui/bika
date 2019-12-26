@@ -7,7 +7,7 @@
 						<image class="phone-logo mgr20" src="/static/img/login/login_iphone@2x.png"></image>
 					</view>
 					<view class="form-input">
-						<input type="number" v-model="info.mobilePhone" placeholder="请输入手机号" />
+						<input type="number" v-model="info.mobilePhone" :placeholder="i18n.enter_phone_number" />
 					</view>
 				</view>
 				<view class="form-item flex-align">
@@ -15,9 +15,9 @@
 						<image class="phone-logo mgr20" src="/static/img/login/login_lock@2x.png"></image>
 					</view>
 					<view class="form-input">
-						<input class="input-code" type="text" :password="!showPassword" v-model="info.password" placeholder="请输入登密码" />
+						<input class="input-code" type="text" :password="!showPassword" v-model="info.password" :placeholder="i18n.enter_login_password" />
 						<view class="appen-solt" @tap="showPassword=!showPassword">
-							<text class="password-mode">{{showPassword? '隐藏':'显示'}}</text>
+							<text class="password-mode">{{showPassword? i18n.hide : i18n.show}}</text>
 						</view>
 					</view>
 				</view>
@@ -26,7 +26,7 @@
 						<image class="phone-logo mgr20" src="/static/img/login/login_shield@2x.png"></image>
 					</view>
 					<view class="form-input">
-						<input class="input-code" type="text" v-model="info.imgCode" placeholder="请输入图形验证码" />
+						<input class="input-code" type="text" v-model="info.imgCode" :placeholder="i18n.input_verification_code" />
 						<view class="appen-solt">
 							<image :src="imgCodePath" @tap="initImgCode" class="img-code"></image>
 						</view>
@@ -34,16 +34,16 @@
 				</view>
 			</view>
 			<view class="fs24 primary-color noteStr flex-align" v-if="noteStr == true">
-				账号或登录密码不正确，请重新输入
+				{{i18n.incorrect}}
 			</view>
-			<button formType="submit" :class="btnShow ? 'submit-btn btnShow': 'submit-btn'" :disabled="disabled">确定</button>
+			<button formType="submit" :class="btnShow ? 'submit-btn btnShow': 'submit-btn'" :disabled="disabled">{{i18n.confirm}}</button>
 			<view class="agreement">
 				<view @tap="agree = !agree">
 					<image v-if="agree" src="/static/img/login/icon_otc_skfs_yjh@2x.png" mode="widthFix"></image>
 					<image v-else src="/static/img/login/icon_otc_skfs_unyjh@2x.png" mode="widthFix"></image>
 				</view>
 				<view class="flex-align">
-					<text class="txt">我已阅读并同意</text><navigator url="agreements/agreements?type=1" class="txt primary-color">《用户服务协议》</navigator>
+					<text class="txt">{{i18n.haveAgree}}</text><navigator url="agreements/agreements?type=1" class="txt primary-color">《{{i18n.agreementWithdrawal}}》</navigator>
 				</view>
 			</view>
 			<!-- button按钮改变隐藏域 -->
@@ -84,7 +84,10 @@
 		computed:{
 			exitsVal:function(){
 				this.ifExist=Number(Boolean(this.info.mobilePhone))+Number(Boolean(this.info.password))+Number(Boolean(this.agree))
-			}	
+			},
+			i18n () {
+				return this.$t('login')
+			}
 		},
 		watch:{
 			// 监听data中 ifExist的值
@@ -128,21 +131,21 @@
 				if (!this.checkPswString(this.info.password)){
 					this.noteStr = true;
 					console.log("this.noteStr",this.noteStr)
-					noteStr = '登录密码格式错误，密码只能是6-16位数字或数字和字母的组合';
+					noteStr = this.i18n.incorrectly_formatted;
 					return;
 				}
 				if (!this.agree) {
 					uni.showToast({
 						duration: 2000,
 						icon: 'none',
-						title: '注册需要同意注册协议'
+						title: this.i18n.registration_agreement
 					});
 					return;
 				}
 				let oldPassword = this.info.password;
 				this.info.password = md5('TPSHOP' + this.info.password)
 				uni.showLoading({
-					title:'请稍候',
+					title:this.i18n.wait_moment,
 					mask:true
 				})
 				this.apiUrl
@@ -157,7 +160,7 @@
 								uni.showToast({
 									duration: 1500,
 									icon: 'none',
-									title: '注册成功'
+									title: this.i18n.login_successful
 								});
 
 								//签名secret

@@ -2,7 +2,7 @@
 	<view class="pageBgW">
 		<view class="member-info">
 			<view class="betweenBox fs28 background-white bdb imgInFo">
-				<view class="w200 title-black">头像</view>
+				<view class="w200 title-black">{{i18n.portraitHead}}</view>
 				<view class="flex-box">
 					<view class="head-circle" @tap="uploadHead">
 						<image :src="imgUrl" v-if="imgUrl" mode="widthFix" class="w100"></image>
@@ -13,7 +13,7 @@
 			</view>
 			<navigator url="../change-nickname/change-nickname">
 				<view class="betweenBox fs28 background-white bdb nameInFo">
-					<view class="w200 title-black">昵称</view>
+					<view class="w200 title-black">{{i18n.nickname}}</view>
 					<view class="flex-box color9 fs32">
 						{{memberInfo.userName}}
 						<image src="/static/img/self/pubulic_icon_expand@2x.png" mode="widthFix" class="ps-icon mgl20"></image>
@@ -22,7 +22,7 @@
 			</navigator>
 			<navigator url="/pages/member/psw-setting/psw-setting">
 				<view class="betweenBox fs30 background-white nameInFo">
-					<view class="w200 fs30 title-black">修改密码</view>
+					<view class="w200 fs30 title-black">{{i18n.passwordChange}}</view>
 					<view class="flex-box color9 fs32">
 						<image src="/static/img/self/pubulic_icon_expand@2x.png" mode="widthFix" class="ps-icon mgl20"></image>
 					</view>
@@ -32,16 +32,16 @@
 		<view class="pdb20"></view>
 		<view class="member-info">
 			<view class="betweenBox fs28 background-white bdb nameInFo">
-				<view class="w200 title-black">享购记录</view>
+				<view class="w200 title-black">{{i18n.historyPurchase}}</view>
 				<view class="flex-box color9 fs30">
-					所有人可见
+					{{i18n.visibleAll}}
 					<switch class="switch" checked @change="switch1Change" style="transform:scale(0.7)"/>
 				</view>
 			</view>
 			<view class="betweenBox fs28 background-white bdb nameInFo">
-				<view class="w200 title-black">获得商品</view>
+				<view class="w200 title-black">{{i18n.goodsGet}}</view>
 				<view class="flex-box color9 fs30">
-					所有人可见
+					{{i18n.visibleAll}}
 					 <switch class="switch" @change="switch2Change" style="transform:scale(0.7)"/>
 				</view>
 			</view>
@@ -62,9 +62,15 @@
 				imgUrl:''
 			};
 		},
-		computed: mapState([
-			'memberInfo'
-		]),
+		computed: {
+			...mapState([
+				'memberInfo'
+			]),
+			i18n () {
+				let that = this;
+				return that.$t('personInfo')  
+			}
+		},
 		onShow() {
 			this.$store.dispatch('getMemberInfo');
 		},
@@ -108,7 +114,7 @@
 				}).then(res=>{
 					if(res.data.status ==1){
 						uni.showToast({
-							title:'修改头像成功',
+							title:this.i18n.successfullyAvatar,
 							icon:'success',
 							duration:2000
 						})
@@ -120,6 +126,10 @@
 </script>
 
 <style lang="less" scoped>
+	.w200{
+		width: auto;
+		min-width: 200upx;
+	}
 	.pageBgW{
 		box-sizing: border-box;
 		padding: 27upx 0;

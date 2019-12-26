@@ -10,10 +10,10 @@
 			<view class="flex result color6 fs26 background-white">
 				<view class="head-box bdr">
 					<view class="head">
-						<image :src="memberInfo.logo" v-if="memberInfo.logo" mode="widthFix" class="w100"></image>
+						<image :src="memberInfo.logo" v-if="memberInfo && memberInfo.logo" mode="widthFix" class="w100"></image>
 						<image src="/static/img/logoGsp.png" v-else mode="widthFix" class="w100"></image>
 					</view>
-					<view v-if="memberInfo.id" class="color6 fs30 flex-box">
+					<view v-if="memberInfo && memberInfo.id" class="color6 fs30 flex-box">
 						{{ memberInfo.userName||memberInfo.mobilePhone}}
 					</view>
 				</view>

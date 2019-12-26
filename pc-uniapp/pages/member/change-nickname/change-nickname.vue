@@ -1,10 +1,10 @@
 <template>
 	<view class="pageBg">
 		<view class="pd20 flex fs30 background-white bdb">
-			<input type="text" v-model="newName" placeholder="请输入昵称" />
+			<input type="text" v-model="newName" :placeholder="i18n.nicknameInput" />
 		</view>
 		<button class="mgt40 blue-btn primary-background mgb20" :class="newName ? '': 'btnShow'" :disabled="newName == '' ? true : false" @tap='changename'>
-			完成
+			{{i18n.complete}}
 		</button>
 	</view>
 </template>
@@ -21,9 +21,15 @@
 		onLoad() {
 			this.newName = this.memberInfo.userName
 		},
-		computed: mapState([
-			'memberInfo'
-		]),
+		computed: {
+			...mapState([
+				'memberInfo'
+			]),
+			i18n () {
+				let that = this;
+				return that.$t('changeNickname')  
+			}
+		},
 		methods:{
 			strlen(str){
 				var len = 0;  
@@ -44,7 +50,7 @@
 				let len = this.strlen(this.newName);
 				if(len>16){
 					uni.showToast({
-						title:'昵称最多为8个中文字符或者16个英文字符',
+						title:this.i18n.upNicknames,
 						icon:'none',
 						duration:1500
 					})
@@ -54,12 +60,12 @@
 					uni.showToast({
 						icon:'none',
 						duration:2000,
-						title:'昵称不能为空'
+						title:this.i18n.emptyNickname,
 					})
 					return
 				} 
 				uni.showLoading({
-					title:'请稍候',
+					title:this.i18n.wait_moment,
 					mask:true
 				})
 				this.apiUrl.editMemberInfo({data:{
@@ -71,7 +77,7 @@
 						uni.showToast({
 							icon:'none',
 							duration:2000,
-							title:'修改成功'
+							title:this.i18n.successModified,
 						})
 						setTimeout(()=>{
 							uni.navigateBack()

@@ -91,6 +91,7 @@
 	.btnShow{
 		background: #E5E5E5;
 		color: #FFFFFF;
+		box-shadow: none;
 	}
 	.btnShow:after{
 		border: none;

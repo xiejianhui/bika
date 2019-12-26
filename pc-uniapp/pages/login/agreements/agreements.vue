@@ -5,13 +5,13 @@
 		</view>
 		<view class="flex-box">
 			<view class="login-btn" @tap="goBack" v-if="type==1">
-				同意该协议并返回注册页
+				{{i18n.agree_return}}
 			</view>
 			<view class="login-btn" @tap="goBack" v-if="type==3">
-				同意该协议并返回提现
+				{{i18n.agree_withdrawal}}
 			</view>
 			<view class="login-btn" @tap="goBack" v-if="type==6">
-				同意该协议并返回支付
+				{{i18n.agree_payment}}
 			</view>
 		</view>
 
@@ -26,31 +26,37 @@
 				type: 1
 			};
 		},
+		computed : {
+			// 多语言
+			i18n () {
+				return this.$t('login')
+			}
+		},
 		onLoad(e) {
 			this.type = e.type;
 			if (this.type == 6) {
 				uni.setNavigationBarTitle({
-					title: '支付协议'
+					title: this.i18n.payment_agree
 				});
 			}
 			if (this.type == 5) {
 				uni.setNavigationBarTitle({
-					title: '批发协议'
+					title: this.i18n.wholesale_agreement
 				});
 			}
 			if (this.type == 4) {
 				uni.setNavigationBarTitle({
-					title: '零售协议'
+					title: this.i18n.retail_agreement
 				});
 			}
 			if (this.type == 3) {
 				uni.setNavigationBarTitle({
-					title: '提现协议'
+					title: this.i18n.withdrawal_agreement
 				});
 			}
 			if (this.type == 2) {
 				uni.setNavigationBarTitle({
-					title: '寄售协议'
+					title:  this.i18n.consignment_agree
 				});
 			}
 			this.getAgreement()

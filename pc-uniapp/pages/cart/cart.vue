@@ -24,12 +24,12 @@
 								{{item.productName}}
 							</view>
 							<view class="fs28 color9">
-								剩余<text class="primary-color fs32">3</text>人次
+								{{i18n.remaining}}<text class="primary-color fs32">3</text>{{i18n.peopleLeft}}
 							</view>
 							<!-- <view class="gray fs24">
-								<text v-if="item.modelName&&item.modelName!='无'">规格：{{item.modelName}} </text>
+								<text v-if="item.modelName&&item.modelName!=i18n.nothing">{{i18n.specs}}：{{item.modelName}} </text>
 								<image src="/static/img/pubulic_icon_expand_down@2x.png"
-								 mode="widthFix" @tap="selectProductModel(item,index)" v-if="editOrder&&item.enable&&item.modelName&&item.modelName!='无'" class="edit">
+								 mode="widthFix" @tap="selectProductModel(item,index)" v-if="editOrder&&item.enable&&item.modelName&&item.modelName!=i18n.nothing" class="edit">
 								 </image>
 							</view> -->
 							<view class="list-price mgt20 ">
@@ -56,14 +56,14 @@
 			<view class="emptyCart betweenBox">
 				<view class="emptyCart-left flex-align">
 					<input class="custom-quantity flex-box primary-color" v-model="customQuantity" />
-					<view>次</view>
+					<view>{{i18n.times}}</view>
 				</view>
 				<view class="emptyCart-right fs32 fw500 primary-color flex-align">
 					<view class="continue-add flex-box">
-						继续添加
+						{{i18n.addingKeep}}
 					</view>
 					<view class="del-all flex-box" @tap="delShoppingCar">
-						清空
+						{{i18n.clear}}
 					</view>
 				</view>
 			</view>
@@ -77,14 +77,14 @@
 				</view>
 				<view class="right betweenBox" >
 					<view class="">
-						<text>全选</text>
+						<text>{{i18n.check_all}}</text>
 					</view>
 					<view class="flex-box">
 						<template>
-							<text class="fs30">合计：</text>
+							<text class="fs30">{{i18n.total+'：'}}</text>
 							<text class="orange fs30">￥</text>
 							<text class="orange fs40">{{totalMoney}}</text>
-							<text class="paybtn flex-box white mgl30 fs36" :class="{pay_active:totalMoney}" @tap="check">去结算</text>
+							<text class="paybtn flex-box white mgl30 fs36" :class="{pay_active:totalMoney}" @tap="check">{{i18n.settlement}}</text>
 						</template>
 					</view>
 				</view>
@@ -102,20 +102,20 @@
 					</view>
 					<view class="right">
 						<view class="red fs36">
-							￥{{(selectModel?selectModel.price:false)||modelSource.price}} 元
+							￥{{(selectModel?selectModel.price:false)||modelSource.price}} {{i18n.yuan}}
 						</view>
 						<view class="gray fs24" v-if="modelSource.stock">
-							库存 {{(selectModel?selectModel.stock:false)||modelSource.stock}} 件
+							{{i18n.stock}} {{(selectModel?selectModel.stock:false)||modelSource.stock}} {{i18n.pieces}}
 						</view>
 						<view class="">
-							请选择规格 数量
+							{{i18n.specification_quantity}}
 						</view>
 					</view>
 				</view>
 				<view class="pdl20 pdr20">
 					<view class="" v-if="modelSource.mulType" v-for="(item,index) in modelSource.attributeKeyList" :key='index'>
 						<view class="">
-							选择{{item.keyName}}
+							{{i18n.choice}}{{item.keyName}}
 						</view>
 						<view class="size-choose">
 							<view class="size-btn mgt10" v-for="(subitem,subindex) in item.valueList" :key='subindex' :class="{'active-btn':subitem.active}"
@@ -125,7 +125,7 @@
 						</view>
 					</view>
 					<view class="buy-btn" @tap='confirmModel'>
-						确定
+						{{i18n.confirm}}
 					</view>
 				</view>
 			</view>
@@ -133,7 +133,7 @@
 		<view class="emptyCar  tac" v-if="!goodsList.length">
 			<image src="/static/img/cart1.png" mode="widthFix"></image>
 			<view class="fs30 gray">
-				您的购物车还没有商品，赶紧去首页挑选吧~
+				{{i18n.pick_up}}
 			</view>
 		</view>
 	</view>
@@ -169,8 +169,8 @@
 			]),
 			// 多语言
 			i18n () {
-				return this.$t('index')  
-			}  
+				return this.$t('cart')
+			}, 
 		},
 		onLoad() {
 			if(this.memberInfo){
@@ -193,7 +193,7 @@
 		    	this.getList()
 		    }else{
 		    	uni.showToast({
-		    		title: '请登录',
+		    		title: this.i18n.please_login,
 		    		mask: false,
 		    		icon:'none',
 		    		duration: 1500
@@ -245,7 +245,7 @@
 					arr.forEach(item=>item.enable?'':bol=true)
 					if(bol){
 						uni.showToast({
-							title:'不能提交已下架商品',
+							title:this.i18n.unable_submit,
 							icon:'none',
 							duration:1500
 						})
@@ -263,7 +263,7 @@
 					})
 				}else{
 					uni.showToast({
-						title:'请选择至少一项商品',
+						title:this.i18n.choose_one,
 						icon:'none',
 						duration:2000
 					})
@@ -284,7 +284,7 @@
 						uni.showToast({
 							icon: 'none',
 							duration: 2000,
-							title: '请选择型号规格'
+							title: this.i18n.select_specifications
 						})
 						return
 					}
@@ -303,7 +303,7 @@
 						uni.showToast({
 							icon: 'none',
 							duration: 2000,
-							title: '修改成功'
+							title: this.i18n.modified_success
 						});
 						this.showPop=!this.showPop;
 						this.getList();
@@ -415,7 +415,7 @@
 						uni.showToast({
 							icon: 'success',
 							duration: 2000,
-							title: '删除成功'
+							title: this.i18n.delete_successful
 						})
 						this.getList();
 					}
@@ -437,7 +437,7 @@
 						uni.showToast({
 							icon: 'success',
 							duration: 2000,
-							title: '删除成功'
+							title: this.i18n.delete_successful
 						})
 						this.getList();
 					}

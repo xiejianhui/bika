@@ -3,37 +3,37 @@
 	<view class="reset-password-page">
 		<view class="login-form">
 			<view class="form-item">
-				<view class="form-label">手机号</view>
+				<view class="form-label">{{i18n.phone_number}}</view>
 				<view class="form-input">
-					<input type="number" v-model="info.mobilePhone" placeholder="请输入手机号码" value="" />
+					<input type="number" v-model="info.mobilePhone" :placeholder="i18n.enter_phone_number" value="" />
 				</view>
 			</view>
 			<view class="form-item">
-				<view class="form-label">验证码</view>
+				<view class="form-label">{{i18n.code}}</view>
 				<view class="form-input">
-					<input type="text" v-model="info.imgCode" placeholder="请输入图形验证码" value="" />
+					<input type="text" v-model="info.imgCode" :placeholder="i18n.input_verification_code" />
 					<view class="appen-solt">
 						<image :src="imgCodePath" @tap="initImgCode" class="img-code"></image>
 					</view>
 				</view>
 			</view>
 			<view class="form-item">
-				<view class="form-label">手机验证码</view>
+				<view class="form-label">{{i18n.mobile_code}}</view>
 				<view class="form-input">
-					<input type="number" v-model="info.smsCode" placeholder="请输入手机验证码" value="" />
+					<input type="number" v-model="info.smsCode" :placeholder="i18n.enter_phone_code" />
 					<view class="appen-solt" @tap="getCode">
 						<view class="smscode-btn">
-							{{allowGetCode? '获取验证码':countDown+'s'}}
+							{{allowGetCode? i18n.getSmsCode:countDown+'s'}}
 						</view>
 					</view>
 				</view>
 			</view>
 			<view class="form-item">
-				<view class="form-label">登录密码</view>
+				<view class="form-label">{{i18n.Login_password}}</view>
 				<view class="form-input">
-					<input type="text" :password="!showPassword" v-model="info.password" placeholder="请输入登录密码" value="" />
+					<input type="text" :password="!showPassword" v-model="info.password" :placeholder="i18n.enter_login_password" />
 					<view class="appen-solt" @tap="showPassword=!showPassword">
-						<text class="password-mode">{{showPassword? '隐藏':'显示'}}</text>
+						<text class="password-mode">{{showPassword? i18n.hide : i18n.show}}</text>
 					</view>
 				</view>
 			</view>
@@ -42,21 +42,21 @@
 				<view class="form-input">
 					<input type="text" :password="!showPassword2" v-model="info.confirmpsw" placeholder="请输入确认登录密码" value="" />
 					<view class="appen-solt" @tap="showPassword2=!showPassword2">
-						<text class="password-mode">{{showPassword2? '隐藏':'显示'}}</text>
+						<text class="password-mode">{{showPassword2? i18n.hide : i18n.show}}</text>
 					</view>
 				</view>
 			</view> -->
 			<view class="form-item">
-				<view class="form-label">支付密码</view>
+				<view class="form-label">{{i18n.payment_password}}</view>
 				<view class="form-input">
-					<input type="text" :password="!showPassword3" v-model="info.paypwd" placeholder="请输入支付密码" value="" />
+					<input type="text" :password="!showPassword3" v-model="info.paypwd" :placeholder="i18n.enter_payment" />
 					<view class="appen-solt" @tap="showPassword3=!showPassword3">
-						<text class="password-mode">{{showPassword3? '隐藏':'显示'}}</text>
+						<text class="password-mode">{{showPassword3? i18n.hide : i18n.show}}</text>
 					</view>
 				</view>
 			</view>
 		</view>
-		<view class="submit-btn" @tap="register">保存</view>
+		<view class="submit-btn" @tap="register">{{i18n.save}}</view>
 	</view>
 </template>
 
@@ -88,6 +88,12 @@
 				showPassword4:false
 			};
 		},
+		computed : {
+			// 多语言
+			i18n () {
+				return this.$t('login')
+			}
+		},
 		onLoad() {
 			this.initImgCode();
 		},
@@ -97,7 +103,7 @@
 					uni.showToast({
 						duration: 2000,
 						icon: 'none',
-						title: '请输入手机号码'
+						title: this.i18n.enter_phone_number
 					});
 					return;
 				}
@@ -105,7 +111,7 @@
 					uni.showToast({
 						duration: 2000,
 						icon: 'none',
-						title: '请输入手机验证码'
+						title: this.i18n.enter_phone_code
 					});
 					return;
 				}
@@ -113,13 +119,13 @@
 					uni.showToast({
 						duration: 2000,
 						icon: 'none',
-						title: '请输入登录密码或支付密码，不输入则不修改'
+						title: this.i18n.login_payment
 					});
 					return;
 				}
 				let noteStr = '';
-				if (this.info.paypwd && !this.checkPswString(this.info.paypwd)) noteStr = '支付密码格式错误，密码只能由6-16位数字或字母组成，请重新填写';
-				if (this.info.password && !this.checkPswString(this.info.password)) noteStr = '登录密码格式错误，密码只能由6-16位数字或字母组成，请重新填写';
+				if (this.info.paypwd && !this.checkPswString(this.info.paypwd)) noteStr = this.i18n.payment_format_error;
+				if (this.info.password && !this.checkPswString(this.info.password)) noteStr = this.i18n.incorrectly_formatted;
 				if (noteStr) {
 					uni.showToast({
 						duration: 2000,
@@ -132,7 +138,7 @@
 				this.info.password = md5('TPSHOP' + this.info.password)
 				// reset psw
 				uni.showLoading({
-					title:'请稍候',
+					title:this.i18n.wait_moment,
 					mask:true
 				})
 				this.apiUrl
@@ -144,7 +150,7 @@
 							uni.hideLoading();
 							let str = res.data.message;
 							if (res.data.status == 1) {
-								str = '设置成功,请重新登录';
+								str = this.i18n.setup_successful;
 								setTimeout(() => {
 									uni.navigateBack();
 								}, 1500);
@@ -162,7 +168,7 @@
 				if (!this.allowGetCode) return;
 				if (!this.info.mobilePhone || !this.info.imgCode) {
 					uni.showToast({
-						title: '请输入手机号码 / 验证码',
+						title: this.i18n.enter_phone_codes,
 						icon: 'none',
 						duration: 2000
 					});
@@ -170,7 +176,7 @@
 					uni.showToast({
 						duration: 2000,
 						icon: 'none',
-						title: '请输入11位手机号码'
+						title: this.i18n.enter_digit_phone
 					});
 				}else{
 					this.allowGetCode = false;
@@ -192,7 +198,7 @@
 									uni.showToast({
 										duration: 2000,
 										icon: 'none',
-										title: '图形验证码错误'
+										title: this.i18n.graphic_code_rror
 									});
 									this.initImgCode();
 								}
@@ -202,7 +208,7 @@
 									uni.showToast({
 										duration: 2000,
 										icon: 'none',
-										title: '验证码已发送'
+										title: this.i18n.code_sent
 									});
 								}
 							},

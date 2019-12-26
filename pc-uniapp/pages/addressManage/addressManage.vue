@@ -19,14 +19,14 @@
 
 					</view>
 					<image src="/static/img/red-ticket.png" v-else mode="widthFix" class="blueTicket mgr20" @tap="setDefault(index)"></image>
-					<text class="col-app">设为默认地址</text>
+					<text class="col-app">{{i18n.default_address}}</text>
 				</view>
 				<view class="betweenBox op-btn">
 					<view class="btn-dit btn-del" @tap="goEdit(item.id)">
-						编辑
+						{{i18n.edit}}
 					</view>
 					<view class="btn-del" @tap="delAddress(item.id)">
-						删除
+						{{i18n.deletes}}
 					</view>
 				</view>
 			</view>
@@ -35,7 +35,7 @@
 
 		<view class="addcard white flex-box fs30">
 			<navigator url="editAddress/editAddress">
-				新建收货地址
+				{{i18n.receiving_address}}
 			</navigator>
 		</view>
 
@@ -69,10 +69,13 @@
 			console.log(this.memberInfo);
 			this.getAddressList()
 		},
-		computed: mapState([
-			'memberInfo',
-			'activeAddress'
-		]),
+		computed: {
+			...mapState(['memberInfo','activeAddress']),
+			// 多语言
+			i18n () {
+				return this.$t('addressManage')  
+			}  
+		},
 		methods: {
 			useAddress(address) {
 				//save address
@@ -127,8 +130,10 @@
 			},
 			delAddress(id) {
 				uni.showModal({
-					title: '提示',
-					content: '确定删除该地址吗',
+					title: this.$t('tips.tips'),
+					content: this.i18n.to_delete_address,
+					confirmText: this.$t('tips.confirm'),
+					cancelText: this.$t('tips.cancel'),
 					success: (res) => {
 						if (res.confirm) {
 							console.log('用户点击确定');
@@ -143,7 +148,7 @@
 										this.$store.commit('delAddress');
 									}
 									uni.showToast({
-										title: '删除成功',
+										title: this.$t('tips.delete_successful'),
 										duration: 2000
 									})
 									this.getAddressList();

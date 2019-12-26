@@ -4,17 +4,17 @@
 			<image src="/static/img/success-tickets.png" mode="widthFix"></image>
 		</view>
 		<view class="tac tips">
-			恭喜您成功注册盖世风商城账号，请关注我们的公众号【盖世风商城】或下载盖世风商城APP进行登录使用
+			{{i18n.congratulations_successful}}
 		</view>
 		<view class="tac">
 			<image src="/static/img/gsfQr.jpg" mode="widthFix" class="xlgQr"></image>
 			<view class="">
-				长按二维码，关注公众号
+				{{i18n.long_Press}}
 			</view>
 		</view>
 		<a href="http://dl.gaishishop.com/dl-page/index.html">
 			<view class="mgt20 flex-box white background-blue pdt20 pdb20 fs30 qs_btn">
-				下载盖世风商城
+				{{i18n.download_mall}}
 			</view>
 		</a>
 		
@@ -27,6 +27,12 @@
 			return {
 				
 			};
+		},
+		computed : {
+			// 多语言
+			i18n () {
+				return this.$t('login')
+			}
 		},
 		onLoad() {
 			uni.setStorageSync('fromRegisterUccess','true')

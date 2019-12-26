@@ -1,14 +1,14 @@
 <template>
 
 	<view class="login-page">
-		<view class="welcome">欢迎登陆一元购</view>
+		<view class="welcome">{{i18n.toWelcome}}</view>
 		<view class="login-form relative">
 			<view class="form-item flex-align">
 				<view class="form-label">
 					<image class="phone-logo mgr20" src="/static/img/login/login_iphone@2x.png"></image>
 				</view>
 				<view class="form-input">
-					<input type="number" v-model="mobilePhone" placeholder="请输入手机号" @focus="changemb" @blur="changeblur"/>
+					<input type="number" v-model="mobilePhone" :placeholder="i18n.enter_phone_number" @focus="changemb" @blur="changeblur"/>
 				</view>
 			</view>
 			<view class="form-item flex-align">
@@ -16,9 +16,9 @@
 					<image class="phone-logo mgr20" src="/static/img/login/login_lock@2x.png"></image>
 				</view>
 				<view class="form-input">
-					<input type="text" :password="!showPassword" v-model="password" placeholder="请输入密码" />
+					<input type="text" :password="!showPassword" v-model="password" :placeholder="i18n.passwordEnter" />
 					<view class="appen-solt" @tap="showPassword=!showPassword">
-						<text class="password-mode">{{showPassword? '隐藏':'显示'}}</text>
+						<text class="password-mode">{{showPassword? i18n.hide : i18n.show}}</text>
 					</view>
 				</view>
 			</view>
@@ -28,17 +28,17 @@
 				</view>
 			</view>
 		</view>
-		<button :class="mobilePhone && password ? 'submit-btn btnShow': 'submit-btn'" :disabled="mobilePhone == '' || password == ''" @tap="goLogin">登录</button>
+		<button :class="mobilePhone && password ? 'submit-btn btnShow': 'submit-btn'" :disabled="mobilePhone == '' || password == ''" @tap="goLogin">{{i18n.login}}</button>
 		<view class="fun-btn fs28 fw400 flex-box color3">
-			还没有账号?<text class="primary-color" @tap="go(1)">注册</text>
+			{{i18n.accountNo+'?'}}<text class="primary-color" @tap="go(1)">{{i18n.registered}}</text>
 			<!-- <text class="" @tap="go(2)">忘记密码</text> -->
 		</view>
 		<!-- 登录选择弹框 -->
 		<view class="uni-modal" v-if="showModal">
 			<view class="uni-mask"></view>
 			<view class="modal-box">
-			<view class="uni-modal__hd">温馨提示</view>
-				<view class="uni-modal__bd">请选择区号</view>
+			<view class="uni-modal__hd">{{i18n.tips}}</view>
+				<view class="uni-modal__bd">{{i18n.areaSelect}}</view>
 				<view class="uni-modal__ft">
 					<view class="uni-modal__btn" @tap="modalCancel">+60</view>
 					<view class="uni-modal__btn" @tap="modalConfirm">+65</view>
@@ -103,8 +103,11 @@
 						return item.includes(this.mobilePhone); //如果包含字符返回true
 					});
 				}
-			}
+			},
 			// #endif
+			i18n () {
+				return this.$t('login')
+			}
 		},
 		methods: {
 			// 选择手机区号
@@ -154,7 +157,7 @@
 					uni.showToast({
 						icon: 'none',
 						duration: 2000,
-						title: '请输入手机号'
+						title: this.i18n.enter_phone_number
 					})
 					return
 				}
@@ -162,12 +165,12 @@
 					uni.showToast({
 						icon: 'none',
 						duration: 2000,
-						title: '请输入密码'
+						title: this.i18n.enter_login_password
 					})
 					return
 				}
 				uni.showLoading({
-					title:'请稍候',
+					title:this.i18n.wait_moment,
 					mask:true
 				})
 				this.apiUrl.login({
@@ -178,9 +181,9 @@
 				}).then(res => {
 					uni.hideLoading();
 					let message = null;
-					if (res.data.status == 0) message = '手机号不存在';
-					if (res.data.status == 2) message = '密码错误';
-					if (res.data.status == 3) message = '会员被禁用';
+					if (res.data.status == 0) message =  this.i18n.not_exist;
+					if (res.data.status == 2) message =  this.i18n.password_error;
+					if (res.data.status == 3) message =  this.i18n.member_disabled;
 
 					if (message) {
 						uni.showToast({
@@ -192,7 +195,7 @@
 						uni.showToast({
 							icon: 'none',
 							duration: 1500,
-							title: '登录成功'
+							title: this.i18n.login_successfully
 						})
 						uni.removeStorage({
 							key: 'pagefrom'

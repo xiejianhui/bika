@@ -4,22 +4,22 @@
 			<view class="background-white">
 				<view class="ea-list mgl20 pd20 bdb">
 					<view class="left fs30">
-						收货人
+						{{i18n.consignee}}
 					</view>
-					<input type="text" class="fs30" placeholder="输入收货人" v-model="consignee" />
+					<input type="text" class="fs30" :placeholder="i18n.iput_consignee" v-model="consignee" />
 				</view>
 				<view class="ea-list mgl20 pd20 bdb">
 					<view class="left fs30">
-						手机号
+						{{i18n.phone_number}}
 					</view>
-					<input type="text" class="fs30" placeholder="输入手机号" v-model="mobile" />
+					<input type="text" class="fs30" :placeholder="i18n.enter_phone" v-model="mobile" />
 				</view>
 				<view class="ea-list mgl20 pd20 bdb">
 					<view class="left fs30">
-						省市区
+						{{i18n.province_city}}
 					</view>
 					<view class="" style="flex:2;" @tap="showCityPicker">
-						<text class="gray fs30" v-if="!zone">请选择省市区</text>
+						<text class="gray fs30" v-if="!zone">{{i18n.choose_provinces}}</text>
 						<text class="fs30" v-else>{{zone}}</text>
 					</view>
 					<view class="info-right">
@@ -28,13 +28,13 @@
 				</view>
 				<view class="ea-list mgl20 pd20 bdb">
 					<view class="left fs30">
-						详细地址
+						{{i18n.detailed_address}}
 					</view>
-					<input type="text" class="fs30" placeholder="输入详细地址" v-model="address" />
+					<input type="text" class="fs30" :placeholder="i18n.enter_address" v-model="address" />
 				</view>
 				<view class="ea-list mgl20 pd20 betweenBox">
 					<view class="left fs30">
-						设为默认地址
+						{{i18n.default_address}}
 					</view>
 					<switch checked @change="switchChange" />
 					<!-- <view class="ligh-btn background-blue" @tap="setAsDefault=!setAsDefault" :class="{'active':setAsDefault}">
@@ -52,7 +52,7 @@
 			<!-- <view class="ad-save-btn flex-box white fs30" @tap="editAddress">
 				保存该地址
 			</view> -->
-			<button class="ad-save-btn flex-box white fs30" formType="submit" :class="consignee && mobile && address ? '': 'btnShow'" :disabled="consignee == '' && mobile == '' && address == ''">保存该地址</button>
+			<button class="ad-save-btn flex-box white fs30" formType="submit" :class="consignee && mobile && address ? '': 'btnShow'" :disabled="consignee == '' && mobile == '' && address == ''">{{i18n.save_address}}</button>
 		</form>
 	</view>
 </template>
@@ -88,9 +88,14 @@
 			mpvueCityPicker,
 			myCityPicker
 		},
-		computed: mapState([
-			'memberInfo'
-		]),
+		computed: {
+			...mapState([
+				'memberInfo'
+			]),
+			i18n () {
+				return this.$t('editAddress')  
+			}  
+		},
 		mounted() {
 
 		},
@@ -140,7 +145,7 @@
 				if(!this.allowRequest)  return
 				this.allowRequest = false;
 				uni.showLoading({
-					title:'请稍候',
+					title:this.i18n.wait_moment,
 					mask:true
 				})
 				let data = {
@@ -156,12 +161,12 @@
 				}
 				if(!data.consignee||!data.mobile||!data.position||!data.address){
 					let showdata = '';
-					if(!data.address) showdata = '详细地址';
-					if(!data.position) showdata = '省市区';
-					if(!data.mobile) showdata = '手机号';
-					if(!data.consignee) showdata = '收货人';
+					if(!data.address) showdata = this.i18n.detailed_address;
+					if(!data.position) showdata = this.i18n.province_city;
+					if(!data.mobile) showdata = this.i18n.phone_number;
+					if(!data.consignee) showdata = this.i18n.consignee;
 					uni.showToast({
-						title:`${showdata}不能为空`,
+						title:`${showdata}` + this.i18n.not_empty,
 						duration:2000,
 						icon:'none'
 					})
@@ -180,7 +185,7 @@
 					uni.hideLoading();
 					if(res.data.status==1){
 						uni.showToast({
-							title:'保存地址成功',
+							title:this.i18n.successful_preservation,
 							duration:2000,
 							icon:'success'
 						})
@@ -200,6 +205,7 @@
 		.btnShow{
 			background: #E5E5E5;
 			color: #FFFFFF;
+			box-shadow: none;
 		}
 		.btnShow:after{
 			border: none;
