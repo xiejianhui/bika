@@ -6,7 +6,7 @@
 					<text class="fs34 orange">50</text><text class="orange">人</text>
 				</view>
 				<view class="flex-box">
-					邀请好友
+					{{i18n.friendsInvite}}
 				</view>
 			</view>
 			<view class="fs24">
@@ -14,7 +14,7 @@
 					<text class="fs34 orange">50</text><text class="orange">人</text>
 				</view>
 				<view class="flex-box">
-					佣金余额
+					{{i18n.balanceCommission}}
 				</view>
 			</view>
 		</view>
@@ -28,46 +28,46 @@
 				<view class="commission-status bdb">
 					<view class="commission-total color6 fw600 boxs-b bdbe">
 						<view class="item flex-align">
-							佣金总金额<text class="fs36 orange">60</text>元
+							{{i18n.amountTotal}}<text class="fs36 orange">60</text>{{i18n.dollars}}
 						</view>
 					</view>
 					<view class="commission-audit fs26 boxs-b">
 						<view class="item betweenBox">
 							<view>
-								正在佣金提现审核<text class="fs36 orange">30</text>元
+								{{i18n.reviewCommission}}<text class="fs36 orange">30</text>{{i18n.dollars}}
 							</view>
 							<view>
-								已提现金额<text class="fs36 orange">30</text>元
+								{{i18n.cashWithdrawn}}<text class="fs36 orange">30</text>{{i18n.dollars}}
 							</view>
 						</view>
 					</view>
 				</view>
 				<view class="bank color3">
-					<view class="fw600 fs40">请输入银行账号</view>
+					<view class="fw600 fs40">{{i18n.bankEnter}}</view>
 					<form @submit="toWithdraw">
 						<view class="section flex-align">
-							<view class="section-title">申请提现金额</view>
-							<view><input placeholder-style='color:#DADADA' placeholder="请输入提现金额" type="text" v-model="withdrawalAmount" /></view>
+							<view class="section-title">{{i18n.withdrawalApply}}</view>
+							<view><input placeholder-style='color:#DADADA' :placeholder="i18n.withdrawalEnter" type="text" v-model="withdrawalAmount" /></view>
 						</view>
 						<view class="section flex-align">
-							<view class="section-title">开户人</view>
+							<view class="section-title">{{i18n.holderAccount}}</view>
 							<view class="relative">
-								<input placeholder-style='color:#DADADA' placeholder="请输入开户人" type="text" v-model="name" />
+								<input placeholder-style='color:#DADADA' :placeholder="i18n.holderEnter" type="text" v-model="name" />
 								<image @click="toName" class="box-item-icon" src="/static/img/self/share-icon-kaihuren@2x.png"></image>
 							</view>
 						</view>
 						<view class="section flex-align">
-							<view class="section-title">银行账号</view>
-							<view><input placeholder-style='color:#DADADA' placeholder="请输入您的账号" type="text" v-model="accountNumber" /></view>
+							<view class="section-title">{{i18n.AccountBank}}</view>
+							<view><input placeholder-style='color:#DADADA' :placeholder="i18n.yourEnter" type="text" v-model="accountNumber" /></view>
 						</view>
 						<view class="section flex-align">
-							<view class="section-title">银行名称</view>
-							<view><input placeholder-style='color:#DADADA' placeholder="请输入银行名称" type="text" v-model="bankName" /></view>
+							<view class="section-title">{{i18n.nameBank}}</view>
+							<view><input placeholder-style='color:#DADADA' :placeholder="i18n.enterBank" type="text" v-model="bankName" /></view>
 						</view>
 						<view class="fs24 orange mgt10">
-							为确保您申请的金额能够正确无误的转入您的账户，请填写正确的银行卡。
+							{{i18n.ensureOrder}}
 						</view>
-						<button form-type="submit" :class="btnShow ? 'submit-btn btnShow': 'submit-btn'" :disabled="disabled">确认提现</button>
+						<button form-type="submit" :class="btnShow ? 'submit-btn btnShow': 'submit-btn'" :disabled="disabled">{{i18n.withdrawalConfirm}}</button>
 						<!-- button按钮改变隐藏域 -->
 						<view style="display:none" >{{ exitsVal }}</view>
 					</form>
@@ -77,17 +77,17 @@
 				<form @submit="toRecharge" class="recharge-content">
 					<view class="recharge-box bdbe">
 						<view class="fs26">
-							当前可用充值余额<text class="fs34 orange">30</text><text class="orange">元</text>
+							{{i18n.rechargeCurrent}}<text class="fs34 orange">30</text><text class="orange">{{i18n.dollars}}</text>
 						</view>
 						<view class="recharge-num betweenBox">
 							<view class="flex-box">
-								<view class="fs30 color3">充值金额</view>
-								<input type="number" v-model="recharge_amount" placeholder="请输入充值金额" placeholder-style='color:#DADADA' />
+								<view class="fs30 color3">{{i18n.amountRecharge}}</view>
+								<input type="number" v-model="recharge_amount" :placeholder="i18n.rechargeEnter" placeholder-style='color:#DADADA' />
 							</view>
-							<view class="orange">以整数位单位</view>
+							<view class="orange">{{i18n.integerIn}}</view>
 						</view>
 					</view>
-					<button form-type="submit" :class="btnShow ? 'submit-btn btnShow': 'submit-btn'" :disabled="disabled">确认充值</button>
+					<button form-type="submit" :class="btnShow ? 'submit-btn btnShow': 'submit-btn'" :disabled="disabled">{{i18n.rechargeConfirm}}</button>
 					<!-- button按钮改变隐藏域 -->
 					<view style="display:none" >{{ exitsVal }}</view>
 				</form>
@@ -232,7 +232,10 @@ export default {
 			}else{
 				this.ifExist=Number(Boolean(this.recharge_amount))
 			}
-		}	
+		},
+		i18n () {
+			return this.$t('shareEarn')
+		}
 	},
 	onReachBottom() {
 		if(this.noMoreData){

@@ -4,19 +4,19 @@
 			<view class="box">
 				<view class="pd20 flex fs34 background-white bdb">
 					<view class="flex-box" style="flex:2;">
-						<input type="text" style="flex:2;" v-model="oldPassword" :password="!showPassword" placeholder="请输入原登录密码"  />
-						<text class="password-mode" @tap="showPassword=!showPassword">{{showPassword? '隐藏':'显示'}}</text>
+						<input type="text" style="flex:2;" v-model="oldPassword" :password="!showPassword" :placeholder="i18n.passwordEnter"  />
+						<text class="password-mode" @tap="showPassword=!showPassword">{{showPassword? i18n.hide:i18n.show}}</text>
 					</view>
 				</view>
 				<view class="pd20 flex fs34 background-white bdb">
 					<view class="flex-box" style="flex:2;">
-						<input type="text" style="flex:2;" :password="!showPassword2" v-model="password" placeholder="请输入新登录密码" value="" />
-						<text class="password-mode" @tap="showPassword2=!showPassword2">{{showPassword2? '隐藏':'显示'}}</text>
+						<input type="text" style="flex:2;" :password="!showPassword2" v-model="password" :placeholder="i18n.passwordEnterNew" value="" />
+						<text class="password-mode" @tap="showPassword2=!showPassword2">{{showPassword2? i18n.hide:i18n.show}}</text>
 					</view>
 				</view>
 			</view>
 			
-			<button formType="submit" :class="password && oldPassword ? 'mgb20 orange-btn primary-background': 'mgb20 orange-btn primary-background btnShow'" :disabled="password == '' && oldPassword == ''">完成</button>
+			<button formType="submit" :class="password && oldPassword ? 'mgb20 orange-btn primary-background': 'mgb20 orange-btn primary-background btnShow'" :disabled="password == '' && oldPassword == ''">{{i18n.complete}}</button>
 		</form>
 	</view>
 </template>
@@ -36,9 +36,15 @@
 				showPassword3:false
 			};
 		},
-		computed: mapState([
-			'memberInfo'
-		]),
+		computed: {
+			...mapState([
+				'memberInfo'
+			]),
+			i18n () {
+				let that = this;
+				return that.$t('changePsw')  
+			}
+		},
 		onShow() {
 			uni.getStorage({
 				key:'changepsw',
@@ -57,17 +63,17 @@
 					uni.showToast({
 						icon:'none',
 						duration:2000,
-						title:'请输入完整信息'
+						title:this.i18n.fullInformation,
 					})
 				}else if(!this.checkPswString(this.password)){
 					uni.showToast({
 						icon:'none',
 						duration:2000,
-						title:'密码只能是6-16位数字或数字和字母的组合 '
+						title:this.i18n.numbersLetters,
 					})
 				}else {
 					uni.showLoading({
-						title:'请稍候',
+						title:this.i18n.wait_moment,
 						mask:true
 					})
 					this.apiUrl.resetLoginPsw({
@@ -82,7 +88,7 @@
 							uni.showToast({
 								icon:'none',
 								duration:2000,
-								title:'修改成功,请重新登录'
+								title:this.i18n.succeededModification,
 							})
 							setTimeout(()=>{
 								// uni.navigateBack()
