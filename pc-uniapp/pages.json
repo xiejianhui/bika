@@ -82,8 +82,9 @@
 		},
 		{
 		    "path": "pages/member/collect/collect",
-		    "navigationBarTitleText": "我的收藏"
-			
+			"style" : {
+				"navigationBarTitleText": "我的收藏"
+			}
 		},
 		{
 		    "path" : "pages/member/account-details/account-details",
@@ -115,8 +116,152 @@
 				"navigationBarTitleText": "搜索"
 			}
 		},
-		
-		
+		{
+			"path": "pages/product/product-detail",
+			"style": {
+				"navigationBarTitleText": "商品详情",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/order/logistics/logistics",
+			"style": {
+				"navigationBarTitleText": "物流信息"
+			}
+		},
+		{
+			"path": "pages/login/reset-psw",
+			"style": {
+				"navigationBarBackgroundColor": "#fff",
+				"navigationBarTitleText": "重置密码",
+				"navigationBarTextStyle": "black",
+				"backgroundColor": "#f4f4f4"
+			}
+		},
+		{
+			"path": "pages/order/pay-success/pay-success",
+			"style": {
+				"navigationBarTitleText": "支付成功"
+			}
+		},
+		{
+			"path": "pages/order/submitOrder/submitOrder",
+			"style": {
+				"navigationBarTitleText": "支付"
+			}
+		},
+		{
+			"path": "pages/order/fillOrder/fillOrder",
+			"style": {
+				"navigationBarTitleText": "填写订单"
+			}
+		},
+		{
+			"path": "pages/order/receipt/receipt",
+			"style": {
+				"navigationBarTitleText": "发票信息"
+			}
+		},
+		{
+			"path": "pages/addressManage/editAddress/editAddress",
+			"style": {
+				"navigationBarTitleText": "收货地址"
+			}
+		},
+		{
+			"path": "pages/addressManage/addressManage",
+			"style": {
+				"navigationBarTitleText": "地址管理",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/refund/refund",
+			"style": {
+				"navigationBarTitleText": "申请退款"
+			}
+		},
+		{
+			"path": "pages/order/order",
+			"style": {
+				"navigationBarTitleText": "订单详情"
+			}
+		},
+		{
+			"path": "pages/order/order-list",
+			"style": {
+				"navigationBarTitleText": "订单列表",
+				"onReachBottomDistance": 50,
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/product/product-list",
+			"style": {
+				"navigationBarTitleText": "商品列表",
+				"enablePullDownRefresh": true
+			}
+		},	
+		{
+			"path": "pages/product/product-category",
+			"style": {
+				"navigationBarTitleText": "分类",
+				"navigationBarBackgroundColor": "#FE6A72",
+				"navigationBarTextStyle": "white",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/member/change-nickname/change-nickname",
+			"style": {
+				"navigationBarTitleText": "修改昵称"
+			}
+		},
+		{
+			"path": "pages/member/coupons/coupons",
+			"style": {
+				"navigationBarTitleText": "批发券",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/product/product-zone/product-zone",
+			"style": {
+				"navigationBarTitleText": "批发区",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/member/my-score/my-score",
+			"style": {
+				"navigationBarTitleText": "我的优惠券",
+				"enablePullDownRefresh": true
+			}
+		}
+		,{
+		    "path" : "pages/login/registerSuccess/registerSuccess",
+		    "style" : {
+				"navigationBarTitleText" : "注册成功"
+			}
+		} 
+		,{
+		    "path" : "pages/product/product-record/product-record",
+		    "style" : {
+				"navigationBarTitleText" : "所有参与记录"
+			}
+		}
+		,{
+		    "path" : "pages/order/settlement-payment/settlement-payment",
+		    "style" : {
+				"navigationBarTitleText" : "结算支付"
+			}
+		},
+		{
+			"path": "pages/login/agreements/agreements",
+			"style": {
+				"navigationBarTitleText": "注册协议"
+			}
+		},
 		
 		{
 			"path": "pages/member/infomation/message",
@@ -193,29 +338,6 @@
 			}
 		},
 		{
-			"path": "pages/product/product-detail",
-			"style": {
-				"navigationBarTitleText": "商品详情",
-				"enablePullDownRefresh": true
-
-			}
-		},
-		{
-			"path": "pages/order/logistics/logistics",
-			"style": {
-				"navigationBarTitleText": "物流信息"
-			}
-		},
-		{
-			"path": "pages/login/reset-psw",
-			"style": {
-				"navigationBarBackgroundColor": "#fff",
-				"navigationBarTitleText": "重置密码",
-				"navigationBarTextStyle": "black",
-				"backgroundColor": "#f4f4f4"
-			}
-		},
-		{
 			"path": "pages/order/unconsignment/unconsignment",
 			"style": {
 				"navigationBarTitleText": "寄售商品",
@@ -230,73 +352,9 @@
 			}
 		},
 		{
-			"path": "pages/member/my-score/my-score",
-			"style": {
-				"navigationBarTitleText": "我的优惠券",
-				"enablePullDownRefresh": true
-			}
-		},
-		{
 			"path": "pages/order/submit-consignment/submit-consignment",
 			"style": {
 				"navigationBarTitleText": "提交寄售"
-			}
-		},
-		{
-			"path": "pages/order/pay-success/pay-success",
-			"style": {
-				"navigationBarTitleText": "支付成功"
-			}
-		},
-		{
-			"path": "pages/order/submitOrder/submitOrder",
-			"style": {
-				"navigationBarTitleText": "支付"
-			}
-		},
-		{
-			"path": "pages/order/fillOrder/fillOrder",
-			"style": {
-				"navigationBarTitleText": "填写订单"
-			}
-		},
-		{
-			"path": "pages/order/receipt/receipt",
-			"style": {
-				"navigationBarTitleText": "发票信息"
-			}
-		},
-		{
-			"path": "pages/addressManage/editAddress/editAddress",
-			"style": {
-				"navigationBarTitleText": "收货地址"
-			}
-		},
-		{
-			"path": "pages/addressManage/addressManage",
-			"style": {
-				"navigationBarTitleText": "地址管理",
-				"enablePullDownRefresh": true
-			}
-		},
-		{
-			"path": "pages/refund/refund",
-			"style": {
-				"navigationBarTitleText": "申请退款"
-			}
-		},
-		{
-			"path": "pages/order/order",
-			"style": {
-				"navigationBarTitleText": "订单详情"
-			}
-		},
-		{
-			"path": "pages/order/order-list",
-			"style": {
-				"navigationBarTitleText": "订单列表",
-				"onReachBottomDistance": 50,
-				"enablePullDownRefresh": true
 			}
 		},
 		{
@@ -304,48 +362,11 @@
 			"style": {}
 		},
 		{
-			"path": "pages/product/product-list",
-			"style": {
-				"navigationBarTitleText": "商品列表",
-				"enablePullDownRefresh": true
-			}
-		},	
-		{
-			"path": "pages/product/product-category",
-			"style": {
-				"navigationBarTitleText": "分类",
-				"navigationBarBackgroundColor": "#FE6A72",
-				"navigationBarTextStyle": "white",
-				"enablePullDownRefresh": true
-			}
-		},
-		{
 			"path": "pages/index/echarts-demo",
 			"style": {
 				"navigationBarTitleText": "echarts-demo"
 			}
 		},
-		{
-			"path": "pages/member/change-nickname/change-nickname",
-			"style": {
-				"navigationBarTitleText": "修改昵称"
-			}
-		},
-		{
-			"path": "pages/member/coupons/coupons",
-			"style": {
-				"navigationBarTitleText": "批发券",
-				"enablePullDownRefresh": true
-			}
-		},
-		{
-			"path": "pages/product/product-zone/product-zone",
-			"style": {
-				"navigationBarTitleText": "批发区",
-				"enablePullDownRefresh": true
-			}
-		},
-		
 		{
 			"path": "pages/order/wholesale-list/wholesale-list",
 			"style": {
@@ -394,12 +415,6 @@
 			}
 		},
 		{
-			"path": "pages/login/agreements/agreements",
-			"style": {
-				"navigationBarTitleText": "注册协议"
-			}
-		},
-		{
 			"path": "pages/member/account/cashdetail-info",
 			"style": {
 				"navigationBarTitleText": "明细"
@@ -419,24 +434,6 @@
             "path" : "pages/order/appOrder/appOrder",
             "style" : {
 				"navigationBarTitleText": ""
-			}
-        }
-		,{
-		    "path" : "pages/login/registerSuccess/registerSuccess",
-		    "style" : {
-				"navigationBarTitleText" : "注册成功"
-			}
-		} 
-        ,{
-            "path" : "pages/product/product-record/product-record",
-            "style" : {
-				"navigationBarTitleText" : "所有参与记录"
-			}
-        }
-        ,{
-            "path" : "pages/order/settlement-payment/settlement-payment",
-            "style" : {
-				"navigationBarTitleText" : "结算支付"
 			}
         }
     ],

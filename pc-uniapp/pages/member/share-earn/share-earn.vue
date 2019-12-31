@@ -138,19 +138,19 @@ export default {
 		return {
 			navList: [
 				{
-					name: '申请提现',
+					name: this.$t('shareEarn').applicationWithdrawal,
 					active: true,
 				},
 				{
-					name: '账户充值',
+					name: this.$t('shareEarn').topAccount,
 					active: false,
 				},
 				{
-					name: '提现记录',
+					name: this.$t('shareEarn').recordWithdrawals,
 					active: false,
 				},
 				{
-					name: '好友列表',
+					name: this.$t('shareEarn').friendsList,
 					active: false,
 				}
 			],
@@ -163,8 +163,8 @@ export default {
 			showOrder:true,
 			showWithdrawals:true,
 			showFriends:true,
-			withdrawalsList:[{"title":"申请时间"},{"title":"提现方式"},{"title":"申请提现金额"},{"title":"审核状态"}],
-			friendsList:[{"title":"昵称"},{"title":"参与时间"},{"title":"邀请编码"},{"title":"是否购买"}],
+			withdrawalsList:[{"title":this.$t('shareEarn').applicationTime},{"title":this.$t('shareEarn').methodWithdrawal},{"title":this.$t('shareEarn').amountWithdrawal},{"title":this.$t('shareEarn').statusSemak}],
+			friendsList:[{"title":this.$t('shareEarn').nickname},{"title":this.$t('shareEarn').timeParticipation},{"title":this.$t('shareEarn').codeInvitation},{"title":this.$t('shareEarn').buyWhether}],
 			current_index:0,
 			disabled:true,
 			btnShow:false,
@@ -240,7 +240,7 @@ export default {
 	onReachBottom() {
 		if(this.noMoreData){
 			uni.showToast({
-				title:'没有更多数据了',
+				title:this.i18n.dataNo,
 				icon:'none',
 				duration:1500
 			});
@@ -253,7 +253,7 @@ export default {
 	// 分享赚钱
 	onShareAppMessage(res) {
 		return {
-			title: '邀请好友赚钱'
+			title: this.i18n.friendsInvite
 		};
 	},
 	methods: {
@@ -262,7 +262,7 @@ export default {
 			if(!this.allowRequest) return
 			this.allowRequest = false;
 			uni.showLoading({
-				title:'加载中...'
+				title:this.$t('tips').loading
 			})
 			this.apiUrl
 				.getOrderList({
@@ -304,7 +304,7 @@ export default {
 			if(!this.allowRequest) return
 			this.allowRequest = false;
 			uni.showLoading({
-				title:'加载中...'
+				title:this.$t('tips').loading
 			})
 			this.apiUrl
 				.getOrderList({
@@ -347,7 +347,7 @@ export default {
 			this.addflag = true;
 			let oldRecharge_amount = this.recharge_amount;
 			uni.showLoading({
-				title:'请稍候',
+				title:this.$t('tips').waitPlease,
 				mask:true
 			})
 			uni.navigateTo({
@@ -365,7 +365,7 @@ export default {
 							uni.showToast({
 								duration: 1500,
 								icon: 'none',
-								title: '充值成功'
+								title: this.i18n.successfulRecharge
 							});
 							uni.navigateTo({
 								url:'/pages/member/recharge-detail/recharge-detail'
@@ -388,7 +388,7 @@ export default {
 				this.addflag = true;
 				let oldRecharge_amount = this.recharge_amount;
 				uni.showLoading({
-					title:'请稍候',
+					title:this.$t('tips').waitPlease,
 					mask:true
 				})
 				let parm = {
@@ -409,7 +409,7 @@ export default {
 								uni.showToast({
 									duration: 1500,
 									icon: 'none',
-									title: '提现成功'
+									title: this.i18n.successWithdrawal
 								});
 								// uni.navigateTo({
 								// 	url:'/pages/member/recharge-detail/recharge-detail'
@@ -467,7 +467,7 @@ export default {
 			if(!this.allowRequest) return
 			this.allowRequest = false;
 			uni.showLoading({
-				title:'加载中...'
+				title:this.$t('tips').loading
 			})
 			this.apiUrl
 				.getOrderList({

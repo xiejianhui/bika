@@ -4,7 +4,7 @@
 			<view class="fs24">
 				邀请好友<text class="fs34 orange">50</text><text class="orange">人</text>
 			</view>
-			<view class="recharge fs24 colorw background-orange flex-box">
+			<view class="recharge fs24 colorw background-orange flex-box" @click="toRecharge">
 				充值
 			</view>
 		</view>
@@ -100,6 +100,11 @@ export default {
 		this.getList();
 	},
 	methods: {
+		toRecharge(){
+			uni.navigateTo({
+				url: '/pages/member/recharge-detail/recharge-detail?type=0'
+			});
+		},
 		initNav(index) {
 			let arr = this.navList;
 			arr.forEach(item => (item.active = false));
