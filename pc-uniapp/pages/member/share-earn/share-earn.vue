@@ -1,20 +1,20 @@
 <template>
 	<view class="pageBgW fw500">
 		<view class="account-info flex-equal">
-			<view class="fs24">
+			<view class="fs26">
 				<view class="flex-box txt">
-					<text class="fs34 orange">50</text><text class="orange">人</text>
+					<text class="fs36 orange fw500">50</text>
 				</view>
 				<view class="flex-box">
-					{{i18n.friendsInvite}}
+					{{i18n.friendsInvite}}<text class="">(人)</text>
 				</view>
 			</view>
-			<view class="fs24">
+			<view class="fs26">
 				<view class="flex-box txt">
-					<text class="fs34 orange">50</text><text class="orange">人</text>
+					<text class="fs36 orange fw500">50</text>
 				</view>
 				<view class="flex-box">
-					{{i18n.balanceCommission}}
+					{{i18n.balanceCommission}}<text class="">(元)</text>
 				</view>
 			</view>
 		</view>
@@ -25,47 +25,60 @@
 		</view>
 		<view class="od-list background-white">
 			<view class="item-info" v-if="current_index == 0">
-				<view class="commission-status bdb">
-					<view class="commission-total color6 fw600 boxs-b bdbe">
-						<view class="item flex-align">
-							{{i18n.amountTotal}}<text class="fs36 orange">60</text>{{i18n.dollars}}
+				<view class="commission-status flex-equal">
+					<view class="fs26">
+						<view class="flex-box txt">
+							<text class="fs36 orange fw500">30</text>
+						</view>
+						<view class="flex-box">
+							{{i18n.amountTotal}}{{'('+i18n.dollars+')'}}
 						</view>
 					</view>
-					<view class="commission-audit fs26 boxs-b">
-						<view class="item betweenBox">
-							<view>
-								{{i18n.reviewCommission}}<text class="fs36 orange">30</text>{{i18n.dollars}}
-							</view>
-							<view>
-								{{i18n.cashWithdrawn}}<text class="fs36 orange">30</text>{{i18n.dollars}}
-							</view>
+					<view class="fs26">
+						<view class="flex-box txt">
+							<text class="fs36 orange fw500">50</text>
+						</view>
+						<view class="flex-box">
+							{{i18n.reviewCommission}}{{'('+i18n.dollars+')'}}
+						</view>
+					</view>
+					<view class="fs26">
+						<view class="flex-box txt">
+							<text class="fs36 orange fw500">50</text>
+						</view>
+						<view class="flex-box">
+							{{i18n.cashWithdrawn}}{{'('+i18n.dollars+')'}}
 						</view>
 					</view>
 				</view>
+				<view class="bdb10"></view>
 				<view class="bank color3">
-					<view class="fw600 fs40">{{i18n.bankEnter}}</view>
+					<view class="fw600 fs36">{{i18n.bankEnter}}</view>
+					<view class="fs24 orange mgt10">
+						{{i18n.ensureOrder}}
+					</view>
 					<form @submit="toWithdraw">
-						<view class="section flex-align">
-							<view class="section-title">{{i18n.withdrawalApply}}</view>
+						<view class="section">
+							<view class="section-title fs24">{{i18n.withdrawalApply}}</view>
 							<view><input placeholder-style='color:#DADADA' :placeholder="i18n.withdrawalEnter" type="text" v-model="withdrawalAmount" /></view>
 						</view>
-						<view class="section flex-align">
-							<view class="section-title">{{i18n.holderAccount}}</view>
+						<view class="section">
+							<view class="section-title fs24">{{i18n.holderAccount}}</view>
 							<view class="relative">
 								<input placeholder-style='color:#DADADA' :placeholder="i18n.holderEnter" type="text" v-model="name" />
 								<image @click="toName" class="box-item-icon" src="/static/img/self/share-icon-kaihuren@2x.png"></image>
 							</view>
 						</view>
-						<view class="section flex-align">
-							<view class="section-title">{{i18n.AccountBank}}</view>
+						<view class="section">
+							<view class="section-title fs24">{{i18n.AccountBank}}</view>
 							<view><input placeholder-style='color:#DADADA' :placeholder="i18n.yourEnter" type="text" v-model="accountNumber" /></view>
 						</view>
-						<view class="section flex-align">
-							<view class="section-title">{{i18n.nameBank}}</view>
+						<view class="section">
+							<view class="section-title fs24">{{i18n.nameBank}}</view>
 							<view><input placeholder-style='color:#DADADA' :placeholder="i18n.enterBank" type="text" v-model="bankName" /></view>
 						</view>
-						<view class="fs24 orange mgt10">
-							{{i18n.ensureOrder}}
+						<view class="fs24 orange tips-erro" v-if="errorShow">
+							{{i18n.errorsInput}}
 						</view>
 						<button form-type="submit" :class="btnShow ? 'submit-btn btnShow': 'submit-btn'" :disabled="disabled">{{i18n.withdrawalConfirm}}</button>
 						<!-- button按钮改变隐藏域 -->
@@ -175,6 +188,7 @@ export default {
 			accountNumber:'',
 			name:'',
 			bankName:'',
+			errorShow:false,
 		};
 	},
 	components: {
@@ -555,16 +569,30 @@ export default {
 .pageBgW{
 	font-size: 26upx;
 	color: #999999;
+	.bdb10{
+		border-bottom: 10upx solid #F5F5F5;
+	}
 }
-.account-info{
-	height: 114upx;
+.account-info,.commission-status{
+	height: 131upx;
 	background:rgba(249,249,249,1);
+	.fs36{
+		font-weight: 600;
+		font-family:Roboto;
+	}
 	.flex-box{
 		height: 24upx;
 	}
 	.txt{
-		height: 28upx;
+		height: 36upx;
 		margin: 27upx 0 12upx 0;
+	}
+}
+.commission-status{
+	height: 211upx;
+	background: #FFFFFF;
+	.txt{
+		margin: 56upx 0 35upx 0;
 	}
 }
 .od-list{
@@ -582,56 +610,38 @@ export default {
 	}
 }
 
-.commission-status{
-	padding: 0 37upx 0 35upx;
-	.fs36{
-		margin: 0 6upx ;
-	}
-	.commission-total{
-		.item{
-			height: 36upx;
-			padding: 42upx 0 21upx 0;
-		}
-		
-	}
-	.commission-audit{
-		.item{
-			height: 36upx;
-			padding: 39upx 0 53upx 0;
-		}
-	}
-}	
-
 .bank{
-	padding: 42upx 38upx 42upx 39upx;
+	padding: 38upx 30upx 45upx 30upx;
+	.tips-erro{
+		margin-top: 33upx;
+	}
 	.fw600{
-		margin-bottom: 47upx;
+		margin-bottom: 32upx;
+	}
+	.mgt10{
+		margin-bottom: 12upx;
 	}
 	.section{
-		margin-bottom: 36upx;
 		.relative{
-			image{
+			.box-item-icon{
 				position: absolute;
-				top: 3upx;
-				right: 9upx;
-				height: 45upx;
-				width: 45upx;
+				bottom: 14upx;
+				right: 0upx;
+				height: 44upx;
+				width: 44upx;
 			}
 		}
 		.section-title{
-			width: 175upx;
-			height: 40upx;
-			margin-right: 27upx;
-			text-align: right;
+			width: auto;
+			height: 24upx;
+			margin: 40upx 0 0upx 0;
 		}
 		input{
-			width:471upx;
-			height:51upx;
-			background:rgba(255,255,255,1);
-			border:1upx solid rgba(207,207,207,1);
-			border-radius:10upx;
-			font-size: 24upx;
-			padding: 0 20upx;
+			width:100%;
+			height:80upx;
+			// padding: 40upx 0 32upx 0;
+			border-bottom: 1upx solid #F2F2F2;
+			font-size: 28upx;
 			box-sizing: border-box;
 		}
 	}
@@ -659,10 +669,11 @@ export default {
 .od-nav {
 	display: flex;
 	justify-content: space-around;
-	height: 110upx;
-	line-height: 110upx;
+	height: 95upx;
+	line-height: 117upx;
 	box-sizing: border-box;
 	align-items: center;
+	overflow: hidden;
 	> view {
 		height: 100%;
 		&.primary-color {
@@ -684,12 +695,12 @@ export default {
 	}
 }
 .submit-btn{
-	margin-top: 84upx;
-	width:678upx;
-	height:80upx;
-	line-height: 80upx;
+	margin-top: 64upx;
+	width:690upx;
+	height:88upx;
+	line-height: 88upx;
 	background:rgba(254,106,114,1);
-	border-radius:40upx;
+	border-radius:44upx;
 	font-size: 32upx;
 }
 .recharge-content{

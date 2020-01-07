@@ -24,7 +24,7 @@
 							</view>
 							<view class="gray fs24 mgt10" v-else>暂无物流信息</view>
 						</view>
-						<!-- <uni-icon style="position: absolute;top: 50%;right: 40upx;transform: translateY(-50%);color: #ADADAD;" type="arrowright" size="16"></uni-icon> -->
+						<!-- <uni-icons style="position: absolute;top: 50%;right: 40upx;transform: translateY(-50%);color: #ADADAD;" type="arrowright" size="16"></uni-icons> -->
 						<image src="/static/img/pubulic_icon_expand@2x.png" mode="widthFix" class="ra"></image>
 					</view>
 				</view>
@@ -85,7 +85,7 @@
 				<text class="title-black">发票信息</text>
 				<view class="info-right" @click='showBox'>
 					<text class="title-blacks">发票信息</text>
-					<uni-icon style="position: relative;top: -2upx;" type="arrowright" size="16"></uni-icon>
+					<uni-icons style="position: relative;top: -2upx;" type="arrowright" size="16"></uni-icons>
 				</view>
 			</view>
 			<!-- 发票弹框 -->

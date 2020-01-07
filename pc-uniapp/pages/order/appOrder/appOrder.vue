@@ -19,7 +19,7 @@
 			<view class="pbc-wrap">
 				<view class="tac pbc-top pdb20">
 					请输入支付密码
-					<view class="close flex-box" @tap="showYue = !showYue"><uni-icon class="" type="closeempty" size="30"></uni-icon></view>
+					<view class="close flex-box" @tap="showYue = !showYue"><uni-icons class="" type="closeempty" size="30"></uni-icons></view>
 				</view>
 				<view class="primary-color fs36 tac">￥{{ order.orderAmount || 0 }}</view>
 				<view class="input_code bdb betweenBox">

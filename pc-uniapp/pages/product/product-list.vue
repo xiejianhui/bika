@@ -28,7 +28,7 @@
 			</view>
 			<view class="line"></view> -->
 			<view class="options-trangle"  @click="drawer = !drawer">
-				<!-- <uni-icon type="list" size='24'></uni-icon> -->
+				<!-- <uni-icons type="list" size='24'></uni-icons> -->
 				筛选
 				<image src="/static/img/trangle/public_icon_brush_up_gray@2x.png" mode="widthFix"></image>
 			</view>

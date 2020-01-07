@@ -42,7 +42,7 @@
 					<view @tap="agree = !agree">
 						<image v-if="agree" src="/static/img/login/icon_otc_skfs_yjh@2x.png" mode="widthFix"></image>
 						<image v-else src="/static/img/login/icon_otc_skfs_unyjh@2x.png" mode="widthFix"></image>
-						<!-- <uni-icon v-if="agree" type="checkbox-filled" color="#388ceb" size="24"></uni-icon> -->
+						<!-- <uni-icons v-if="agree" type="checkbox-filled" color="#388ceb" size="24"></uni-icons> -->
 					</view>
 					<view>
 						<navigator url="/pages/login/agreements/agreements?type=2"><text class="txt">我已阅读并同意《寄售协议》</text></navigator>

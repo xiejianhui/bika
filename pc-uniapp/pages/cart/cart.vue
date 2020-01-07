@@ -94,7 +94,7 @@
 		<view class="car-pop" v-if="showPop">
 			<view class="content">
 				<view class="close-icon">
-					<uni-icon type="closeempty" size='30' @click='showPop=false'></uni-icon>
+					<uni-icons type="closeempty" size='30' @click='showPop=false'></uni-icons>
 				</view>
 				<view class="top-img">
 					<view class="left">

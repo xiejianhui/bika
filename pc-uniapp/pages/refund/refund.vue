@@ -25,7 +25,7 @@
 				<view class="right betweenBox"  @click='showBox'>
 					{{reasons[current].name}}
 					<view class="r-icon">
-						<uni-icon class='' type='arrowright' size='20'></uni-icon>
+						<uni-icons class='' type='arrowright' size='20'></uni-icons>
 					</view>
 				</view>
 			</view>

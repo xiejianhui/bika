@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import App from './App'
-import uniIcon from "@/components/uni-icon.vue"
+import uniIcons from "@/components/uni-icons/uni-icons.vue" //uniIcon图标
 import apiUrl from './common/apiUrl.js'
 import myMixin from '@/common/myMixin.js'
 import store from './store'
@@ -30,7 +30,7 @@ Vue.prototype.$store = store
 Vue.config.productionTip = false
 
 App.mpType = 'app'
-Vue.component('uni-icon',uniIcon)
+Vue.component('uni-icons',uniIcons)
 const app = new Vue({
 	i18n,
 	store,

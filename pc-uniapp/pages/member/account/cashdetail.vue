@@ -15,7 +15,7 @@
 				</view>
 			</view>
 			<view class="info-right">
-				<uni-icon style="position: relative;top: -2upx;" type="arrowright" size="16"></uni-icon>
+				<uni-icons style="position: relative;top: -2upx;" type="arrowright" size="16"></uni-icons>
 			</view>
 		</view>
 		<no-data v-if="!list.length"></no-data>

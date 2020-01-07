@@ -25,11 +25,11 @@
 				<view class="card-bottom">
 					<view class="card-bottom-btn betweenBox" @tap="withdraw()">
 						<text>我要提现</text>
-						<uni-icon class="icon-right" type="arrowright" size="20"></uni-icon>
+						<uni-icons class="icon-right" type="arrowright" size="20"></uni-icons>
 					</view>
 					<view class="card-bottom-btn betweenBox" @tap="cashdetail()">
 						<text>提现明细</text>
-						<uni-icon class="icon-right" type="arrowright" size="20"></uni-icon>
+						<uni-icons class="icon-right" type="arrowright" size="20"></uni-icons>
 					</view>
 					<view class="line"></view>
 				</view>
@@ -51,7 +51,7 @@
 				<view class="more">
 					<navigator url="income-list">
 						<text>更多</text>
-						<uni-icon style="position: relative;top: -2upx;" type="arrowright" size="16"></uni-icon>
+						<uni-icons style="position: relative;top: -2upx;" type="arrowright" size="16"></uni-icons>
 					</navigator>
 				</view>
 			</view>

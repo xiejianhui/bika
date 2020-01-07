@@ -22,7 +22,7 @@
 				
 			</view>
 			<view class="list-display mgr20">
-				<!-- <uni-icon type="list" size='24'></uni-icon> -->
+				<!-- <uni-icons type="list" size='24'></uni-icons> -->
 				<image src="../../../static/img/list.png" mode="widthFix" @click="drawer=!drawer"></image>
 
 			</view>

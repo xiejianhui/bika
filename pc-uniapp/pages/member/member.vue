@@ -4,8 +4,16 @@
 		<view class="my_top relative">
 		<!-- #endif -->
 		<!-- #ifndef APP-PLUS -->
-		<view class="my_top relative" style="height: 280upx">
+		<view class="my_top relative" style="height: 510upx">
 		<!-- #endif -->
+			<view class="code flex-box" @tap="showBox">
+				<view class="icon flex-box">
+					<image mode="widthFix" src="/static/img/self/my_icon_yuyanqiehuan@2x.png" ></image>
+				</view>
+				<view class="fw500 fs24 ">
+					{{i18n.switch_language}}
+				</view>
+			</view>
 			<view class="info">
 				<view class="" style="position: relative">
 					<view style="position: absolute;top: 0;left: 0;width: 100%;height: 100%;z-index: 10" v-if="!memberInfo.id" @click="askToLogion"></view>
@@ -18,19 +26,11 @@
 				</view>
 				<view class="mid">
 					<view class="white" v-if="memberInfo.id">
-						<view class="fs34 fw500 flex-align">
+						<view class="fs36 fw500 flex-align">
 							{{ memberInfo.userName||memberInfo.mobilePhone}}
 						</view>
-						<view class="fs30 flex-align">
+						<view class="fs24 flex-align">
 							{{i18n.username}}：212
-						</view>
-						<view class="fs30 betweenBox flex-align" :class="{'english':i18n.lang == 'en'}">
-							<view>
-								{{i18n.bonus_point}}：900
-							</view>
-							<view>
-								{{i18n.balance}}：100
-							</view>
 						</view>
 					</view>
 					<view class="login-regit flex-align" v-else>
@@ -38,46 +38,90 @@
 							<view class="white fs36">{{i18n.login_register}}</view>
 						</navigator>
 					</view>
+				</view>	
+			</view>
+			<view class="info-box">
+				<view class="info-item">
+					<view class="fs32 flex-box">
+						92000
+					</view>
+					<view class="fs24 flex-box">
+						{{i18n.bonus_point}}
+					</view>
 				</view>
-				<view class="code fw500 fs24 flex-box" @tap="showBox">
-					{{i18n.switch_language}}
+				<view class="info-item">
+					<view class="fs32 flex-box">
+						66
+					</view>
+					<view class="fs24 flex-box">
+						{{i18n.balance}}（RM)
+					</view>
+				</view>
+				<view class="info-item">
+					<view class="fs32 flex-box">
+						90
+					</view>
+					<view class="fs24 flex-box">
+						{{i18n.my_favorite}}
+					</view>
+				</view>
+				<view class="info-item">
+					<view class="fs32 flex-box">
+						88
+					</view>
+					<view class="fs24 flex-box">
+						{{i18n.winning_record}}
+					</view>
 				</view>
 			</view>
-
-		</view>
-		<view style="position: relative">
-			<view style="position: absolute;top: 0;left: 0;width: 100%;height: 100%;z-index: 10" v-if="!memberInfo.id" @click="askToLogion"></view>
-			<view class="recharge-type colorw fs30">
-				<view class="flex-box" @click="toRecharge">
-					{{i18n.recharge}}
-				</view>
-				<view class="flex-box" @click="toSign">
-					{{i18n.check_in}}
+			<view style="position: relative">
+				<view style="position: absolute;top: 0;left: 0;width: 100%;height: 100%;z-index: 10" v-if="!memberInfo.id" @click="askToLogion"></view>
+				<view class="recharge-type colorw">
+					<view class="flex-box recharge-item" @click="toRecharge">
+						<view class="icon flex-box">
+							<image mode="widthFix" src="/static/img/self/my_icon_chognzhi@2x.png" ></image>
+						</view>
+						<view class="fs30">
+							{{i18n.recharge}}
+						</view>
+						
+					</view>
+					<view class="flex-box recharge-item" @click="toshareEarn">
+						<view class="icon flex-box">
+							<image mode="widthFix" src="/static/img/self/my_icon_share@2x.png" ></image>
+						</view>
+						<view class="fs30">
+							{{i18n.share_earn}}
+						</view>
+					</view>
 				</view>
 			</view>
 		</view>
 		<view style="position: relative">
-			<view class="copy-save flex-box fs28 color6">
-				{{i18n.main_webpage}}：<text class="orange" v-model="spread_url">http://oneonhy.com</text> <text class="please-copy">{{i18n.please_tap}}</text>
-				<text v-if="coypyH5 == true"
-					v-clipboard:copy="spread_url"
-					v-clipboard:success="(type) => onCopyResult('success')"
-					v-clipboard:error="(type) => onCopyResult('error')"
-					class="orange copy">
-					{{i18n.copy}}</text>
-					<text v-else
-						@click="onCopyResult"
-						class="orange copy">
-						{{i18n.copy}}</text>
-					{{i18n.save}}
+			<view class="copy-save betweenBox fs28 color6">
+				<view class="">
+					{{i18n.main_webpage}}：<text class="orange" v-model="spread_url">http://oneonhy.com</text>
+				</view>
+				<view class="">
+					<view v-if="coypyH5 == true"
+						v-clipboard:copy="spread_url"
+						v-clipboard:success="(type) => onCopyResult('success')"
+						v-clipboard:error="(type) => onCopyResult('error')"
+						class="orange copy flex-box">
+						{{i18n.copy}}</view>
+						<view v-else
+							@click="onCopyResult"
+							class="orange copy flex-box">
+							{{i18n.copy}}</view>
+				</view>
 			</view>
 			<view class="bdb30"></view>
-			<view class="item-box betweenBox" @click="toshareEarn">
+			<view class="item-box betweenBox" @click="toSign">
 				<view class="left flex-box">
-					<image mode="widthFix" src="/static/img/self/my-icon-fenxiang@2x.png" ></image>{{i18n.share_earn}}
+					<image mode="widthFix" src="/static/img/self/my-icon-fenxiang@2x.png" ></image>{{i18n.check_in}}
 				</view>
 				<view class="right">
-					<uni-icon style="position: relative;top: 0upx;" type="arrowright" size="20"></uni-icon>
+					<uni-icons style="position: relative;top: 0upx;color: #B6B6B6;" type="arrowright" size="20"></uni-icons>
 				</view>
 			</view>
 			<view class="item-box betweenBox" @click="toCollect">
@@ -85,7 +129,7 @@
 					<image src="/static/img/self/my-icon-shoucang@2x.png"></image>{{i18n.my_favorite}}
 				</view>
 				<view class="right">
-					<uni-icon style="position: relative;top: 0upx;" type="arrowright" size="20"></uni-icon>
+					<uni-icons style="position: relative;top: 0upx;color: #B6B6B6;color: #B6B6B6;" type="arrowright" size="20"></uni-icons>
 				</view>
 			</view>
 			<view class="item-box betweenBox" @click="toWinning">
@@ -93,7 +137,7 @@
 					<image src="/static/img/self/my-icon-huode@2x.png" ></image>{{i18n.winning_record}}
 				</view>
 				<view class="right">
-					<uni-icon style="position: relative;top: 0upx;" type="arrowright" size="20"></uni-icon>
+					<uni-icons style="position: relative;top: 0upx;color: #B6B6B6;" type="arrowright" size="20"></uni-icons>
 				</view>
 			</view>
 			<view class="item-box betweenBox" @click="toPurshase">
@@ -101,7 +145,7 @@
 					<image src="/static/img/self/my-icon-xianggou@2x.png" ></image>{{i18n.purshase_record}}
 				</view>
 				<view class="right">
-					<uni-icon style="position: relative;top: 0upx;" type="arrowright" size="20"></uni-icon>
+					<uni-icons style="position: relative;top: 0upx;color: #B6B6B6;" type="arrowright" size="20"></uni-icons>
 				</view>
 			</view>
 			<view class="item-box betweenBox" @click="toAccountDetails">
@@ -109,7 +153,7 @@
 					<image src="/static/img/self/my-icon-zhanghu@2x.png" ></image>{{i18n.transaction}}
 				</view>
 				<view class="right">
-					<uni-icon style="position: relative;top: 0upx;" type="arrowright" size="20"></uni-icon>
+					<uni-icons style="position: relative;top: 0upx;color: #B6B6B6;" type="arrowright" size="20"></uni-icons>
 				</view>
 			</view>
 			<view class="item-box betweenBox" @click="customerService">
@@ -117,7 +161,7 @@
 					<image src="/static/img/self/my-icon-kefu@2x.png" ></image>{{i18n.customer_service}}
 				</view>
 				<view class="right">
-					<uni-icon style="position: relative;top: 0upx;" type="arrowright" size="20"></uni-icon>
+					<uni-icons style="position: relative;top: 0upx;color: #B6B6B6;" type="arrowright" size="20"></uni-icons>
 				</view>
 			</view>
 			<navigator url="person-info/person-info">
@@ -126,7 +170,7 @@
 						<image src="/static/img/self/my-icon-zhanghao@2x.png" ></image>{{i18n.account_settings}}
 					</view>
 					<view class="right">
-						<uni-icon style="position: relative;top: 0upx;" type="arrowright" size="20"></uni-icon>
+						<uni-icons style="position: relative;top: 0upx;color: #B6B6B6;" type="arrowright" size="20"></uni-icons>
 					</view>
 				</view>
 			</navigator>
@@ -135,7 +179,7 @@
 					<image src="/static/img/self/my-icon-tuichu@2x.png" ></image>{{i18n.log_out}}
 				</view>
 				<view class="right">
-					<uni-icon style="position: relative;top: 0upx;" type="arrowright" size="20"></uni-icon>
+					<uni-icons style="position: relative;top: 0upx;color: #B6B6B6;" type="arrowright" size="20"></uni-icons>
 				</view>
 			</view>
 		</view>
@@ -478,11 +522,15 @@ export default {
 </script>
 
 <style lang="less" scoped>
+	.bdb30{
+		border-bottom: 10upx solid #F5F5F5;
+	}
 	/* 切换语言弹框 */
 	.box{
 	    position: fixed;
 	    top: 0;
 	    left: 0;
+		z-index: 10;
 	    width: 100%;
 	    height: 100%;
 	    display: flex;
@@ -495,6 +543,7 @@ export default {
 		    position: absolute;
 		    top: 0;
 		    left: 0;
+			z-index: 11;
 		    width: 100%;
 		    height: 100%;
 		    background-color: rgba(0, 0, 0, .6);
@@ -505,7 +554,7 @@ export default {
 		    left: 0;
 		    display: block;
 		    width: 100%;
-		    z-index: 9;
+		    z-index: 100;
 			background:rgba(255,255,255,1);
 			/* #ifdef H5 */
 			bottom: var(--window-bottom);
@@ -550,11 +599,37 @@ export default {
 		background:rgba(255,255,255,1);
 	}
 	.my_top{
-		padding: 30upx;
-		height:280upx;
+		padding: 72upx 20upx 0 20upx;
+		height:510upx;
 		background:linear-gradient(131deg,#f55c70 0%,#f87a4f 100%);
 		box-sizing: border-box;
 		position: relative;
+		box-sizing: border-box;
+		.code{
+			position: absolute;
+			right: 0upx;
+			top: 120upx;
+			z-index: 1;
+			width:auto;
+			height:47upx;
+			background:rgba(248,189,9,1);
+			border-top-left-radius:24upx;
+			border-bottom-left-radius:24upx;
+			padding: 0 24upx;
+			font-family:PingFang SC;
+			font-weight:400;
+			color:rgba(255,255,255,1);
+			line-height:47upx;
+			.icon{
+				width: 30upx;
+				height: 30upx;
+				margin-right: 8upx;
+				image{
+					width: 30upx;
+					height: 30upx;
+				}
+			}
+		}
 		
 		.info{
 			display: flex;
@@ -565,7 +640,7 @@ export default {
 				height: 140upx;
 				border-radius: 50%;
 				overflow: hidden;
-				margin-right: 33upx;
+				margin-right: 12upx;
 				image{
 					width: 100%;
 					height: 100%!important;
@@ -573,84 +648,101 @@ export default {
 				}
 			}
 			.mid{
-				width: 394upx;
-				padding-top: 3upx;
-				.fs34{
-					height: 34upx;
-					margin-bottom: 32upx;
+				width: 430upx;
+				padding-top: 36upx;
+				.fs36{
+					height: 36upx;
+					margin-bottom: 16upx;
 				}
-				.fs30{
-					height: 32upx;
-					margin-bottom: 18upx;
-				}
-				.english{
-					width: 460upx;
-				}
-				.white{
-					color: #FFDEDE;
+				.fs24{
+					height: 24upx;
 				}
 				.login-regit{
 					width: 100%;
 					height: 100%;
 				}
 			}
-			.code{
-				position: absolute;
-				right: 0upx;
-				top: 0;
-				padding: 0 24upx;
-				height:47upx;
-				border:2upx solid rgba(255,194,193,1);
-				border-radius:24upx;
-				color:rgba(255,255,255,1);
+		}
+	}
+	
+	.info-box{
+		display: flex;
+		margin-top: 60upx;
+		.info-item{
+			flex: 1;
+			.fs32{
+				height: 32upx;
+				color: #FFFFFF;
+				margin-bottom: 16upx;
+			}
+			.fs24{
+				color:rgba(255,223,223,1);
 			}
 		}
 	}
+	
 	.recharge-type{
-		height: 68upx;
+		height: 70upx;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		flex-wrap: wrap;
-		background:rgba(255,232,226,1);
-		> view {
-			width: 375upx;
+		margin: 50upx 10upx 0;
+		.recharge-item {
+			width:330upx;
+			height:70upx;
+			background:rgba(255,232,226,0.3);
+			border-radius:6upx;
 			height: 100%;
 			text-align: center;
-			background:rgba(255,232,226,1);
+			color:rgba(255,255,255,1);
+			.icon{
+				width: 44upx;
+				height: 44upx;
+				margin-right: 6upx;
+				image{
+					width: 44upx;
+					height: 44upx;
+				}
+			}
 		}
-		view:first-child{
-			border-right: 1upx solid rgba(255,255,255,0.65);
+		.recharge-item:first-child{
+			margin-right: 30upx;
 		}
 	}
 
 	.copy-save{
 		height: 90upx;
 		background: #FFFFFF;
+		margin-bottom: 11upx;
+		padding: 0 30upx;
+		box-sizing: border-box;
 		.please-copy{
 			margin-left: 22upx;
 		}
 		.copy{
-			padding: 9upx 21upx;
+			width: auto;
+			height:48upx;
+			padding: 0upx 27upx;
 			border:1upx solid rgba(254,106,114,1);
-			border-radius:10upx;
-			margin: 0 9upx;
+			border-radius:6upx;
 		}
 	}
 	.item-box{
-		height: 90upx;
-		padding: 0 36upx;
+		height: 78upx;
+		margin: 0 30upx;
 		background: #FFFFFF;
 		border-bottom: 1upx solid #F2F2F2;
 		.left{
 			image{
-				width: 32upx;
-				height: 32upx;
-				margin-right: 25upx;
+				width: 44upx;
+				height: 44upx;
+				margin-right: 18upx;
 			}
 		}
 		.right{
-			color: #B6B6B6;
+			color: #333333;
+			font-size: 28upx;
 			image{
 				width: 15upx;
 				height: 29upx;

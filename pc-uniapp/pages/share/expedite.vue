@@ -53,7 +53,7 @@
 
     <uni-popup :show='showYue' @hide='showYue=!showYue' msg=''>
       <view class="close flex-box" @tap='showYue=!showYue'>
-        <uni-icon class='' type="closeempty" size='30' ></uni-icon>
+        <uni-icons class='' type="closeempty" size='30' ></uni-icons>
       </view>
       <view class="login-form">
         <view class="form-item">

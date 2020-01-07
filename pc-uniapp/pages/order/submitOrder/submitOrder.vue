@@ -24,7 +24,7 @@
 			</view>
 			<!-- <view class="pd20 tac betweenBox">
 				<view class="flex-box">
-					<view class="def-circle border flex-box mgr20" @tap="agree = !agree"><uni-icon v-if="agree" type="checkbox-filled" color="#FC4E29" size="24"></uni-icon></view>
+					<view class="def-circle border flex-box mgr20" @tap="agree = !agree"><uni-icons v-if="agree" type="checkbox-filled" color="#FC4E29" size="24"></uni-icons></view>
 					<navigator url="../../login/agreements/agreements?type=6"><text class="primary-color fs24 underline">我已阅读并同意《盖世风支付协议》</text></navigator>
 				</view>
 			</view> -->
@@ -44,7 +44,7 @@
 			<view class="pbc-wrap">
 				<view class="tac pbc-top pdb20">
 					请输入支付密码
-					<view class="close flex-box" @tap="showYue = !showYue"><uni-icon class="" type="closeempty" size="30"></uni-icon></view>
+					<view class="close flex-box" @tap="showYue = !showYue"><uni-icons class="" type="closeempty" size="30"></uni-icons></view>
 				</view>
 				<view class="primary-color fs36 tac">￥{{ order.orderAmount || 0 }}</view>
 				<view class="input_code bdb betweenBox">

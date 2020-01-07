@@ -6,7 +6,7 @@
 				<text class="txt">可提现余额(元)</text>
 				<view class="to-detail flex-box" @click="cashdetail">
 					提现明细
-					<uni-icon type="arrowright" color='white' size='24'></uni-icon>
+					<uni-icons type="arrowright" color='white' size='24'></uni-icons>
 				</view>
 			</view>
 			<view class="center">
@@ -26,7 +26,7 @@
 							</view>
 							<view class="betweenBox pdr20" v-else>
 								<text class=" fs32" style="color:rgb(134,134,130)">请选择银行</text>
-								<uni-icon type="arrowright" size='20'></uni-icon>
+								<uni-icons type="arrowright" size='20'></uni-icons>
 							</view>
 						</view>
 					</view>
@@ -40,7 +40,7 @@
 					<!-- 	<view class="pd20 tac betweenBox">
 						<view class="flex-box">
 							<view class="def-circle border flex-box mgr20" @tap="agree = !agree">
-								<uni-icon v-if='agree' type="checkbox-filled" color="#388ceb " size='24'></uni-icon>
+								<uni-icons v-if='agree' type="checkbox-filled" color="#388ceb " size='24'></uni-icons>
 							</view>
 							<navigator url="../../login/agreements/agreements?type=3">
 								<text class="blue fs24 underline">我已阅读并同意《盖世风提现协议》</text>

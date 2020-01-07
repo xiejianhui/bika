@@ -14,7 +14,7 @@
 			<view class="betweenBox mgb20" v-if="historySearch.length">
 				<text class="title fs26 color9">历史搜索</text>
 				<view class="flex-box gray" @tap="clearHistory">
-					<uni-icon type="trash" size='24'></uni-icon>
+					<uni-icons type="trash" size='24'></uni-icons>
 				</view>
 			</view>
 			<view class="history-box">

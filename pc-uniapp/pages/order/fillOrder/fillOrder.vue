@@ -13,12 +13,12 @@
 			<view class="gray fs30 flex-box info-right" @tap="navigatorToReciept">
 				<text v-if="!receipt">
 					填写发票信息
-					<uni-icon style="position: relative;top: -2upx;" type="arrowright" size="16"></uni-icon>
+					<uni-icons style="position: relative;top: -2upx;" type="arrowright" size="16"></uni-icons>
 				</text>
 				<view class="" v-else>
 					<text class="title-blacks" v-if="receipt.invoiceStatus==1">{{receipt.invoiceType==1?'纸质发票-个人':'纸质发票-公司'}}</text>
 					<text class="title-blacks" v-if="receipt.invoiceStatus==2">增值税发票</text>
-					<uni-icon style="position: relative;top: -2upx;" type="arrowright" size="16"></uni-icon>
+					<uni-icons style="position: relative;top: -2upx;" type="arrowright" size="16"></uni-icons>
 				</view>
 			</view>
 		</view>

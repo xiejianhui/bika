@@ -4,7 +4,7 @@
 			<view class="search-box background-red">
 				<view class="search">
 					<input type="text" v-model="keywords" @input="keywordChange" confirm-type="search" placeholder="请输入搜索关键字" />
-					<view class="searchIcon" v-if="!keyword"><uni-icon type="search" color="#b8b8b8" size="20"></uni-icon></view>
+					<view class="searchIcon" v-if="!keyword"><uni-icons type="search" color="#b8b8b8" size="20"></uni-icons></view>
 				</view>
 			</view>
 		</view>

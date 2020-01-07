@@ -138,7 +138,7 @@
 			<!-- 购物车弹窗 -->
 			<view class="car-pop" v-if="showPop">
 				<view class="content">
-					<view class="close-icon"><uni-icon type="closeempty" size="30" @click="showPop = false"></uni-icon></view>
+					<view class="close-icon"><uni-icons type="closeempty" size="30" @click="showPop = false"></uni-icons></view>
 					<view class="top-img ">
 						<view class="left"><image :src="attibuteImg || goodsDetail.image" mode="widthFix" class="w100"></image></view>
 						<view class="right" v-if="goodsDetail.mulType">
