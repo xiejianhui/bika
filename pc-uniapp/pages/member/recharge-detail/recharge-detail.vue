@@ -219,6 +219,9 @@ export default {
 
 <style lang="less">
 .receipt{
+	.w100{
+		height: 328upx !important;
+	}
 	.title-black{
 		top: 67upx;
 		left: 0;
